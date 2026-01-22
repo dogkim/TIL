@@ -1,0 +1,1 @@
+import{_ as a,o as r,c as t,a as e,b as n}from"./app-CH4PICvV.js";const s={};function l(i,o){return r(),t("div",null,[...o[0]||(o[0]=[e("h1",{id:"philosophy",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#philosophy","aria-hidden":"true"},"#"),n(" Philosophy")],-1),e("p",null,"철학 공부 기록입니다.",-1)])])}const d=a(s,[["render",l],["__file","index.html.vue"]]);export{d as default};
