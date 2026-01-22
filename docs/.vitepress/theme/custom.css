@@ -1,25 +1,31 @@
-/* 1. 사이드바의 물리적 위치를 왼쪽 끝(0)에 박아버리기 */
+/* 1. 사이드바 틀 고정 */
 .VPSidebar {
   left: 0 !important;
-  transform: translateX(0) !important; /* 혹시 모를 애니메이션 방지 */
   width: 280px !important;
-  max-width: 280px !important;
 }
 
-/* 2. 사이드바 안의 내용물 상자가 중앙으로 도망가는 것 방지 */
+/* 2. [핵심] 사이드바 내부 알맹이가 중앙으로 쏠리는 현상 방지 */
 .VPSidebar .container {
+  margin-left: 0 !important;   /* 왼쪽 여백을 없애서 왼쪽으로 밀착 */
+  margin-right: auto !important;
+  width: 100% !important;      /* 틀 안을 꽉 채우게 설정 */
+  max-width: none !important;  /* 폭 제한 해제 */
+}
+
+/* 3. 상단바 로고(Today I Learned) 왼쪽 고정 */
+.VPNavBar .container {
+  max-width: none !important;
   margin-left: 0 !important;
   margin-right: auto !important;
   width: 100% !important;
-  max-width: 100% !important;
 }
 
-/* 3. 본문(글 읽는 영역)이 사이드바와 겹치지 않게 고정 여백 부여 */
+.VPNavBar .content {
+  padding-left: 32px !important; /* 사이드바 글자들과 수직 라인 맞춤 */
+  justify-content: flex-start !important;
+}
+
+/* 4. 본문 영역이 사이드바를 가리지 않게 고정 */
 .VPContent {
-  padding-left: 280px !important; /* 사이드바 너비만큼 강제 여백 */
-}
-
-/* 화면이 작을 때(모바일)는 다시 초기화 (선택 사항) */
-@media (max-width: 959px) {
-  .VPContent { padding-left: 0 !important; }
+  padding-left: 280px !important;
 }
