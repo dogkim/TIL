@@ -1,5 +1,3 @@
-//컴퓨터 탭의 사이드바 목록
-
 import * as computer from '../data/computer'
 
 const toItems = (list) =>
@@ -9,6 +7,10 @@ const toItems = (list) =>
   }))
 
 export const sidebarComputer = [
+  {
+    text: 'Computer Engineering',
+    items: [{ text: 'Home', link: '/computer/' }],
+  },
   {
     text: 'HTML',
     items: toItems(computer.HTMLList),

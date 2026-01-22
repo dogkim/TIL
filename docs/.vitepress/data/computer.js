@@ -1,9 +1,9 @@
-// 컴퓨터 관련 글 목록
-
 const addPath = (subFolder, files) =>
   files.map(file =>
     `/computer/${subFolder}/${file.replace(/\.md$/, '')}`
   )
+
+export const HOME = ['/computer/']
 
 export const HTMLList = addPath('HTML', [
   '01-basic-structure.md',
@@ -18,4 +18,3 @@ export const DataStructList = addPath('DataStructure', [
   '01-Performance-Anlysis.md',
   '02-Arrays.md',
 ])
-
