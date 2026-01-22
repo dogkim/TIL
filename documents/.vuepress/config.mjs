@@ -1,6 +1,7 @@
 import { defineUserConfig } from 'vuepress'
 import { defaultTheme } from '@vuepress/theme-default'
-import * as CONST from './const.mjs'
+import { sidebarComputer } from './sidebarComputer.mjs'
+import { sidebarPhilosophy } from './sidebarPhilosophy.mjs'
 
 export default defineUserConfig({
   lang: 'ko-KR',
@@ -10,20 +11,15 @@ export default defineUserConfig({
 
   theme: defaultTheme({
     sidebarDepth: 1,
-    collapsible: true,
-    sidebar: [
-      {
-        text: 'HTML',
-        children: CONST.HTMLList, 
-      },
-      {
-        text: 'CSS',
-        children: CONST.CSSList,
-      },
-      {
-        text: 'DataStructure',
-        children: CONST.DataStructList,
-      }
+
+    navbar: [
+      { text: 'Computer Engineering', link: '/computer/' },
+      { text: 'Philosophy', link: '/philosophy/' },
     ],
+
+    sidebar: {
+      '/computer/': sidebarComputer,
+      '/philosophy/': sidebarPhilosophy,
+    },
   }),
 })
