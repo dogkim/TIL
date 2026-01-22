@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="generator" content="VuePress 2.0.0-rc.0">
+    <style>
+      :root {
+        --c-bg: #fff;
+      }
+      html.dark {
+        --c-bg: #22272e;
+      }
+      html, body {
+        background-color: var(--c-bg);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem('vuepress-color-scheme');
+			const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+			if (userMode === 'dark' || (userMode !== 'light' && systemDarkMode)) {
+				document.documentElement.classList.toggle('dark', true);
+			}
+    </script>
+    <title>Today I Learned</title><meta name="description" content="">
+    <link rel="preload" href="/TIL/assets/style-CP1N3aDA.css" as="style"><link rel="stylesheet" href="/TIL/assets/style-CP1N3aDA.css">
+    <link rel="modulepreload" href="/TIL/assets/app-LzWSpRp4.js"><link rel="modulepreload" href="/TIL/assets/5. Tree.html-DPVKstsf.js"><link rel="modulepreload" href="/TIL/assets/5. Tree.html-DvIHPk-I.js">
+    <link rel="prefetch" href="/TIL/assets/1. CSS 문법 살펴보기.html-CWkyr6B-.js" as="script"><link rel="prefetch" href="/TIL/assets/1. Performance Anlysis.html-S5z8X37D.js" as="script"><link rel="prefetch" href="/TIL/assets/2. Arrays.html-DaFfSpiL.js" as="script"><link rel="prefetch" href="/TIL/assets/3. stacks and queue.html-Qy3S_Y2n.js" as="script"><link rel="prefetch" href="/TIL/assets/기말 벼락..html-CqDLWVI_.js" as="script"><link rel="prefetch" href="/TIL/assets/자료구조 기말 준비.html-C3sYuLoL.js" as="script"><link rel="prefetch" href="/TIL/assets/자료구조 필기.html-D0Ekq89T.js" as="script"><link rel="prefetch" href="/TIL/assets/01-basics-structure.html-DeKAPAj9.js" as="script"><link rel="prefetch" href="/TIL/assets/02-tags.html-CDLYp7-d.js" as="script"><link rel="prefetch" href="/TIL/assets/404.html-XpJouzbq.js" as="script"><link rel="prefetch" href="/TIL/assets/1. CSS 문법 살펴보기.html-D4mOgiyy.js" as="script"><link rel="prefetch" href="/TIL/assets/1. Performance Anlysis.html-DvfEsGt3.js" as="script"><link rel="prefetch" href="/TIL/assets/2. Arrays.html-BjCh9B0o.js" as="script"><link rel="prefetch" href="/TIL/assets/3. stacks and queue.html-BiO1MTVl.js" as="script"><link rel="prefetch" href="/TIL/assets/기말 벼락..html-DqCalYuy.js" as="script"><link rel="prefetch" href="/TIL/assets/자료구조 기말 준비.html-BBarZ-WP.js" as="script"><link rel="prefetch" href="/TIL/assets/자료구조 필기.html-BZvMlE6O.js" as="script"><link rel="prefetch" href="/TIL/assets/01-basics-structure.html-Cgt7cElv.js" as="script"><link rel="prefetch" href="/TIL/assets/02-tags.html-DN10Tp_5.js" as="script"><link rel="prefetch" href="/TIL/assets/404.html-BOuNtefO.js" as="script">
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="theme-container"><!--[--><header class="navbar"><div class="toggle-sidebar-button" title="toggle sidebar" aria-expanded="false" role="button" tabindex="0"><div class="icon" aria-hidden="true"><span></span><span></span><span></span></div></div><span><a href="/TIL/" class=""><!----><span class="site-name">Today I Learned</span></a></span><div class="navbar-items-wrapper" style=""><!--[--><!--]--><!----><!--[--><!--]--><button class="toggle-color-mode-button" title="toggle color mode"><svg class="icon" focusable="false" viewBox="0 0 32 32" style=""><path d="M16 12.005a4 4 0 1 1-4 4a4.005 4.005 0 0 1 4-4m0-2a6 6 0 1 0 6 6a6 6 0 0 0-6-6z" fill="currentColor"></path><path d="M5.394 6.813l1.414-1.415l3.506 3.506L8.9 10.318z" fill="currentColor"></path><path d="M2 15.005h5v2H2z" fill="currentColor"></path><path d="M5.394 25.197L8.9 21.691l1.414 1.415l-3.506 3.505z" fill="currentColor"></path><path d="M15 25.005h2v5h-2z" fill="currentColor"></path><path d="M21.687 23.106l1.414-1.415l3.506 3.506l-1.414 1.414z" fill="currentColor"></path><path d="M25 15.005h5v2h-5z" fill="currentColor"></path><path d="M21.687 8.904l3.506-3.506l1.414 1.415l-3.506 3.505z" fill="currentColor"></path><path d="M15 2.005h2v5h-2z" fill="currentColor"></path></svg><svg class="icon" focusable="false" viewBox="0 0 32 32" style="display:none;"><path d="M13.502 5.414a15.075 15.075 0 0 0 11.594 18.194a11.113 11.113 0 0 1-7.975 3.39c-.138 0-.278.005-.418 0a11.094 11.094 0 0 1-3.2-21.584M14.98 3a1.002 1.002 0 0 0-.175.016a13.096 13.096 0 0 0 1.825 25.981c.164.006.328 0 .49 0a13.072 13.072 0 0 0 10.703-5.555a1.01 1.01 0 0 0-.783-1.565A13.08 13.08 0 0 1 15.89 4.38A1.015 1.015 0 0 0 14.98 3z" fill="currentColor"></path></svg></button><!----></div></header><!--]--><div class="sidebar-mask"></div><!--[--><aside class="sidebar"><!----><!--[--><!--]--><ul class="sidebar-items"><!--[--><li><p tabindex="0" class="sidebar-item sidebar-heading">HTML <!----></p><ul class="sidebar-item-children" style=""><!--[--><li><a href="/TIL/HTML/01-basics-structure.html" class="sidebar-item" aria-label="/HTML/01-basics-structure.md"><!--[--><!--]--> /HTML/01-basics-structure.md <!--[--><!--]--></a><!----></li><li><a href="/TIL/HTML/02-tags.html" class="sidebar-item" aria-label="3.목록"><!--[--><!--]--> 3.목록 <!--[--><!--]--></a><!----></li><!--]--></ul></li><li><p tabindex="0" class="sidebar-item sidebar-heading">CSS <!----></p><ul class="sidebar-item-children" style=""><!--[--><li><a href="/TIL/CSS/1.%20CSS%20%EB%AC%B8%EB%B2%95%20%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0.html" class="sidebar-item" aria-label="/CSS/1. CSS 문법 살펴보기.md"><!--[--><!--]--> /CSS/1. CSS 문법 살펴보기.md <!--[--><!--]--></a><!----></li><!--]--></ul></li><li><p tabindex="0" class="sidebar-item sidebar-heading">DataStructure <!----></p><ul class="sidebar-item-children" style=""><!--[--><li><a href="/TIL/DataStructure/1.%20Performance%20Anlysis.html" class="sidebar-item" aria-label="/DataStructure/1. Performance Anlysis.md"><!--[--><!--]--> /DataStructure/1. Performance Anlysis.md <!--[--><!--]--></a><!----></li><li><a href="/TIL/DataStructure/2.%20Arrays.html" class="sidebar-item" aria-label="/DataStructure/2. Arrays.md"><!--[--><!--]--> /DataStructure/2. Arrays.md <!--[--><!--]--></a><!----></li><!--]--></ul></li><!--]--></ul><!--[--><!--]--></aside><!--]--><!--[--><main class="page"><!--[--><!--]--><div class="theme-default-content"><!--[--><!--]--><div><p><strong>reculsive tree</strong></p><div class="language-C line-numbers-mode" data-ext="C"><pre class="language-C"><code>void MakeTree(int n){
+	NODE* node;
+	node = (NODE*)malloc(sizeof(NODE));
+	node-&gt;left = NULL;
+	node-&gt;right = NULL;
+	node-&gt;data = n;
+	if(n &lt;=5){
+		node-&gt;left = MakeTree(n*2);
+		node-&gt;right = MakeTree(n+2);
+	}
+	
+	return node;
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>Reculsive PreOrder, InOrder, PostOrder</strong></p><div class="language-C line-numbers-mode" data-ext="C"><pre class="language-C"><code>void PreOrder(NODE* h){
+	if(h){
+		printf(&quot;%d&quot;, h-&gt;data);
+		PreOrder(h-&gt;left);
+		PreOrder(h-&gt;right);
+	}
+	return;
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><div class="language-C line-numbers-mode" data-ext="C"><pre class="language-C"><code>void InOrder(NODE* h){
+	if(h){
+		InOrder(h-&gt;left);
+		printf(&quot;%d&quot;,h-&gt;data);
+		Inorder(h-&gt;right);
+	}
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>LevelOrder traversal</strong></p><div class="language-C line-numbers-mode" data-ext="C"><pre class="language-C"><code>NODE* queue[MAX_QUEUE] ={0};
+int front = 0 ;
+int rear = 0 ;
+
+void Inqueue(NODE* p){
+	queue[++rear];
+	return;
+}
+
+NODE* Dequeue(){
+	return queue[++front];
+}
+
+void LevelOrderPrint(NODE* h){
+	Inqueue(h);
+	while(1){
+		h = Dequeue();
+		if(h){
+			print(&quot;%d&quot;, h-&gt;data)
+			if(h-&gt;left){
+				Inqueue(h-&gt;left);
+			}
+			if(h-&gt;right){
+				Inqueue(h-&gt;right);
+			}
+		}
+		else{
+			break;
+		}
+	}
+	return;
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>levelorder 일단 head inqueue</p><p>h에 dequeue하고 NULL아니면 print 아래있는 left, right가 NULL이 아니면 inqueue</p><p>다시 dequeue ...</p></div><!--[--><!--]--></div><footer class="page-meta"><!----><div class="meta-item last-updated"><span class="meta-item-label">Last Updated: </span><!----></div><div class="meta-item contributors"><span class="meta-item-label">Contributors: </span><span class="meta-item-info"><!--[--><!--[--><span class="contributor" title="email: ehrbs033@gmail.com">dogkim</span><!----><!--]--><!--]--></span></div></footer><!----><!--[--><!--]--></main><!--]--></div><!----><!--]--></div>
+    <script type="module" src="/TIL/assets/app-LzWSpRp4.js" defer></script>
+  </body>
+</html>
