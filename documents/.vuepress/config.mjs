@@ -9,6 +9,7 @@ export default defineUserConfig({
   dest: 'build',
 
   theme: defaultTheme({
+    sidebarDepth: 0,
     sidebar: [
       {
         text: 'HTML',
