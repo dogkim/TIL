@@ -1,4 +1,4 @@
-import{_ as n,o as i,c as d,a as l}from"./app-C0fuxlfX.js";const s={};function r(t,e){return i(),d("div",null,[...e[0]||(e[0]=[l(`<p><strong>reculsive tree</strong></p><div class="language-C line-numbers-mode" data-ext="C"><pre class="language-C"><code>void MakeTree(int n){
+import{_ as n,o as i,c as d,a as l}from"./app-Bn9LkL83.js";const s={};function r(t,e){return i(),d("div",null,[...e[0]||(e[0]=[l(`<p><strong>reculsive tree</strong></p><div class="language-C line-numbers-mode" data-ext="C"><pre class="language-C"><code>void MakeTree(int n){
 	NODE* node;
 	node = (NODE*)malloc(sizeof(NODE));
 	node-&gt;left = NULL;
