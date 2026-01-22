@@ -1,1 +1,0 @@
-const t=JSON.parse('{"key":"v-1d16a75c","path":"/computer/DataStructure/5.%20Tree.html","title":"","lang":"ko-KR","frontmatter":{},"headers":[],"git":{"updatedTime":1769087272000,"contributors":[{"name":"dogkim","email":"ehrbs033@gmail.com","commits":1}]},"filePathRelative":"computer/DataStructure/5. Tree.md"}');export{t as data};
