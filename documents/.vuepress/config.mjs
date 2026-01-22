@@ -14,11 +14,11 @@ export default defineUserConfig({
 
     navbar: [
       { text: 'Computer Engineering',
-         link: '/computer/',
+         link: '/computer/README.md',
         activeMatch: '^/computer/'
       },
       { text: 'Philosophy',
-         link: '/philosophy/',
+         link: '/philosophy/README.md',
         activeMatch: '^/philosophy/'
       },
     ],
