@@ -1,1 +1,0 @@
-import{_ as o,o as e,c as t}from"./app-B5yzHDc3.js";typeof window<"u"&&window.location.replace("/TIL/philosophy/");const n={};function p(c,r,s,i,a,l){return e(),t("div")}const f=o(n,[["render",p],["__file","philosophy-entry.html.vue"]]);export{f as default};
