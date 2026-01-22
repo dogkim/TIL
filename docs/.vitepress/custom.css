@@ -1,18 +1,32 @@
-/* 전체 레이아웃을 좌측 고정 */
-.Layout {
-    justify-content: flex-start;
-}
-
-/* Nav + Content + Sidebar 컨테이너 */
-.VPNavBar .container,
-.VPContent,
-.VPSidebar {
-    margin-left: 0 !important;
-}
-
-/* 화면 커져도 왼쪽 여백 제거 */
 :root {
-    --vp-sidebar-width: 240px;
-    --vp-layout-max-width: 100vw;
+  /* 1. 사이드바 너비를 딱 정합니다. */
+  --vp-sidebar-width: 280px; 
+  
+  /* 2. 전체 레이아웃의 최대폭을 아예 없애거나 아주 크게 잡습니다. */
+  --vp-layout-max-width: 100%;
 }
 
+/* 3. 전체 컨테이너를 왼쪽으로 밀착 */
+.VPLayout {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* 4. 사이드바: 고정 크기 유지 */
+.VPSidebar {
+  width: var(--vp-sidebar-width) !important;
+  flex-shrink: 0; /* 화면이 변해도 절대 크기 변하지 않음 */
+}
+
+/* 5. 컨텐츠 영역: 적절한 가독성 유지 */
+.VPContent {
+  flex-grow: 1;      /* 남는 공간을 채우되 */
+  max-width: 960px;  /* 글 읽는 영역이 너무 넓어지면 눈이 아프므로 제한 */
+  margin-left: 0 !important;
+  margin-right: auto; /* 오른쪽에 여백을 몰아줌 */
+}
+
+.VPNavBar .container {
+  margin: 0 !important;
+  max-width: none !important;
+}
