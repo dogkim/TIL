@@ -1,39 +1,42 @@
 :root {
-  /* 1. 사이드바 너비를 딱 정합니다. */
-  --vp-sidebar-width: 280px; 
-  
-  /* 2. 전체 레이아웃의 최대폭을 아예 없애거나 아주 크게 잡습니다. */
-  --vp-layout-max-width: 100%;
+  /* 사이드바 너비 고정 */
+  --vp-sidebar-width: 280px;
+  /* 전체 레이아웃이 중앙에 모이지 않도록 폭을 전체로 확장 */
+  --vp-layout-max-width: 100% !important;
 }
 
-/* 3. 전체 컨테이너를 왼쪽으로 밀착 */
+/* 1. 전체 레이아웃을 왼쪽 정렬 */
 .VPLayout {
-  display: flex;
-  justify-content: flex-start;
+  display: flex !important;
+  justify-content: flex-start !important;
 }
 
-/* 4. 사이드바: 고정 크기 유지 */
+/* 2. 사이드바를 감싸는 컨테이너의 왼쪽 여백(margin) 제거 */
 .VPSidebar {
-  /* 1. 기본 너비 설정 */
-  width: var(--vp-sidebar-width) !important;
-  
-  /* 2. 아무리 넓어져도, 아무리 좁아져도 이 크기 유지 */
-  min-width: var(--vp-sidebar-width) !important;
-  max-width: var(--vp-sidebar-width) !important;
-  
-  /* 3. flex 아이템으로서 늘어나거나(grow) 줄어들지(shrink) 않도록 고정 */
-  flex: 0 0 var(--vp-sidebar-width) !important;
-}
-
-/* 5. 컨텐츠 영역: 적절한 가독성 유지 */
-.VPContent {
-  flex-grow: 1;      /* 남는 공간을 채우되 */
-  max-width: 1000px;  /* 글 읽는 영역이 너무 넓어지면 눈이 아프므로 제한 */
+  left: 0 !important;
   margin-left: 0 !important;
-  margin-right: auto; /* 오른쪽에 여백을 몰아줌 */
+  width: var(--vp-sidebar-width) !important;
+  position: fixed !important; /* 화면에 고정 */
 }
 
+/* 1. 네비바 전체 컨테이너 제약 해제 */
 .VPNavBar .container {
-  margin: 0 !important;
-  max-width: none !important;
+  max-width: none !important;  /* 중앙 정렬을 위한 폭 제한 해제 */
+  margin: 0 !important;        /* 중앙 정렬용 자동 마진 제거 */
+  padding: 0 24px !important;  /* 왼쪽 끝에 너무 붙으면 답답하니 최소한의 여백만 부여 */
+  width: 100% !important;      /* 전체 너비 사용 */
+}
+
+/* 2. 네비바 내부의 실제 내용(로고, 메뉴 등) 정렬 */
+.VPNavBar .content {
+  justify-content: flex-start !important; /* 내용물을 왼쪽부터 배치 */
+  padding-left: 0 !important;
+}
+
+/* 3. 로고와 메뉴 사이의 간격 조절 (선택사항) */
+.VPNavBar .content-body {
+  flex-grow: 1;               /* 메뉴 영역이 남는 공간을 차지하게 함 */
+  display: flex;
+  justify-content: flex-start; /* 메뉴 목록도 왼쪽으로 밀착 */
+  gap: 20px;                   /* 메뉴 아이템 사이 간격 */
 }
