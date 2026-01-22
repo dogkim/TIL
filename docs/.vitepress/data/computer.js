@@ -6,7 +6,7 @@ const addPath = (subFolder, files) =>
   )
 
 export const HTMLList = addPath('HTML', [
-  '01-basics-structure.md',
+  '01-basic-structure.md',
   '02-tags.md',
 ])
 
@@ -15,6 +15,7 @@ export const CSSList = addPath('CSS', [
 ])
 
 export const DataStructList = addPath('DataStructure', [
-  '1. Performance Anlysis.md',
-  '2. Arrays.md',
+  '01-Performance-Anlysis.md',
+  '02-Arrays.md',
 ])
+
