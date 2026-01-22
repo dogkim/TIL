@@ -1,33 +1,69 @@
-/* 1. 상단 로고(Today I Learned) 움직임 박제 */
-.VPNavBar .container {
+:root {
+  /* 1. 사이드바 너비와 기본 여백 설정 */
+  --vp-sidebar-width: 300px !important;
+  --custom-left-gap: 40px; /* 로고와 사이드바 글자가 시작되는 위치 */
+}
+
+/* --------------------------------------------------
+   2. 상단바(Navbar) 완전 정렬 (홈/문서 공통)
+-------------------------------------------------- */
+
+/* 컨테이너의 중앙 정렬 마진과 폭 제한을 완전히 제거 */
+.VPNavBar .container,
+.VPHome .VPNavBar .container {
   max-width: none !important;
-  margin: 0 !important;       /* 중앙으로 가려는 성질 제거 */
+  margin: 0 !important;
   width: 100% !important;
+  padding: 0 !important;
+}
+
+/* 네비바 내부 실제 내용물 정렬 */
+.VPNavBar .content {
+  max-width: none !important;
+  padding: 0 !important;
   display: flex !important;
-  justify-content: flex-start !important; /* 내부 요소를 왼쪽으로 정렬 */
+  justify-content: flex-start !important;
 }
 
+/* 로고(Today I Learned) 위치 박제 */
 .VPNavBar .title {
-  padding-left: 40px !important; /* 너무 딱 붙지 않게 왼쪽 여백 부여 */
+  padding-left: var(--custom-left-gap) !important;
   margin-left: 0 !important;
+  width: var(--vp-sidebar-width) !important; /* 사이드바 너비와 똑같이 맞추면 더 깔끔합니다 */
+  box-sizing: border-box;
 }
 
-/* 2. 사이드바 글자 위치 조정 */
-aside.VPSidebar .container {
-  margin-left: 0 !important;
-  margin-right: auto !important;
-  padding-left: 40px !important; /* 로고와 세로 줄을 맞추기 위해 똑같이 40px */
-  width: 100% !important;
-}
+/* --------------------------------------------------
+   3. 사이드바(Sidebar) 및 본문(Content) 정렬
+-------------------------------------------------- */
 
-/* 3. 사이드바 너비 및 배경 고정 */
+/* 사이드바 틀 고정 */
 aside.VPSidebar {
-  padding-left: 0 !important;
   left: 0 !important;
-  width: 280px !important;
+  width: var(--vp-sidebar-width) !important;
+  padding-left: 0 !important;
 }
 
-/* 4. 본문 내용이 사이드바와 겹치지 않게 조절 */
+/* 사이드바 내부 글자 위치를 로고와 일치시킴 */
+aside.VPSidebar .container {
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  padding-left: var(--custom-left-gap) !important;
+}
+
+/* 사이드바 내부 추가 패딩 제거 */
+.VPSidebar .container .content {
+  padding-left: 0 !important;
+  padding-right: 20px !important;
+}
+
+/* 본문 영역이 사이드바와 겹치지 않게 고정 */
 .VPContent {
-  padding-left: 280px !important;
+  padding-left: var(--vp-sidebar-width) !important;
+}
+
+/* 홈 화면에서도 컨텐츠가 중앙으로 쏠리지 않게 하려면 (선택사항) */
+.VPHome .VPContent {
+  padding-left: 0 !important; /* 홈은 사이드바가 없으므로 0 */
 }
