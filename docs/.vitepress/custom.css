@@ -1,20 +1,18 @@
-/* 전체 레이아웃 좌측 여백 줄이기 */
-:root {
-  --vp-sidebar-width: 220px;      /* 기본값: 272px */
-  --vp-layout-max-width: 1440px;  /* 콘텐츠 최대 폭 */
+/* 전체 레이아웃을 좌측 고정 */
+.Layout {
+    justify-content: flex-start;
 }
 
-/* 상단 네비게이션 (Today I Learned) */
-.VPNavBar .container {
-  padding-left: 8px;
-}
-
-/* 사이드바 자체 */
+/* Nav + Content + Sidebar 컨테이너 */
+.VPNavBar .container,
+.VPContent,
 .VPSidebar {
-  padding-left: 8px;
+    margin-left: 0 !important;
 }
 
-/* 메인 콘텐츠도 같이 맞추기 */
-.VPContent {
-  padding-left: 24px;
+/* 화면 커져도 왼쪽 여백 제거 */
+:root {
+    --vp-sidebar-width: 240px;
+    --vp-layout-max-width: 100vw;
 }
+
