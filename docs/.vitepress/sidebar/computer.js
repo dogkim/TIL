@@ -1,4 +1,6 @@
-import * as computer from '../../data/computer'
+//컴퓨터 탭의 사이드바 목록
+
+import * as computer from '../data/computer'
 
 const toItems = (list) =>
   list.map(path => ({
