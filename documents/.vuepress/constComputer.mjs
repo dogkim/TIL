@@ -1,4 +1,5 @@
-//중간폴더, 파일명
+// 컴퓨터 관련 글 목록 
+
 const addPath = (subFolder, files) => files.map(file => `/computer/${subFolder}/${file}`);
 
 

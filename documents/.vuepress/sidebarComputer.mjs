@@ -1,3 +1,5 @@
+//컴퓨터 탭의 사이드바 목록
+
 import * as CONST from './constComputer.mjs'
 
 const computerMenu = [
