@@ -1,36 +1,50 @@
-/* 1. 변수 레벨에서 폭 제한 해제 */
+/* 1. 레이아웃 폭 제한을 모든 화면 크기에서 해제 */
 :root {
   --vp-layout-max-width: 100% !important;
-  --vp-screen-max-width: 100% !important;
 }
 
-/* 2. 최상위 레이아웃 컨테이너 */
-.VPLayout, .VPNavBar, .VPContent, .VPSidebar {
-  max-width: none !important;
-  margin-left: 0 !important;
-  margin-right: auto !important;
+/* 2. 상단 네비바(Navbar) 강제 왼쪽 밀착 */
+.VPNavBar {
+  background-color: var(--vp-nav-bg-color);
 }
 
-/* 3. 네비바(상단) 내부 내용 왼쪽 정렬 */
 .VPNavBar .container {
   max-width: none !important;
   margin: 0 !important;
   width: 100% !important;
-  display: flex !important;
-  justify-content: flex-start !important;
+  padding: 0 !important;
 }
 
-/* 4. 네비바 내부 실제 메뉴/로고 영역 */
 .VPNavBar .content {
   max-width: none !important;
   margin: 0 !important;
-  padding-left: 32px !important; /* 사이드바와 라인 맞춤용 */
-  flex-grow: 1;
+  padding: 0 32px !important; /* 여기를 0으로 하면 완전히 구석에 붙습니다 */
   justify-content: flex-start !important;
 }
 
-/* 5. 사이드바 위치 고정 */
+.VPNavBar .content-body {
+  flex-grow: 1;
+  display: flex !important;
+  justify-content: flex-start !important; /* 메뉴 목록 왼쪽 정렬 */
+}
+
+/* 3. 사이드바(Sidebar) 위치 강제 조정 */
 .VPSidebar {
   left: 0 !important;
-  margin-left: 0 !important;
+  margin: 0 !important;
+  transform: translateX(0) !important; /* 혹시 모를 이동 효과 제거 */
+}
+
+/* 4. 본문(Content) 영역 왼쪽 밀착 */
+.VPContent {
+  margin: 0 !important;
+  max-width: none !important;
+  padding-left: var(--vp-sidebar-width) !important; /* 사이드바 자리만 비워둠 */
+}
+
+/* 5. 본문 내부 실제 문서(VPDoc) 영역 */
+.VPDoc {
+  margin: 0 !important;
+  max-width: none !important;
+  padding: 32px !important;
 }
