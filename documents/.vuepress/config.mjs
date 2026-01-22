@@ -13,14 +13,20 @@ export default defineUserConfig({
     sidebarDepth: 1,
 
     navbar: [
-      { text: 'Computer Engineering', link: '/computer/' },
-      { text: 'Philosophy', link: '/philosophy/' },
+      { text: 'Computer Engineering',
+         link: '/computer/',
+        activeMatch: '^/computer/'
+      },
+      { text: 'Philosophy',
+         link: '/philosophy/',
+        activeMatch: '^/philosophy/'
+      },
     ],
 
     sidebar: {
       '/': sidebarComputer,
-      '/computer/': sidebarComputer,
-      '/philosophy/': sidebarPhilosophy,
+      '/computer': sidebarComputer,
+      '/philosophy': sidebarPhilosophy,
     },
   }),
 })
