@@ -1,32 +1,30 @@
-name: Deploy TIL to GitHub Pages
+name: Build README
 
 on:
   push:
     branches:
-      - main
+      - main 
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4 
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          node-version: '20' 
-          cache: 'npm' 
+          python-version: '3.x'
 
-      - name: Install and Build
+      - name: Run build script
+        run: python build.py  
+
+      - name: Commit and Push
         run: |
-          npm install
-          npm run build 
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4 
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} 
-          publish_dir: .vuepress/dist 
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: Update README.md" && git push)
