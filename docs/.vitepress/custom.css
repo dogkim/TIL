@@ -1,0 +1,20 @@
+/* 전체 레이아웃 좌측 여백 줄이기 */
+:root {
+  --vp-sidebar-width: 240px;      /* 기본값: 272px */
+  --vp-layout-max-width: 1440px;  /* 콘텐츠 최대 폭 */
+}
+
+/* 상단 네비게이션 (Today I Learned) */
+.VPNavBar .container {
+  padding-left: 16px;
+}
+
+/* 사이드바 자체 */
+.VPSidebar {
+  padding-left: 8px;
+}
+
+/* 메인 콘텐츠도 같이 맞추기 */
+.VPContent {
+  padding-left: 24px;
+}
