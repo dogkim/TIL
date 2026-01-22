@@ -24,11 +24,12 @@ jobs:
       - name: Install and Build
         run: |
           npm install
-          npm run build  # package.json에 적힌 'vuepress build documents'가 실행됩니다.
+          npm run build  
+      # package.json에 적힌 'vuepress build documents'가 실행됩니다.
 
       # 3. [최신 방식] 빌드된 결과물(build 폴더)을 배포
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }} 
-          publish_dir: build # package.json에서 지정한 결과물 저장 폴더
+          publish_dir: ./build # package.json에서 지정한 결과물 저장 폴더
