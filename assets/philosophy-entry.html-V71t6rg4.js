@@ -1,1 +1,0 @@
-import{_ as l,u as r,a as c,r as e,o as p,c as _,b as t,w as a}from"./app-CMUMb6wP.js";const h={__name:"philosophy-entry.html",setup(i){const o=r();return c(()=>{o.replace("/philosophy/")}),(u,m)=>{const n=e("Redirect"),s=e("ClientOnly");return p(),_("div",null,[t(s,null,{default:a(()=>[t(n)]),_:1})])}}},d=l(h,[["__file","philosophy-entry.html.vue"]]);export{d as default};

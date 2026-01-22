@@ -1,1 +1,0 @@
-import{_ as c,u as s,a as l,r as e,o as _,c as a,b as t,w as u}from"./app-CMUMb6wP.js";const m={__name:"computer-entry.html",setup(p){const o=s();return l(()=>{o.replace("/computer/")}),(i,d)=>{const n=e("Redirect"),r=e("ClientOnly");return _(),a("div",null,[t(r,null,{default:u(()=>[t(n)]),_:1})])}}},h=c(m,[["__file","computer-entry.html.vue"]]);export{h as default};

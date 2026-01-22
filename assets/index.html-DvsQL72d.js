@@ -1,1 +1,0 @@
-import{_ as a,o as r,c as t,d as e,e as n}from"./app-CMUMb6wP.js";const s={};function l(d,o){return r(),t("div",null,[...o[0]||(o[0]=[e("h1",{id:"philosophy",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#philosophy","aria-hidden":"true"},"#"),n(" Philosophy")],-1),e("p",null,"철학 공부 기록입니다.",-1)])])}const c=a(s,[["render",l],["__file","index.html.vue"]]);export{c as default};
