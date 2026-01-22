@@ -1,3 +1,5 @@
----
-redirect: /philosophy/
----
+<script>
+  if (typeof window !== 'undefined') {
+    window.location.replace('/TIL/philosophy/');
+  }
+</script>
