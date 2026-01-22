@@ -1,0 +1,37 @@
+:root {
+  /* 전체 레이아웃 폭을 100%로 확장 */
+  --vp-layout-max-width: 100% !important;
+}
+
+.VPNavBar .container {
+  max-width: none !important; /* 폭 제한 제거 */
+  margin: 0 !important;        /* 중앙 정렬 마진 제거 */
+  width: 100% !important;
+}
+
+.VPNavBar .content {
+  padding-left: 32px !important; /* 사이드바와 위치를 맞추기 위한 여백 */
+  justify-content: flex-start !important; /* 왼쪽부터 차곡차곡 배치 */
+}
+
+.VPNavBar .content-body {
+  flex-grow: 1; 
+  justify-content: flex-start !important;
+}
+
+/* 사이드바 위치 강제 */
+.VPSidebar {
+  left: 0 !important;
+}
+
+/* 전체 레이아웃을 왼쪽 시작 지점으로 정렬 */
+.VPLayout {
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+/* 본문 영역 마진 초기화 */
+.VPContent {
+  margin-left: 0 !important;
+  max-width: none !important;
+}
