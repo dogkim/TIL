@@ -1,5 +1,5 @@
 ---
-title: 01-basics-structure
+title: 01 기초 구조
 ---
 
 ## 기본 구성요소

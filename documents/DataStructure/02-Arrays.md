@@ -1,3 +1,7 @@
+---
+title: 02 배열
+---
+
 **Polynomial**
 그냥 배열 다 읽어서 
 a,b expon 비교 치고 큰쪽 coef랑 expon c에 넣고 큰 쪽 배열pos 랑 c배열 pos ++
