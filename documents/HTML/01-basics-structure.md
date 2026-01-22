@@ -1,3 +1,7 @@
+---
+title: 01-basics-structure
+---
+
 ## 기본 구성요소
 ---
 ### 태그
