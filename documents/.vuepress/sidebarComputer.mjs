@@ -4,12 +4,8 @@ import * as CONST from './constComputer.mjs'
 
 const computerMenu = [
   {
-    // 1. 카테고리 전체를 아우르는 그룹을 만듭니다.
-    text: 'Computer Engineering Home',
-    collapsible: false, // 홈은 항상 보이게
-    children: [
-      '/computer/README.md',
-    ],
+  text: 'Home',
+  link: '/computer/',
   },
   {
     text: 'HTML',
