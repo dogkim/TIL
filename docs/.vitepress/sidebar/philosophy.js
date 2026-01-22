@@ -1,5 +1,6 @@
 //철학 탭의 사이드바 목록
-import * as philosophy from '../../data/philosophy'
+
+import * as philosophy from '../data/philosophy'
 
 
 const toItems = (list) =>
