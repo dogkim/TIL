@@ -19,8 +19,8 @@ export default defineUserConfig({
 
     sidebar: {
       '/': sidebarComputer,
-      '/computer/': sidebarComputer,
-      '/philosophy/': sidebarPhilosophy,
+      '/TIL/computer/': sidebarComputer,
+      '/TIL/philosophy/': sidebarPhilosophy,
     },
   }),
 })
