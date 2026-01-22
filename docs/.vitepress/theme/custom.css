@@ -1,32 +1,19 @@
-/* 1. 사이드바를 네비바보다 위로 올리기 (z-index 조절) */
+:root {
+  /* 1. 사이드바의 기본 너비를 변수로 고정 */
+  --vp-sidebar-width: 280px; 
+}
+
+/* 2. 화면이 커져도 사이드바 너비가 변하지 않게 강제 고정 */
 .VPSidebar {
-  z-index: var(--vp-z-index-nav) !important; /* 네비바와 같은 층으로 올림 */
-  border-right: 1px solid var(--vp-c-divider) !important;
-  left: 0 !important;
   width: var(--vp-sidebar-width) !important;
+  max-width: var(--vp-sidebar-width) !important;
+  min-width: var(--vp-sidebar-width) !important;
+  
+  /* flex 레이아웃에서 늘어나거나 줄어드는 것을 원천 차단 */
+  flex: 0 0 var(--vp-sidebar-width) !important;
 }
 
-/* 2. 네비바의 왼쪽 끝부분(로고 영역) 배경을 투명하게 하거나 폭 조정 */
-.VPNavBar {
-  /* 네비바 전체 테두리보다 사이드바 테두리가 강조되도록 설정 */
-  border-bottom: 1px solid var(--vp-c-divider) !important;
-}
-
-.VPNavBar .container {
-  max-width: none !important;
-  margin: 0 !important;
-  /* 사이드바 너비만큼 네비바 왼쪽을 비워두고 싶다면 padding 사용 */
-  padding-left: 0 !important; 
-}
-
-/* 3. 로고 영역과 사이드바 라인 일치화 */
-.VPNavBar .content {
-  /* 로고가 사이드바 너비 안쪽 중앙에 오게 하거나 왼쪽으로 밀착 */
-  padding-left: 32px !important; 
-}
-
-/* 4. 본문 영역 위치 강제 고정 */
+/* 3. 본문 영역이 사이드바 너비를 인식하고 적절한 여백을 유지하도록 함 */
 .VPContent {
-  margin-left: var(--vp-sidebar-width) !important;
-  width: calc(100% - var(--vp-sidebar-width)) !important;
+  --vp-sidebar-width: 280px;
 }
