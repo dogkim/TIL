@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o}from"./app-B5yzHDc3.js";typeof window<"u"&&window.location.replace("/TIL/computer/");const c={};function n(r,p,a,s,_,i){return t(),o("div")}const d=e(c,[["render",n],["__file","computer-entry.html.vue"]]);export{d as default};
