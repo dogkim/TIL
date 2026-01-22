@@ -1,37 +1,45 @@
 :root {
-  /* 전체 레이아웃 폭을 100%로 확장 */
   --vp-layout-max-width: 100% !important;
+  --vp-sidebar-width: 280px; /* 사이드바 너비를 명시적으로 고정 */
 }
 
+/* 1. 상단바 왼쪽 밀착 및 하단 테두리 정리 */
 .VPNavBar .container {
-  max-width: none !important; /* 폭 제한 제거 */
-  margin: 0 !important;        /* 중앙 정렬 마진 제거 */
+  max-width: none !important;
+  margin: 0 !important;
   width: 100% !important;
 }
 
 .VPNavBar .content {
-  padding-left: 32px !important; /* 사이드바와 위치를 맞추기 위한 여백 */
-  justify-content: flex-start !important; /* 왼쪽부터 차곡차곡 배치 */
-}
-
-.VPNavBar .content-body {
-  flex-grow: 1; 
+  /* 로고의 왼쪽 시작점을 사이드바 내부 여백과 일치시킴 */
+  padding-left: 32px !important; 
   justify-content: flex-start !important;
 }
 
-/* 사이드바 위치 강제 */
+/* 2. 사이드바 왼쪽 밀착 및 오른쪽 테두리 고정 */
 .VPSidebar {
   left: 0 !important;
+  width: var(--vp-sidebar-width) !important;
+  /* 상단바 테두리와 이어지도록 오른쪽 선 설정 */
+  border-right: 1px solid var(--vp-c-divider) !important;
+  background-color: var(--vp-sidebar-bg-color);
 }
 
-/* 전체 레이아웃을 왼쪽 시작 지점으로 정렬 */
+/* 3. 전체 레이아웃 구조 정렬 */
 .VPLayout {
   display: flex !important;
   justify-content: flex-start !important;
 }
 
-/* 본문 영역 마진 초기화 */
+/* 4. 본문 영역이 사이드바 테두리 바로 옆에서 시작하게 조정 */
 .VPContent {
-  margin-left: 0 !important;
+  margin-left: var(--vp-sidebar-width) !important; /* 사이드바 너비만큼 정확히 띄움 */
   max-width: none !important;
+  width: calc(100% - var(--vp-sidebar-width)) !important;
+}
+
+/* 5. 본문 내부의 가로 여백도 왼쪽으로 밀착 */
+.VPDoc {
+  margin: 0 !important;
+  padding: 32px !important;
 }
