@@ -14,14 +14,21 @@
 
 /* 4. 사이드바: 고정 크기 유지 */
 .VPSidebar {
+  /* 1. 기본 너비 설정 */
   width: var(--vp-sidebar-width) !important;
-  flex-shrink: 0; /* 화면이 변해도 절대 크기 변하지 않음 */
+  
+  /* 2. 아무리 넓어져도, 아무리 좁아져도 이 크기 유지 */
+  min-width: var(--vp-sidebar-width) !important;
+  max-width: var(--vp-sidebar-width) !important;
+  
+  /* 3. flex 아이템으로서 늘어나거나(grow) 줄어들지(shrink) 않도록 고정 */
+  flex: 0 0 var(--vp-sidebar-width) !important;
 }
 
 /* 5. 컨텐츠 영역: 적절한 가독성 유지 */
 .VPContent {
   flex-grow: 1;      /* 남는 공간을 채우되 */
-  max-width: 960px;  /* 글 읽는 영역이 너무 넓어지면 눈이 아프므로 제한 */
+  max-width: 1000px;  /* 글 읽는 영역이 너무 넓어지면 눈이 아프므로 제한 */
   margin-left: 0 !important;
   margin-right: auto; /* 오른쪽에 여백을 몰아줌 */
 }
