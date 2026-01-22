@@ -4,11 +4,8 @@ import * as CONST from './constPhilosophy.mjs'
 
 const philosophyMenu = [
   {
-    text: 'Philosophy Home',
-    collapsible: false, // 홈은 항상 보이게
-    children: [
-      '/philosophy/README.md',
-    ],
+  text: 'Home',
+  link: '/philosophy/',
   },
   {
     text: 'Logic',
