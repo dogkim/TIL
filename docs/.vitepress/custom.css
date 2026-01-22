@@ -1,42 +1,36 @@
+/* 1. 변수 레벨에서 폭 제한 해제 */
 :root {
-  /* 사이드바 너비 고정 */
-  --vp-sidebar-width: 280px;
-  /* 전체 레이아웃이 중앙에 모이지 않도록 폭을 전체로 확장 */
   --vp-layout-max-width: 100% !important;
+  --vp-screen-max-width: 100% !important;
 }
 
-/* 1. 전체 레이아웃을 왼쪽 정렬 */
-.VPLayout {
+/* 2. 최상위 레이아웃 컨테이너 */
+.VPLayout, .VPNavBar, .VPContent, .VPSidebar {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* 3. 네비바(상단) 내부 내용 왼쪽 정렬 */
+.VPNavBar .container {
+  max-width: none !important;
+  margin: 0 !important;
+  width: 100% !important;
   display: flex !important;
   justify-content: flex-start !important;
 }
 
-/* 2. 사이드바를 감싸는 컨테이너의 왼쪽 여백(margin) 제거 */
+/* 4. 네비바 내부 실제 메뉴/로고 영역 */
+.VPNavBar .content {
+  max-width: none !important;
+  margin: 0 !important;
+  padding-left: 32px !important; /* 사이드바와 라인 맞춤용 */
+  flex-grow: 1;
+  justify-content: flex-start !important;
+}
+
+/* 5. 사이드바 위치 고정 */
 .VPSidebar {
   left: 0 !important;
   margin-left: 0 !important;
-  width: var(--vp-sidebar-width) !important;
-  position: fixed !important; /* 화면에 고정 */
-}
-
-/* 1. 네비바 전체 컨테이너 제약 해제 */
-.VPNavBar .container {
-  max-width: none !important;  /* 중앙 정렬을 위한 폭 제한 해제 */
-  margin: 0 !important;        /* 중앙 정렬용 자동 마진 제거 */
-  padding: 0 24px !important;  /* 왼쪽 끝에 너무 붙으면 답답하니 최소한의 여백만 부여 */
-  width: 100% !important;      /* 전체 너비 사용 */
-}
-
-/* 2. 네비바 내부의 실제 내용(로고, 메뉴 등) 정렬 */
-.VPNavBar .content {
-  justify-content: flex-start !important; /* 내용물을 왼쪽부터 배치 */
-  padding-left: 0 !important;
-}
-
-/* 3. 로고와 메뉴 사이의 간격 조절 (선택사항) */
-.VPNavBar .content-body {
-  flex-grow: 1;               /* 메뉴 영역이 남는 공간을 차지하게 함 */
-  display: flex;
-  justify-content: flex-start; /* 메뉴 목록도 왼쪽으로 밀착 */
-  gap: 20px;                   /* 메뉴 아이템 사이 간격 */
 }
