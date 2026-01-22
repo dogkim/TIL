@@ -1,14 +1,14 @@
 {
   "name": "my-til-site",
-  "version": "1.0.0",
-  "description": "오늘 배운 것은 오늘 적자",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "오늘 배운 건 오늘 적자",
   "scripts": {
     "dev": "vuepress dev documents",
-    "build": "vuepress build documents --dest build"
+    "build": "vuepress build documents"
   },
-  "dependencies": {
-    "vuepress": "^1.9.10"
-  },
-  "license": "MIT"
+  "devDependencies": {
+    "vuepress": "2.0.0-rc.0",
+    "@vuepress/client": "2.0.0-rc.0",
+    "vue": "^3.4.0"
+  }
 }
