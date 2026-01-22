@@ -3,12 +3,12 @@
   "version": "2.0.0",
   "description": "오늘 배운 건 오늘 적자",
   "scripts": {
-    "dev": "vuepress dev documents",
-    "build": "vuepress build documents"
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
-    "vuepress": "2.0.0-rc.0",
-    "@vuepress/client": "2.0.0-rc.0",
+    "vitepress": "^1.6.4",
     "vue": "^3.4.0"
   }
 }
