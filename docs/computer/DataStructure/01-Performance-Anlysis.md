@@ -1,7 +1,4 @@
----
-title: 01 Performance Anlysis
----
-# 01-Performance-Anlysis
+# 01- Performance Anlysis
 ## 1. 프로그램의 평가 기준
 - **공간 효율성**: 프로그램이 실행되는 동안 메모리를 얼마나 효과적으로 사용하는가?  
 - **시간 효율성**: 프로그램이 특정 작업을 수행하는 데 걸리는 시간이 적절한가?

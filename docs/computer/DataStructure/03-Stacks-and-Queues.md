@@ -1,7 +1,4 @@
----
-title: 03 Stacks and Queues
----
-# 03 Stacks and Queues
+# 03- Stacks and Queues
 ### Maze 
 
 ### Post fix

@@ -1,7 +1,4 @@
----
-title: 02 Arrays and Structures (Polynomial, Fast Transpose)
----
-# 02-Arrays and Structures
+# 02- Arrays and Structures
 ## Array (배열)
 동일한 타입의 데이터를 연속적으로 배치하여 관리
 
