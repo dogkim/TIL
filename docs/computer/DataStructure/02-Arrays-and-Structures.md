@@ -57,7 +57,7 @@ typedef struct {
 
 // 다항식 덧셈 함수
 // 배열 A, B를 받아 결과인 배열 C리턴
-// sizeA, sizeB 각각 배열의 크기기
+// sizeA, sizeB 각각 배열의 크기
 Term* addPolynomials(Term A[], int sizeA, Term B[], int sizeB) {
     Term* C = (Term*)malloc(sizeof(Term) * (sizeA + sizeB));
     
