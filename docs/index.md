@@ -1,40 +1,52 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+---
+title: My TIL
+---
 
-<script>
-  const arr = [];
-  const cw = window.innerWidth;
-  const ch = window.innerHeight;
+# Welcome to My TIL
 
-  function makeFlake(i) {
-      // 1. 객체 생성 및 배열 저장
-      arr.push({ i: i, x: 0, x2: 0, y: 0, s: 0 });
+<script setup>
+import { onMounted } from 'vue'
 
-      // 2. GSAP 애니메이션 설정
-      arr[i].t = gsap.timeline({ 
-          repeat: -1, 
-          repeatRefresh: true 
-      })
-      .fromTo(arr[i], 
-          {
-              x: () => Math.random() * cw, // 시작 X 위치 랜덤
-              y: -20,                      // 화면 위쪽 바깥
-              s: () => 0.5 + Math.random() * 2, // 크기 랜덤
-          }, 
-          {
-              duration: () => 5 + Math.random() * 10, // 떨어지는 속도 랜덤
-              ease: 'none',
-              y: ch + 50,                // 화면 아래 바깥까지
-              x: () => '+=' + (Math.random() * 200 - 100), // 좌우 흔들림
-              onUpdate: function() {
-                  // 여기에 실제 눈송이 엘리먼트가 있다면 좌표를 업데이트하는 로직이 들어갑니다.
-                  // 현재 코드는 데이터(객체)만 변화시키는 로직입니다.
-              }
-          }
+onMounted(() => {
+  // 2. 외부 라이브러리를 동적으로 불러오거나, 이미 로드된 gsap을 사용합니다.
+  // VitePress 환경에서는 아래처럼 작성하는 것이 빌드 에러를 막는 가장 좋은 방법입니다.
+  const script = document.createElement('script')
+  script.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+  script.onload = () => {
+    
+    // 여기서부터 애니메이션 로직 시작
+    const arr = [];
+    const cw = window.innerWidth;
+    const ch = window.innerHeight;
+
+    // 눈송이를 담을 컨테이너 생성
+    const container = document.createElement('div');
+    container.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999;';
+    document.body.appendChild(container);
+
+    function makeFlake(i) {
+      const flake = document.createElement('div');
+      flake.innerHTML = '❄';
+      flake.style.cssText = `position:absolute; color:white; opacity:${Math.random()}; font-size:${10 + Math.random() * 20}px;`;
+      container.appendChild(flake);
+
+      arr.push({ el: flake, x: 0, y: 0 });
+
+      gsap.fromTo(flake, 
+        { x: Math.random() * cw, y: -20 }, 
+        {
+          duration: 5 + Math.random() * 10,
+          y: ch + 20,
+          x: "+=" + (Math.random() * 200 - 100),
+          repeat: -1,
+          ease: "none",
+          delay: Math.random() * 5
+        }
       );
-  }
+    }
 
-  // 3. 눈송이 30개 생성 예시
-  for(let i = 0; i < 30; i++) {
-      makeFlake(i);
+    for(let i = 0; i < 20; i++) { makeFlake(i); }
   }
+  document.head.appendChild(script)
+})
 </script>
