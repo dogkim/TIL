@@ -8,6 +8,12 @@ export default defineConfig({
   base: '/TIL/',
 
   themeConfig: {
+    logo: {
+      light: '/logo-light.png',
+      dark: '/logo-dark.png'   
+    },
+    siteTitle: 'TIL..!',
+
     nav: [
       {
         text: 'Computer Engineering',
