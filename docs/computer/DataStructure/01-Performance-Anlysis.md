@@ -1,17 +1,18 @@
 ---
 title: 01 Performance Anlysis
 ---
-### 1. 프로그램의 평가 기준
+# 01-Performance-Anlysis
+## 1. 프로그램의 평가 기준
 - **공간 효율성**: 프로그램이 실행되는 동안 메모리를 얼마나 효과적으로 사용하는가?  
 - **시간 효율성**: 프로그램이 특정 작업을 수행하는 데 걸리는 시간이 적절한가?
-### 2. 프로그램 복잡도 (Program Complexity)
+## 2. 프로그램 복잡도 (Program Complexity)
 기계 독립적인 추정치를 획득 해야 정확한 알고리즘의 실용성 파악 가능
 - **Time complexity(시간 복잡도)**
 	프로그램이 완료되기까지 필요한 계산시간
 - **Space complexity(공간 복잡도)**
 	프로그램이 완료되기까지 필요한 메모리 양
 
-### 3. 성능 평가 단계 (Performance evaluation phases)
+## 3. 성능 평가 단계 (Performance evaluation phases)
 - **Performance analysis(성능 분석)** 
 	연역적 평가
 	프로그램을 실제 실행하지 않고 알고리즘의 논리적 단계를 통해 복잡도를 계산
@@ -40,7 +41,7 @@ double duration = (double) difftime(stop,start);
 2. 하드웨어 및 컴파일러 등 실험 환경에 따라 결과가 가변적임
 3. 실험에 사용하지 않은 데이터들에 대해 다른 결과가 나올 수 있음
 
-### 4. Space Complexity (공간 복잡도) 분석
+## 4. Space Complexity (공간 복잡도) 분석
 고정적 부분과 가변적 부분의 합으로 표현
 $S(P) = c + S_p(n)$
 

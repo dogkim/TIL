@@ -1,6 +1,7 @@
 ---
 title: 02 Arrays and Structures (Polynomial, Fast Transpose)
 ---
+# 02-Arrays and Structures
 ## Array (배열)
 동일한 타입의 데이터를 연속적으로 배치하여 관리
 
@@ -38,7 +39,7 @@ title: 02 Arrays and Structures (Polynomial, Fast Transpose)
 	} term;
 	```
 	- **장점**: 항의 개수가 적은 경우 메모리를 효율적으로 사용
-### Polynomial Addition (다항식 덧셈)
+## Polynomial Addition (다항식 덧셈)
 (구조체 배열의 경우)
 배열을 순회하며 각 항의 지수를 비교하여 합산하는 방식의 알고리즘.
 
@@ -106,7 +107,7 @@ Term* addPolynomials(Term A[], int sizeA, Term B[], int sizeB) {
 }
 ```
 
-### Fast Transpose (희소 행렬의 빠른 전치)
+## Fast Transpose (희소 행렬의 빠른 전치)
 희소 행렬의 전치 연산 시, 각 열의 데이터 개수를 파악하여 데이터가 삽입될 위치를 미리 결정하는 방식으로 진행.
 
 $O(columns + elements)$의 시간이 걸림
