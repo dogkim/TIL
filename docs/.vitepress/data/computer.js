@@ -11,10 +11,12 @@ export const HTMLList = addPath('HTML', [
 ])
 
 export const CSSList = addPath('CSS', [
-  '1. CSS 문법 살펴보기.md',
+  '01-CSS-Basics.md',
 ])
 
 export const DataStructList = addPath('DataStructure', [
   '01-Performance-Anlysis.md',
-  '02-Arrays.md',
+  '02-Arrays-and-Structures.md',
+  '03-Stacks-and-Queues.md',
+  '05-Trees.md'
 ])

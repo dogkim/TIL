@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "documents/DataStructure/02-Arrays.md",
+                "file": "docs/computer/DataStructure/05-Trees.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "02-Arrays"
+              "title": "05-Trees"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "right": {
     "id": "30c9241738b61891",
@@ -185,6 +185,10 @@
   },
   "active": "30e58d61129fc14c",
   "lastOpenFiles": [
+    "docs/computer/DataStructure/03-Stacks-and-Queues.md",
+    "docs/computer/DataStructure/01-Performance-Anlysis.md",
+    "docs/computer/DataStructure/02-Arrays-and-Structures.md",
+    "docs/computer/CSS/01-CSS-Basics.md",
     "documents/DataStructure/01-Performance-Anlysis.md",
     "documents/HTML/02-tags.md",
     "documents/HTML/01-basic-structure.md",
