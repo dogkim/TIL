@@ -23,11 +23,20 @@ onMounted(() => {
     const container = document.createElement('div');
     container.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999;';
     document.body.appendChild(container);
-
+    
+    // shadow 눈 주위에 하얀 광채를 주어 입체감 부여
     function makeFlake(i) {
       const flake = document.createElement('div');
-      flake.innerHTML = '❄';
-      flake.style.cssText = `position:absolute; color:white; opacity:${Math.random()}; font-size:${10 + Math.random() * 20}px;`;
+    //   flake.style.borderRadius = '50%';
+      flake.innerHTML = '●';
+      flake.style.cssText = `
+        position:absolute;
+        color:white;
+
+        text-shadow: 0 0 5px #fff;  
+        opacity:${Math.random()};
+        font-size:${10 + Math.random() * 20}px;
+      `;
       container.appendChild(flake);
 
       arr.push({ el: flake, x: 0, y: 0 });
