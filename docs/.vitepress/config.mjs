@@ -7,10 +7,21 @@ export default defineConfig({
   title: 'Today I Learned',
   base: '/TIL/',
 
+  head: [
+    [
+      'link', 
+      { 
+        rel: 'icon', 
+        type: 'image/svg+xml', 
+        href: '/favicon.svg' 
+      }
+    ]
+  ],
+
   themeConfig: {
     logo: {
-      light: '/logo-light.png',
-      dark: '/logo-dark.png'   
+      light: '/logo-dark.png',
+      dark: '/logo-light.png'   
     },
     siteTitle: 'TIL..!',
 
