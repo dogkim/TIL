@@ -8,15 +8,14 @@
     base: '/TIL/',
 
     head: [
-      [
-        'link', 
-        { 
-          rel: 'icon', 
-          type: 'image/svg+xml', 
-          href: 'TIL/favicon.svg' 
-        }
-      ]
-    ],
+    ['link', 
+      {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        href: '/favicon.svg' 
+      }
+    ]
+  ],
 
     themeConfig: {
       logo: {
