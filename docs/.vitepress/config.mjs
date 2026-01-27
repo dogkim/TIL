@@ -8,11 +8,10 @@
     base: '/TIL/',
 
     head: [
-    ['link', 
-      {
+    ['link', {
         rel: 'icon',
         type: 'image/svg+xml',
-        href: '/favicon.svg' 
+        href: '/TIL/favicon.svg'
       }
     ]
   ],
