@@ -35,7 +35,7 @@ onMounted(() => {
 
         text-shadow: 0 0 5px #fff;  
         opacity:${Math.random()};
-        font-size:${10 + Math.random() * 20}px;
+        font-size:${10 + Math.random() * 10}px;
       `;
       container.appendChild(flake);
 
