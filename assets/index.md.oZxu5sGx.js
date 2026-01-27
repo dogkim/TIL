@@ -3,6 +3,6 @@ import{v as r,o as c,c as l,j as i,a as m}from"./chunks/framework.CeMiJbT_.js";c
         color:white;
 
         text-shadow: 0 0 5px #fff;  
-        opacity:${Math.random()};
-        font-size:${2+Math.random()*5}px;
-      `,o.appendChild(a),gsap.fromTo(a,{x:Math.random()*t,y:-30},{duration:5+Math.random()*10,y:d+30,x:"+="+(Math.random()*200-100),repeat:-1,ease:"none",delay:Math.random()*5})}for(let n=0;n<50;n++)s()},document.head.appendChild(e)}),(e,t)=>(c(),l("div",null,[...t[0]||(t[0]=[i("h1",{id:"welcome-to-my-til",tabindex:"-1"},[m("Welcome to My TIL "),i("a",{class:"header-anchor",href:"#welcome-to-my-til","aria-label":'Permalink to "Welcome to My TIL"'},"​")],-1)])]))}});export{x as __pageData,u as default};
+        opacity:${.4+Math.random()*.6};
+        font-size:${3+Math.random()*4}px;
+      `,o.appendChild(a),gsap.fromTo(a,{x:Math.random()*t,y:-30},{duration:5+Math.random()*10,y:d+30,x:"+="+(Math.random()*200-100),repeat:-1,ease:"none",delay:Math.random()*5})}for(let n=0;n<100;n++)s()},document.head.appendChild(e)}),(e,t)=>(c(),l("div",null,[...t[0]||(t[0]=[i("h1",{id:"welcome-to-my-til",tabindex:"-1"},[m("Welcome to My TIL "),i("a",{class:"header-anchor",href:"#welcome-to-my-til","aria-label":'Permalink to "Welcome to My TIL"'},"​")],-1)])]))}});export{x as __pageData,u as default};
