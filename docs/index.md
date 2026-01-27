@@ -42,10 +42,10 @@ onMounted(() => {
       arr.push({ el: flake, x: 0, y: 0 });
 
       gsap.fromTo(flake, 
-        { x: Math.random() * cw, y: -20 }, 
+        { x: Math.random() * cw, y: -30 }, 
         {
           duration: 5 + Math.random() * 10,
-          y: ch + 20,
+          y: ch + 30,
           x: "+=" + (Math.random() * 200 - 100),
           repeat: -1,
           ease: "none",
@@ -54,7 +54,7 @@ onMounted(() => {
       );
     }
 
-    for(let i = 0; i < 20; i++) { makeFlake(i); }
+    for(let i = 0; i < 50; i++) { makeFlake(i); }
   }
   document.head.appendChild(script)
 })
