@@ -49,12 +49,16 @@ onMounted(() => {
           x: "+=" + (Math.random() * 200 - 100),
           repeat: -1,
           ease: "none",
-          delay: Math.random() * 5
+          // delay: Math.random() * 5
         }
       );
     }
 
-    for(let i = 0; i < 70; i++) { makeFlake(i); }
+    for (let i = 0; i < 70; i++) {
+      setTimeout(() => {
+        makeFlake(i);
+      }, i * 100); // 0.1초마다 하나씩 "규칙적으로" 생성
+    }
   }
   document.head.appendChild(script)
 })
