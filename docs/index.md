@@ -34,8 +34,8 @@ onMounted(() => {
         color:white;
 
         text-shadow: 0 0 5px #fff;  
-        opacity:${Math.random()};
-        font-size:${2 + Math.random() * 5}px;
+        opacity:${0.4 + Math.random() * (0.6)};
+        font-size:${3 + Math.random() * 4}px;
       `;
       container.appendChild(flake);
 
@@ -54,7 +54,7 @@ onMounted(() => {
       );
     }
 
-    for(let i = 0; i < 50; i++) { makeFlake(i); }
+    for(let i = 0; i < 100; i++) { makeFlake(i); }
   }
   document.head.appendChild(script)
 })
