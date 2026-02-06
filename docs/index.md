@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, onUnmounted, watch } from 'vue'
-import { useRoute } from 'vitepress'
+import { onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { useData, useRoute } from 'vitepress'
 
+const { frontmatter } = useData()
 const route = useRoute()
 let snowContainer = null
 
@@ -16,10 +17,9 @@ const loadGSAP = () => {
   })
 }
 
-// 2. 개별 눈송이 생성 및 애니메이션 부여
+// 2. 개별 눈송이 생성 및 애니메이션
 const createFlake = (gsap) => {
   if (!snowContainer) return
-
   const flake = document.createElement('div')
   flake.innerHTML = '●'
   flake.style.cssText = `
@@ -31,7 +31,6 @@ const createFlake = (gsap) => {
   `
   snowContainer.appendChild(flake)
 
-  // 창 크기 변화에 유연하게 대응하기 위해 픽셀 대신 %나 vh 활용 가능
   gsap.fromTo(flake, 
     { x: Math.random() * window.innerWidth, y: -30 }, 
     {
@@ -40,18 +39,17 @@ const createFlake = (gsap) => {
       x: "+=" + (Math.random() * 200 - 100),
       repeat: -1,
       ease: "none",
-      delay: Math.random() * 5
+      delay: Math.random() * 4
     }
   )
 }
 
-// 3. 눈 내리기 시작
+// 3. 눈 내리기 시작 (layout: home 조건으로 체크)
 const initSnow = async () => {
-  // 메인 경로('/') 체크. VitePress 환경에 따라 '/index.html' 등도 고려 필요할 수 있음
-  if (snowContainer || (route.path !== '/' && route.path !== '/index.html')) return
+  // 배포 환경(GitHub Pages)에서도 안전하게 layout 속성으로 확인
+  if (snowContainer || frontmatter.value.layout !== 'home') return
 
   const gsap = await loadGSAP()
-
   snowContainer = document.createElement('div')
   snowContainer.style.cssText = `
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -59,7 +57,6 @@ const initSnow = async () => {
   `
   document.body.appendChild(snowContainer)
 
-  // 한 번에 생성하지 않고 약간의 시차를 두어 생성 (자연스러움 추가)
   for (let i = 0; i < 70; i++) {
     createFlake(gsap)
   }
@@ -73,12 +70,17 @@ const clearSnow = () => {
   }
 }
 
-// --- 생명주기 관리 ---
+// --- 생명주기 및 경로 변경 감시 ---
 onMounted(() => initSnow())
 
-watch(() => route.path, (path) => {
-  // 메인 페이지일 때만 실행, 그 외엔 제거
-  (path === '/' || path === '/index.html') ? initSnow() : clearSnow()
+watch(() => route.path, async () => {
+  // 페이지 이동 후 데이터가 업데이트될 때까지 대기
+  await nextTick()
+  if (frontmatter.value.layout === 'home') {
+    initSnow()
+  } else {
+    clearSnow()
+  }
 })
 
 onUnmounted(() => clearSnow())
