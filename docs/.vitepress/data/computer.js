@@ -12,6 +12,7 @@ export const HTMLList = addPath('HTML', [
 
 export const CSSList = addPath('CSS', [
   '01-CSS-Basics.md',
+  'text.md'
 ])
 
 export const DataStructList = addPath('DataStructure', [
