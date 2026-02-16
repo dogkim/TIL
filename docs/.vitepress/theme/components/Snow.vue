@@ -1,99 +1,110 @@
 <script setup>
-import { onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useData, useRoute } from 'vitepress'
 
 const { frontmatter } = useData()
 const route = useRoute()
-let snowContainer = null
+const canvasRef = ref(null)
+let animationId = null
 
-// 1. GSAP 로드 (기존 유지)
-const loadGSAP = () => {
-  return new Promise((resolve) => {
-    if (window.gsap) return resolve(window.gsap)
-    const script = document.createElement('script')
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
-    script.onload = () => resolve(window.gsap)
-    document.head.appendChild(script)
-  })
+// 눈송이 데이터 초기화
+const createFlakes = (width, height, count) => {
+  return Array.from({ length: count }, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    r: Math.random() * 3 + 1, // 크기
+    d: Math.random() * count, // 밀도
+    speed: Math.random() * 1 + 0.5, // 속도
+    opacity: Math.random() * 0.5 + 0.3
+  }))
 }
 
-// 2. 눈송이 생성
-const createFlake = (gsap, container) => {
-  const flake = document.createElement('div')
-  flake.innerHTML = '●'
-  flake.style.cssText = `
-    position: absolute; color: white; text-shadow: 0 0 5px #fff;
-    opacity: ${0.2 + Math.random() * 0.7};
-    font-size: ${3 + Math.random() * 4}px;
-    top: -20px;
-    will-change: transform;
-  `
-  container.appendChild(flake)
-
-  gsap.to(flake, {
-    duration: 5 + Math.random() * 10,
-    y: window.innerHeight + 50,
-    x: "+=" + (Math.random() * 200 - 100),
-    left: Math.random() * 100 + "%", // 초기 가로 위치를 %로 지정
-    repeat: -1,
-    ease: "none",
-    delay: Math.random() * 5
-  })
-}
-
-// 3. 눈 시작 로직 (안정성 강화)
-const initSnow = async () => {
-  // 이미 컨테이너가 있거나 메인이 아니면 중단
-  if (document.getElementById('snow-container') || frontmatter.value.layout !== 'home') return
-
-  const gsap = await loadGSAP()
+const initSnow = () => {
+  const canvas = canvasRef.value
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')
   
-  // 컨테이너 생성 및 스타일 부여
-  snowContainer = document.createElement('div')
-  snowContainer.id = 'snow-container'
-  snowContainer.style.cssText = `
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 9999; overflow: hidden;
-  `
-  document.body.appendChild(snowContainer)
-  
-  // 눈송이 개수 생성
-  for (let i = 0; i < 70; i++) {
-    createFlake(gsap, snowContainer)
+  let width = window.innerWidth
+  let height = window.innerHeight
+  canvas.width = width
+  canvas.height = height
+
+  const flakes = createFlakes(width, height, 80)
+
+  const draw = () => {
+    ctx.clearRect(0, 0, width, height)
+    ctx.beginPath()
+    flakes.forEach(f => {
+      ctx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`
+      ctx.moveTo(f.x, f.y)
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2)
+    })
+    ctx.fill()
+    move()
+    animationId = requestAnimationFrame(draw)
   }
+
+  const move = () => {
+    flakes.forEach(f => {
+      f.y += f.speed
+      f.x += Math.sin(f.y / 50) * 0.5 // 지그재그 흔들림 효과
+      
+      if (f.y > height) {
+        f.y = -10
+        f.x = Math.random() * width
+      }
+    })
+  }
+
+  draw()
+
+  const handleResize = () => {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+  }
+  window.addEventListener('resize', handleResize)
 }
 
-// 4. 눈 제거 로직
-const clearSnow = () => {
-  const existingContainer = document.getElementById('snow-container')
-  if (existingContainer) {
-    existingContainer.remove()
-    snowContainer = null
-  }
-}
-
-// 마운트 시 실행
+// 레이아웃이 home일 때만 실행
 onMounted(() => {
-  // 약간의 지연을 주어 frontmatter 로드를 기다림
-  setTimeout(() => initSnow(), 100)
+  if (frontmatter.value.layout === 'home') {
+    initSnow()
+  }
 })
 
-// 경로 변경 감시
-watch(
-  () => route.path,
-  async () => {
-    await nextTick()
-    if (frontmatter.value.layout === 'home') {
-      initSnow()
-    } else {
-      clearSnow()
-    }
-  },
-  { immediate: true }
-)
+// 페이지 전환 시 애니메이션 중지/재개 감시
+watch(() => route.path, () => {
+  if (frontmatter.value.layout === 'home') {
+    if (!animationId) initSnow()
+  } else {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+})
 
-onUnmounted(() => clearSnow())
+onUnmounted(() => {
+  if (animationId) cancelAnimationFrame(animationId)
+})
 </script>
 
 <template>
-  </template>
+  <ClientOnly>
+    <canvas 
+      v-if="frontmatter.layout === 'home'"
+      ref="canvasRef" 
+      class="snow-canvas"
+    />
+  </ClientOnly>
+</template>
+
+<style scoped>
+.snow-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+}
+</style>
