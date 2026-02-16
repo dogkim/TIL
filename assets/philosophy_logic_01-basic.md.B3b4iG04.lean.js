@@ -1,1 +1,0 @@
-import{_ as e,o,c as t}from"./chunks/framework.CeMiJbT_.js";const d=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"philosophy/logic/01-basic.md","filePath":"philosophy/logic/01-basic.md"}'),a={name:"philosophy/logic/01-basic.md"};function s(c,i,r,p,n,l){return o(),t("div")}const h=e(a,[["render",s]]);export{d as __pageData,h as default};
