@@ -1,5 +1,5 @@
 import DefaultTheme from 'vitepress/theme'
-import Snow from './components/Snow.vue'
+import Snow from './components/Atmosphere.vue'
 import { h } from 'vue'
 
 export default {
