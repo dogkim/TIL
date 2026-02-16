@@ -35,6 +35,7 @@ const draw = (currentTime) => {
 
   if (!lastTime) lastTime = currentTime
   const deltaTime = (currentTime - lastTime) / 1000
+  if (deltaTime > 0.1) deltaTime = 0.1
   lastTime = currentTime
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
