@@ -5,7 +5,7 @@ export const initSnowFlakes = (count, width, height) => {
     y: Math.random() * -height,
     r: Math.random() * 2 + 1,
     speed: (Math.random() * 2 + 1) * 30, // 픽셀/초
-    opacity: Math.random() * 0.3 + 0.5,
+    opacity: Math.random() * 0.3 + 0.6,
     swing: Math.random() * 0.5 + 0.2,
     step: Math.random() * Math.PI * 2
   }))
