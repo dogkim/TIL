@@ -1,11 +1,18 @@
 import DefaultTheme from 'vitepress/theme'
-// 1. 컴포넌트 가져오기 (경로가 훨씬 깔끔해집니다)
-import Snow from './components/Snow.vue' 
+import Snow from './components/Snow.vue'
+import { h } from 'vue'
 
 export default {
   extends: DefaultTheme,
+  // Layout을 확장하여 전역적으로 Snow 컴포넌트를 삽입합니다.
+  Layout() {
+    return h(DefaultTheme.Layout, null, {
+      // 'layout-bottom' 슬롯을 사용하여 모든 페이지 최하단에 Snow를 배치합니다.
+      // Snow.vue 내부에 "메인화면일 때만 실행"하는 로직이 이미 있으므로 안전합니다.
+      'layout-bottom': () => h(Snow)
+    })
+  },
   enhanceApp({ app }) {
-    // 2. 'Snow'라는 이름으로 전역 등록
     app.component('Snow', Snow)
   }
 }
