@@ -34,7 +34,7 @@ const draw = (currentTime) => {
   const ctx = canvas.getContext('2d')
 
   if (!lastTime) lastTime = currentTime
-  const deltaTime = (currentTime - lastTime) / 1000
+  let deltaTime = (currentTime - lastTime) / 1000
   if (deltaTime > 0.1) deltaTime = 0.1
   lastTime = currentTime
 
