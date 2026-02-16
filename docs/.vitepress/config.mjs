@@ -1,42 +1,44 @@
-  import { defineConfig } from 'vitepress'
-  import { sidebarComputer } from './sidebar/computer'
-  import { sidebarPhilosophy } from './sidebar/philosophy'
+import { defineConfig } from 'vitepress'
+import { sidebarComputer } from './sidebar/computer'
+import { sidebarPhilosophy } from './sidebar/philosophy'
+import mathjax3 from 'markdown-it-mathjax3'
 
-  export default defineConfig({
-    lang: 'ko-KR',
-    title: 'Today I Learned',
-    base: '/TIL/',
+export default defineConfig({
+  lang: 'ko-KR',
+  title: 'Today I Learned',
+  base: '/TIL/',
 
-    head: [
-    ['link', {
-        rel: 'icon',
-        type: 'image/svg+xml',
-        href: '/TIL/favicon.svg'
-      }
-    ]
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/TIL/favicon.svg' }],
   ],
 
-    themeConfig: {
-      logo: {
-        light: '/logo-dark.png',
-        dark: '/logo-light.png'   
-      },
-      siteTitle: 'TIL..!',
+  markdown: {
+    config: (md) => {
+      md.use(mathjax3)
+    }
+  },
 
-      nav: [
-        {
-          text: 'Computer Engineering',
-          link: '/computer/',
-        },
-        {
-          text: 'Philosophy',
-          link: '/philosophy/',
-        },
-      ],
-
-      sidebar: {
-        '/computer/': sidebarComputer,
-        '/philosophy/': sidebarPhilosophy,
-      },
+  themeConfig: {
+    logo: {
+      light: '/logo-dark.png',
+      dark: '/logo-light.png'   
     },
-  })
+    siteTitle: 'TIL..!',
+
+    nav: [
+      {
+        text: 'Computer Engineering',
+        link: '/computer/',
+      },
+      {
+        text: 'Philosophy',
+        link: '/philosophy/',
+      },
+    ],
+
+    sidebar: {
+      '/computer/': sidebarComputer,
+      '/philosophy/': sidebarPhilosophy,
+    },
+  },
+})
