@@ -16,7 +16,7 @@ export const CSSList = addPath('CSS', [
 ])
 
 export const DataStructList = addPath('DataStructure', [
-  '01-Performance-Anlysis.md',
+  '01-Performance-Analysis.md',
   '02-Arrays-and-Structures.md',
   '03-Stacks-and-Queues.md',
   '05-Trees.md'
