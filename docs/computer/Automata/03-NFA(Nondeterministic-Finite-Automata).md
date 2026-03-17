@@ -15,11 +15,11 @@ $F \subseteq Q$ : 종료 상태의 집합, 입력이 끝났을 떄 이 상태에
 
 NFA에서 $\delta$ 는 power set $2^Q$로 나타나는데, 이는 몇가지 다른 움직임을 가능하게 한다.
 1. delta의 transition을 통해 set이 나올 수 있다.
-	 $\delta (q_1, a) = \{q_0,q_2\}$ 
+     $\delta (q_1, a) = \{q_0,q_2\}$ 
 2. input symbol을 consuming하지 않아도 transition이 가능하다
-	$\delta(q_0, \epsilon) = q_1$
+    $\delta(q_0, \epsilon) = q_1$
 3. NFA의 set $\delta(q_1,a)$이 비어있는 것이 가능하다. 즉, 특정한 상황에 대한 transition이 정의되어 있지 않아도 된다.
-	$\delta(q_1,a) = \emptyset$
+    $\delta(q_1,a) = \emptyset$
 
 ### Language of NFA
 **Definition**
@@ -30,9 +30,9 @@ DFA에서 state로 나온것과 다르게 NFA에서는 하나만 Final state와 
 
 ### Equivalence
 **Definition**:
-	Two finite autinmata $M_1$ and $M_2$ said to be **equivalent** if $L(M_1) = L(M_2)$
-	that is, they accept the same language.
-	동치면 동일한 언어를 사용
+    Two finite autinmata $M_1$ and $M_2$ said to be **equivalent** if $L(M_1) = L(M_2)$
+    that is, they accept the same language.
+    동치면 동일한 언어를 사용
 
 + + 어떤 NFA가 있으면 그것과 동치인 DFA가 존재한다
 
@@ -40,17 +40,17 @@ DFA에서 state로 나온것과 다르게 NFA에서는 하나만 Final state와 
 부분집합 구성법
 
 **목적**
-	NFA에서 동시에 존재할 수 있는 여러 상태들의 조합을 DFA의 하나의 상태로 간주하기 위해
+    NFA에서 동시에 존재할 수 있는 여러 상태들의 조합을 DFA의 하나의 상태로 간주하기 위해
 
 $Q_D = \{S\;|\;S\subseteq Q_N\}$
 DFA의 state는 NFA의 모든 개별 set을 하나의 state로 간주
 
 $F_D = \{ S \subseteq Q_N \mid S \cap F_N \neq \emptyset \}$
 종료 조건은 $Q_N$중에서 $F_N$과의 교집합이 emptyset이 아닌 $Q_N$
-	종료 state가 $Q_N$에 하나라도 포함
+    종료 state가 $Q_N$에 하나라도 포함
 
 NFA의 상태 개수가 $n$개일 경우, DFA의 상태 개수는 최대 $2^n$개까지 가능
-	$|Q_d| = 2^{|Q_N|}$
-	| * | = Cardinality
+    $|Q_d| = 2^{|Q_N|}$
+    | * | = Cardinality
 - NFA 상태: $\{A, B\}$
 - DFA 가능한 상태 조합: $\emptyset, \{A\}, \{B\}, \{A, B\}$

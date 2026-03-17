@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/computer/Automata/01-Central-Concepts-of-Automata-Theory.md",
+                "file": "docs/computer/Automata/04-Regular-Expression.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "01-Central-Concepts-of-Automata-Theory"
+              "title": "04-Regular-Expression"
             }
           }
         ]
@@ -185,20 +185,26 @@
   },
   "active": "05fd73ed7b858846",
   "lastOpenFiles": [
+    "docs/computer/Automata/03-NFA(Nondeterministic-Finite-Automata).md",
     "docs/computer/Automata/02-DFA(Deterministic-Finite-Automata).md",
-    "docs/computer/Automata/04-Regular-Expression.md",
     "docs/computer/Automata/01-Central-Concepts-of-Automata-Theory.md",
+    "docs/computer/CSS/text.md",
+    "docs/computer/CSS/01-CSS-Basics.md",
+    "docs/computer/DataStructure/01-Performance-Analysis.md",
+    "docs/computer/DataStructure/02-Arrays-Polynomial-FastTranspose.md",
+    "docs/computer/DataStructure/03-Stacks.md",
+    "docs/computer/DataStructure/03-Stacks-and-Queues.md",
     "docs/computer/DataStructure/05-Trees.md",
+    "docs/computer/DataStructure/자료구조 기말 준비.md",
+    "docs/computer/DataStructure/자료구조 필기.md",
+    "docs/computer/HTML/01-basic-structure.md",
+    "docs/computer/HTML/02-tags.md",
+    "docs/computer/Java/03-Classes-and-Objects.md",
+    "docs/computer/Automata/04-Regular-Expression.md",
     "docs/computer/무제.md",
     "docs/computer/Algorithm",
-    "docs/computer/DataStructure/02-Arrays-Polynomial-FastTranspose.md",
     "Pasted image 20260318000418.png",
-    "docs/computer/Automata/03-NFA(Nondeterministic-Finite-Automata).md",
-    "docs/computer/DataStructure/자료구조 필기.md",
-    "docs/computer/DataStructure/자료구조 기말 준비.md",
     "docs/computer/DataStructure/기말 벼락..md",
-    "docs/computer/DataStructure/03-Stacks-and-Queues.md",
-    "docs/computer/DataStructure/03-Stacks.md",
     "docs/computer/Automata/image/ExtendedTransitionFuntionEx.png",
     "docs/computer/Automata/image",
     "docs/clubActivities/MIRO/03-14.md",
