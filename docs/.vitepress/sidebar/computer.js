@@ -23,4 +23,12 @@ export const sidebarComputer = [
     text: 'DataStructure',
     items: toItems(computer.DataStructList),
   },
+  {
+    text: 'Java',
+    items: toItems(computer.JavaList),
+  },
+    {
+    text: 'Automata',
+    items: toItems(computer.AutomataList),
+  }
 ]
