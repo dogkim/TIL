@@ -13,6 +13,8 @@ export default defineConfig({
   ],
 
   markdown: {
+    lineNumbers: true, //코드 박스 줄 표시
+    breaks: true, //개행문자 enter변환 <\br>
     config: (md) => {
       md.use(mathjax3)
     }

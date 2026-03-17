@@ -1,14 +1,14 @@
 ## Deterministic Finite Automata
-**Definition** :  
-A deterministic finite automaton is quintuple (5-tuple)  
-DFA는 5개 튜플로 정의 된다  
+**Definition** :
+A deterministic finite automaton is quintuple (5-tuple)
+DFA는 5개 튜플로 정의 된다
 
-$M = (Q,\;\Sigma,\;\delta,\; q_0,\; F)$  
-- $Q$ (큐) : 상태의 유한한 집합  
-- $\Sigma$ (시그마) : 입력 가능한 심볼들의 유한한 집합  
-- $\delta$ (델타) : $Q * \Sigma \to Q$ : 전이 함수(집합에서 다른 집합으로의 대응) 표로 나타남.  
-- $q_0 \in Q$ : 시작 상태 (하나의 state), 기계가 가동될 때 가장 먼저 머무르는 지점  
-- $F \subseteq Q$ : 종료 상태의 집합, 입력이 끝났을 떄 이 상태에 도달해있어야 정상  
+$M = (Q,\;\Sigma,\;\delta,\; q_0,\; F)$
+- $Q$ (큐) : 상태의 유한한 집합
+- $\Sigma$ (시그마) : 입력 가능한 심볼들의 유한한 집합
+- $\delta$ (델타) : $Q * \Sigma \to Q$ : 전이 함수(집합에서 다른 집합으로의 대응) 표로 나타남.
+- $q_0 \in Q$ : 시작 상태 (하나의 state), 기계가 가동될 때 가장 먼저 머무르는 지점
+- $F \subseteq Q$ : 종료 상태의 집합, 입력이 끝났을 떄 이 상태에 도달해있어야 정상
 
 ### Extended Transition Function
 **Definition** :
