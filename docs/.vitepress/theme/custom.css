@@ -1,0 +1,9 @@
+:root {
+  tab-size: 4; /* 탭 하나를 공백 4칸 너비로 설정 */
+  -moz-tab-size: 4;
+}
+
+/* 본문 영역에서 탭 문자가 유지되도록 설정 */
+.vp-doc p, .vp-doc li {
+  white-space: pre-wrap; 
+}

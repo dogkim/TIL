@@ -27,10 +27,14 @@ $S = S_1 * S_2 = \{(x,y) \mid x \in S_1,y \in S_2\}$
 
 ### Function
 **domain:** 정의역
+
 **codomain:** 공역
+
 **range:** 치역
+
 **one to one:**
 	domain에서 codomain으로 가는 것 중에 겹치는게 없음
+	
 **onto:** 
 	codomain에 선택 받지 못한게 없음
 
