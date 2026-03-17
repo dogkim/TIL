@@ -26,7 +26,7 @@ export const JavaList = addPath('DataStructure', [
 
 ])
 
-export const AutomataList = addPath('DataStructure', [
+export const AutomataList = addPath('Automata', [
   '01-Central-Concepts-of-Automata-Theory.md',
   '02-DFA(Deterministic-Finite-Automata).md',
   '03-NFA(Nondeterministic-Finite-Automata).md',

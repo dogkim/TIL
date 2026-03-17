@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/computer/DataStructure/02-Arrays-Polynomial-FastTranspose.md",
+                "file": "docs/computer/Automata/01-Central-Concepts-of-Automata-Theory.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "02-Arrays-Polynomial-FastTranspose"
+              "title": "01-Central-Concepts-of-Automata-Theory"
             }
           }
         ]
@@ -185,6 +185,10 @@
   },
   "active": "05fd73ed7b858846",
   "lastOpenFiles": [
+    "docs/computer/DataStructure/05-Trees.md",
+    "docs/computer/무제.md",
+    "docs/computer/Algorithm",
+    "docs/computer/DataStructure/02-Arrays-Polynomial-FastTranspose.md",
     "docs/computer/Automata/01-Central-Concepts-of-Automata-Theory.md",
     "Pasted image 20260318000418.png",
     "docs/computer/Automata/02-DFA(Deterministic-Finite-Automata).md",
@@ -193,10 +197,8 @@
     "docs/computer/DataStructure/자료구조 필기.md",
     "docs/computer/DataStructure/자료구조 기말 준비.md",
     "docs/computer/DataStructure/기말 벼락..md",
-    "docs/computer/DataStructure/05-Trees.md",
     "docs/computer/DataStructure/03-Stacks-and-Queues.md",
     "docs/computer/DataStructure/03-Stacks.md",
-    "docs/computer/DataStructure/02-Arrays-Polynomial-FastTranspose.md",
     "docs/computer/Automata/image/ExtendedTransitionFuntionEx.png",
     "docs/computer/Automata/image",
     "docs/clubActivities/MIRO/03-14.md",
