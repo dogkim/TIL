@@ -1,0 +1,18 @@
+/* :root {
+  /* 탭 크기를 4칸으로 강제 고정 */
+  tab-size: 4;
+  -moz-tab-size: 4;
+}
+
+/* 본문의 모든 문단과 리스트 항목에서 공백/탭 보존 */
+.vp-doc p, 
+.vp-doc li, 
+.vp-doc span:not(.mjx-chtml) { 
+  white-space: pre-wrap !important;
+}
+
+/* 수식($) 주변에서 공백이 사라지는 것을 방지 */
+.vp-doc .mjx-container {
+  display: inline-block !important;
+  margin-left: 0 !important;
+} */

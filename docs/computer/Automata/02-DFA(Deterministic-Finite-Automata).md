@@ -22,11 +22,11 @@ $\delta^*(q_0,ab) =q_2$이다
 다음의 Transition Graph를 통해 String w = abba에 대하여 $\delta^*(q_0,w)$를 계산하고 String $w$
 가 accept되는지 판단해라
 ![[ExtendedTransitionFuntionEx.png]]
-	$\delta^*(q_0,abba)$
-	= $\delta^*\;(\delta(q_0,b),bba) = \delta^*\;(q_0,bba)$
-	= $\delta^*\; (\delta(q_0,b),ba) = \delta^*\;(q_1,ba)$
-	= $\delta^*\;(\delta(q_1,b),a) = \delta^*\;(q_2,a)$
-	=$\delta^*(q_2,a) = \delta(\delta^*(q_2,\epsilon),a) = \delta(q_2,a) = q_2$
+    $\delta^*(q_0,abba)$
+    = $\delta^*\;(\delta(q_0,b),bba) = \delta^*\;(q_0,bba)$
+    = $\delta^*\; (\delta(q_0,b),ba) = \delta^*\;(q_1,ba)$
+    = $\delta^*\;(\delta(q_1,b),a) = \delta^*\;(q_2,a)$
+    =$\delta^*(q_2,a) = \delta(\delta^*(q_2,\epsilon),a) = \delta(q_2,a) = q_2$
 
 ### Language of DFA
 **Definition**
@@ -38,5 +38,5 @@ A language $L$ is called regular if an only if there exits a DFA $M$ such that
 $L = L(M)$
 
 Regualr language $<=>$ DFA
-	어떤 Language를 accept할 수 있는 Automata를 만들 수 있으면 그 Language는 Regular Language이다
+    어떤 Language를 accept할 수 있는 Automata를 만들 수 있으면 그 Language는 Regular Language이다
 

@@ -1,7 +1,7 @@
 import DefaultTheme from 'vitepress/theme'
 import Snow from './components/Atmosphere.vue'
 import { h } from 'vue'
-import './custom.css'
+// import './custom.css'
 
 export default {
   extends: DefaultTheme,
