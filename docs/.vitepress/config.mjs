@@ -10,6 +10,7 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/TIL/favicon.svg' }],
+    ['link', { rel: 'stylesheet', href: '/TIL/theme/custom.css' }]
   ],
 
   markdown: {
