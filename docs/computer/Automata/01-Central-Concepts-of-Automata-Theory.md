@@ -1,4 +1,4 @@
-## Set
+# Set
 **subset : 부분 집합**
 $A \subseteq B$
 A의 모든 원소가 B에 포함
@@ -26,11 +26,15 @@ $2^S = \{\emptyset,\{a\},\{b\},\{a,b\}\}$
 $S = S_1 * S_2 = \{(x,y) \mid x \in S_1,y \in S_2\}$
 
 ## Function
-domain, codomain, 
-one to one(domain에서 codomain으로 가는 것 중에 겹치는게 없음), 
-onto(codomain에 선택 받지 못한게 없음)
+**domain:** 정의역
+**codomain:** 공역
+**range:** 치역
+**one to one:**
+	domain에서 codomain으로 가는 것 중에 겹치는게 없음
+**onto:** 
+	codomain에 선택 받지 못한게 없음
 
-## Central Concepts of Automata Theory
+# Central Concepts of Automata Theory
 
 **Alphabet:** 
 	A finite nonempty set $\Sigma$ of symbols
@@ -54,11 +58,10 @@ ___
 **Powers of an alphabet**: $\Sigma^k$ 
 	The set of strings of length $k$, each of whose symbols is in $\Sigma$.
 	알파벳 $\Sigma$ 에서 길이가 $k$인 Strings의 집합
-	Ex)
-	$\Sigma = \{0,1\}$
-		$\Sigma^1 = \{0,1\}$
-		$\Sigma^2 = \{00,01,10,11\}$
-		$\Sigma^0 = \{\epsilon\}$
+	Ex) $\Sigma = \{0,1\}$ 인 경우
+	$\Sigma^1 = \{0,1\}$
+	$\Sigma^2 = \{00,01,10,11\}$
+	$\Sigma^0 = \{\epsilon\}$
 ---
 **Kleene Star**: $\Sigma^*$
 	the set of all strings over $\Sigma$

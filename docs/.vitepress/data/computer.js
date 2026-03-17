@@ -22,7 +22,7 @@ export const DataStructList = addPath('DataStructure', [
   '05-Trees.md'
 ])
 
-export const JavaList = addPath('DataStructure', [
+export const JavaList = addPath('Java', [
 
 ])
 
