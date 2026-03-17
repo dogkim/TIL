@@ -1,0 +1,4 @@
+/* 문단(p)이나 리스트(li)에서 내가 넣은 스페이스(공백)를 그대로 보여주기 위해 남김 */
+.vp-doc p, .vp-doc li {
+  white-space: pre-wrap;
+}
