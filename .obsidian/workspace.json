@@ -1,24 +1,24 @@
 {
   "main": {
-    "id": "b6614d8b353e5fe7",
+    "id": "bbf1941e8988f9ce",
     "type": "split",
     "children": [
       {
-        "id": "a915f4ff2d9c5737",
+        "id": "063a4ea43e567dc4",
         "type": "tabs",
         "children": [
           {
-            "id": "30e58d61129fc14c",
+            "id": "05fd73ed7b858846",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/computer/DataStructure/01-Performance-Analysis.md",
+                "file": "docs/computer/DataStructure/02-Arrays-Polynomial-FastTranspose.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "01-Performance-Analysis"
+              "title": "02-Arrays-Polynomial-FastTranspose"
             }
           }
         ]
@@ -27,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "47475e09cf4fee80",
+    "id": "9c13e34c6bcfd802",
     "type": "split",
     "children": [
       {
-        "id": "5d3173299f231a27",
+        "id": "2f2e8a64cb4e9b98",
         "type": "tabs",
         "children": [
           {
-            "id": "83d91cd3dc56e79f",
+            "id": "2ab94124324eca9f",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -48,7 +48,7 @@
             }
           },
           {
-            "id": "2c56bb6175589b5a",
+            "id": "c681f34344e869d8",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -65,7 +65,7 @@
             }
           },
           {
-            "id": "20a9058c2b05ea63",
+            "id": "d012007d051fa569",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -81,20 +81,20 @@
     "width": 200
   },
   "right": {
-    "id": "30c9241738b61891",
+    "id": "b83e86c1ad8126bc",
     "type": "split",
     "children": [
       {
-        "id": "c8f6a272f67b276b",
+        "id": "f47a2191c98ca1bf",
         "type": "tabs",
         "children": [
           {
-            "id": "32e3d291a36a108a",
+            "id": "6fe98fb678d7081b",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "documents/DataStructure/02-Arrays.md",
+                "file": "docs/philosophy/philosophical_counseling/Philosophical_Counseling.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,25 +104,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "02-Arrays 의 백링크"
+              "title": "Philosophical_Counseling 의 백링크"
             }
           },
           {
-            "id": "40954abd1206713b",
+            "id": "6796b83616990ca4",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "documents/DataStructure/02-Arrays.md",
+                "file": "docs/philosophy/philosophical_counseling/Philosophical_Counseling.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "02-Arrays 의 나가는 링크"
+              "title": "Philosophical_Counseling 의 나가는 링크"
             }
           },
           {
-            "id": "8b8f77537bd831c5",
+            "id": "72d2a65f3c5bb379",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -137,7 +137,7 @@
             }
           },
           {
-            "id": "23fbc82cb4c8d344",
+            "id": "428ce66155023390",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -151,18 +151,18 @@
             }
           },
           {
-            "id": "ac092ed695143d22",
+            "id": "cb18f3c89e7e086d",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "documents/DataStructure/02-Arrays.md",
+                "file": "docs/philosophy/philosophical_counseling/Philosophical_Counseling.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "02-Arrays 의 개요"
+              "title": "Philosophical_Counseling 의 개요"
             }
           }
         ]
@@ -183,23 +183,25 @@
       "bases:새 베이스 생성하기": false
     }
   },
-  "active": "30e58d61129fc14c",
+  "active": "05fd73ed7b858846",
   "lastOpenFiles": [
-    "docs/computer/DataStructure/03-Stacks-and-Queues.md",
-    "docs/computer/DataStructure/02-Arrays-and-Structures.md",
-    "docs/public/favi-logo.svg",
-    "docs/public/logo-light.png",
-    "docs/public/logo-dark.png",
-    "docs/public/logo.png",
-    "docs/public",
-    "snow.js",
-    "snow.py",
+    "docs/computer/Automata/01-Central-Concepts-of-Automata-Theory.md",
+    "Pasted image 20260318000418.png",
+    "docs/computer/Automata/02-DFA(Deterministic-Finite-Automata).md",
+    "docs/computer/Automata/03-NFA(Nondeterministic-Finite-Automata).md",
+    "docs/computer/Automata/04-Regular-Expression.md",
+    "docs/computer/DataStructure/자료구조 필기.md",
+    "docs/computer/DataStructure/자료구조 기말 준비.md",
+    "docs/computer/DataStructure/기말 벼락..md",
     "docs/computer/DataStructure/05-Trees.md",
-    "docs/computer/DataStructure/01-Performance-Analysis.md",
-    "docs/computer/CSS/01-CSS-Basics.md",
-    "documents/DataStructure/01-Performance-Anlysis.md",
-    "documents/HTML/02-tags.md",
-    "documents/HTML/01-basic-structure.md",
-    "documents/CSS/1. CSS 문법 살펴보기.md"
+    "docs/computer/DataStructure/03-Stacks-and-Queues.md",
+    "docs/computer/DataStructure/03-Stacks.md",
+    "docs/computer/DataStructure/02-Arrays-Polynomial-FastTranspose.md",
+    "docs/computer/Automata/image/ExtendedTransitionFuntionEx.png",
+    "docs/computer/Automata/image",
+    "docs/clubActivities/MIRO/03-14.md",
+    "docs/clubActivities/MIRO",
+    "docs/philosophy/philosophical_counseling/Philosophical_Counseling.md",
+    "docs/clubActivities"
   ]
 }

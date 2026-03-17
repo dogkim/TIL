@@ -17,7 +17,18 @@ export const CSSList = addPath('CSS', [
 
 export const DataStructList = addPath('DataStructure', [
   '01-Performance-Analysis.md',
-  '02-Arrays-and-Structures.md',
+  '02-Arrays-Polynomial-FastTranspose.md',
   '03-Stacks-and-Queues.md',
   '05-Trees.md'
+])
+
+export const JavaList = addPath('DataStructure', [
+
+])
+
+export const AutomataList = addPath('DataStructure', [
+  '01-Central-Concepts-of-Automata-Theory.md',
+  '02-DFA(Deterministic-Finite-Automata).md',
+  '03-NFA(Nondeterministic-Finite-Automata).md',
+  '04-Regular-Expression.md'
 ])
