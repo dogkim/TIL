@@ -62,7 +62,7 @@ ___
 	$\Sigma^1 = \{0,1\}$
 	$\Sigma^2 = \{00,01,10,11\}$
 	$\Sigma^0 = \{\epsilon\}$
----
+___
 **Kleene Star**: $\Sigma^*$
 	the set of all strings over $\Sigma$
 	알파벳에서 만들 수 있는 모든 String의 set
