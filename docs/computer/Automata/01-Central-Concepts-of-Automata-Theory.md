@@ -1,7 +1,7 @@
-# Set
-**subset : 부분 집합**
-$A \subseteq B$
-A의 모든 원소가 B에 포함
+## Set
+**subset : 부분 집합**  
+$A \subseteq B$  
+A의 모든 원소가 B에 포함  
 
 **proper subset : 진 부분 집합**
 $A \subset B$
@@ -25,7 +25,7 @@ $2^S = \{\emptyset,\{a\},\{b\},\{a,b\}\}$
 **Cartesian product : 데카르트 곱**
 $S = S_1 * S_2 = \{(x,y) \mid x \in S_1,y \in S_2\}$
 
-## Function
+### Function
 **domain:** 정의역
 **codomain:** 공역
 **range:** 치역
@@ -34,7 +34,7 @@ $S = S_1 * S_2 = \{(x,y) \mid x \in S_1,y \in S_2\}$
 **onto:** 
 	codomain에 선택 받지 못한게 없음
 
-# Central Concepts of Automata Theory
+## Central Concepts of Automata Theory
 
 **Alphabet:** 
 	A finite nonempty set $\Sigma$ of symbols
