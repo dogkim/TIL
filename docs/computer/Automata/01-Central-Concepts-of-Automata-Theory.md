@@ -1,7 +1,7 @@
 ## Set
-**subset : 부분 집합**  
-$A \subseteq B$  
-A의 모든 원소가 B에 포함  
+**subset : 부분 집합**
+$A \subseteq B$
+A의 모든 원소가 B에 포함
 
 **proper subset : 진 부분 집합**
 $A \subset B$
