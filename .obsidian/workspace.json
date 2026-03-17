@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/computer/Automata/02-DFA(Deterministic-Finite-Automata).md",
+                "file": "docs/computer/Automata/01-Central-Concepts-of-Automata-Theory.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "02-DFA(Deterministic-Finite-Automata)"
+              "title": "01-Central-Concepts-of-Automata-Theory"
             }
           }
         ]
@@ -185,6 +185,7 @@
   },
   "active": "05fd73ed7b858846",
   "lastOpenFiles": [
+    "docs/computer/Automata/02-DFA(Deterministic-Finite-Automata).md",
     "docs/computer/Automata/04-Regular-Expression.md",
     "docs/computer/Automata/01-Central-Concepts-of-Automata-Theory.md",
     "docs/computer/DataStructure/05-Trees.md",
@@ -192,7 +193,6 @@
     "docs/computer/Algorithm",
     "docs/computer/DataStructure/02-Arrays-Polynomial-FastTranspose.md",
     "Pasted image 20260318000418.png",
-    "docs/computer/Automata/02-DFA(Deterministic-Finite-Automata).md",
     "docs/computer/Automata/03-NFA(Nondeterministic-Finite-Automata).md",
     "docs/computer/DataStructure/자료구조 필기.md",
     "docs/computer/DataStructure/자료구조 기말 준비.md",
