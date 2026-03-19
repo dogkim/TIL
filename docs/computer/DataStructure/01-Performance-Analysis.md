@@ -26,8 +26,8 @@ double duration = (double)(stop - start) / CLOCKS_PER_SEC;
 3. 실험에 사용하지 않은 데이터들에 대해 다른 결과가 나올 수 있음
 
 **Performance analysis(성능 분석)** 
-       **연역적 평가(A Priori)** : 프로그램을 실제 실행하지 않고 알고리즘의 논리적 단계를 통해 복잡도를 계산
-    **점근적 분석 (Asymptotic Analysis)**: 데이터의 크기 $n$이 무한대로 커질 때의 증가율을 분석합니다. ($O, \Omega, \Theta$ 표기법 사용)
+- **연역적 평가(A Priori)** : 프로그램을 실제 실행하지 않고 알고리즘의 논리적 단계를 통해 복잡도를 계산
+- **점근적 분석 (Asymptotic Analysis)**: 데이터의 크기 $n$이 무한대로 커질 때의 증가율을 분석합니다. ($O, \Omega, \Theta$ 표기법 사용)
 ### 3.1 점근적 표기법 (Asymptotic Notation)
 데이터가 무한히 많아질 때($n \to \infty$) 상항선이나 하한선을 표현하는 방식
 
@@ -90,6 +90,7 @@ $n$의 값과 관계 없이 $f(n)$ = 4
     => $\Omega(1)$
 
 **Big-$\Theta$ :** 입력 데이터의 상태에 따라 실행 시간의 차이가 극명하므로 전체 성능을 하나의 $\Theta$로 정의할 수 없음
+___
 ## 4. Space Complexity (공간 복잡도)
 고정적 부분과 가변적 부분의 합으로 구성
 
@@ -134,7 +135,7 @@ n에 대해서 n ~ 0 까지 $n+1$번 호출
 
 최악의 경우
 $S_{rsum}(MAX\_SIZE) = 12 \times (MAX\_SIZE + 1)$
-
+___
 ## 5. Time Complexity (시간복잡도) 예시
 입력 데이터의 크기($n$)에 따라 알고리즘이 수행하는 연산횟수를 분석
 
