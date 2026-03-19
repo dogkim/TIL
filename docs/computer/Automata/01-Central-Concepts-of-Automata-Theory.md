@@ -33,10 +33,10 @@ $S = S_1 * S_2 = \{(x,y) \mid x \in S_1,y \in S_2\}$
 **range:** 치역
 
 **one to one:**
-    domain에서 codomain으로 가는 것 중에 겹치는게 없음
+- domain에서 codomain으로 가는 것 중에 겹치는게 없음
     
 **onto:** 
-    codomain에 선택 받지 못한게 없음
+- codomain에 선택 받지 못한게 없음
 
 ## Central Concepts of Automata Theory
 
@@ -75,24 +75,22 @@ ___
     $\Sigma^*$에서 $\epsilon$만 제외한 집합
 ___
 **Language**:
-    $\Sigma^*$중에서 특정 규칙을 만족하는 문자열들만 따로 모은 부분집합
+    $\Sigma^*$중에서 특정 규칙을 만족하는 문자열들만 따로 모은 부분집합 (set)
     $L \subseteq \Sigma^*$
 ___
 **Concatenation**: 연쇄
     $w = a_1a_2 \dots a_n$
     $v = b_1b_2 \dots b_m$ 인 경우
-    
     $wv = a_1a_2 \dots a_nb_1b_2 \dots b_m$
     그냥 $w$ 뒤에 $v$를 적어
 ___
 **Powers of a String**: $w^n$ 
-    string $w$를 n번 적어
+    String $w$를 n번 적음
     $w = ab$ 일 때, $w^3 = ababab$
     어떤 문자열이든 0번 반복하면 빈 문자열($\epsilon$)
     $w^0 = \epsilon$
 ___
 **Empty Language**: $\emptyset$
 A language over any alphabet
-어떤 알파벳도 없는 language
-$\epsilon$과는 다름.
-$\epsilon$만으로 구성된 set도 language가 될 수 있음 != $\emptyset$
+어떤 알파벳도 없는 language ( = empty set )
+$\epsilon$만으로 구성된 set도 language가 될 수 있다. ( $\epsilon \neq \emptyset$ )
