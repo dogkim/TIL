@@ -12,11 +12,8 @@ export const sidebarPhilosophy = [
     items: [{ text: 'Home', link: '/philosophy/' }],
   },
   {
-    text: 'Logic',
-    items: toItems(philosophy.logicList),
-  },
-  {
-    text: 'NI',
-    items: toItems(philosophy.niList),
-  },
+    text: 'Phenomenology',
+    items: toItems(philosophy.PhenomenologyList),
+  }
+
 ]

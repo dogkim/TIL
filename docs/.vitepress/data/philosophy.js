@@ -5,8 +5,6 @@ const addPath = (subFolder, files) =>
 
 export const HOME = ['/philosophy/']
 
-export const logicList = addPath('logic', [
-  '01-basic.md',
+export const PhenomenologyList = addPath('Phenomenology', [
+  '01-Introduction.md',
 ])
-
-export const niList = addPath('ni', [])

@@ -32,3 +32,8 @@ export const AutomataList = addPath('Automata', [
   '03-NFA(Nondeterministic-Finite-Automata).md',
   '04-Regular-Expression.md'
 ])
+
+export const AlgorithmList = addPath('Algorithm', [
+  '01-Correctness-loop-invariant.md',
+  '02-Asymptotic-Analysis.md'
+])
