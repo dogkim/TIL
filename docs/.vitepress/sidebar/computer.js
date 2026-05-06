@@ -30,5 +30,10 @@ export const sidebarComputer = [
     {
     text: 'Automata',
     items: toItems(computer.AutomataList),
+  },
+  {
+    text: 'Algorithm',
+    items: toItems(computer.AlgorithmList),
   }
+
 ]
