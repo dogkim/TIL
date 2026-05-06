@@ -1,1 +1,0 @@
-import{_ as t,o as e,c as r}from"./chunks/framework.BrEqZt6s.js";const d=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"computer/Algorithm/무제.md","filePath":"computer/Algorithm/무제.md"}'),o={name:"computer/Algorithm/무제.md"};function a(c,s,m,n,p,i){return e(),r("div")}const l=t(o,[["render",a]]);export{d as __pageData,l as default};
