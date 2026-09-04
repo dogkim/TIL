@@ -5,6 +5,7 @@ import SidebarNode from './SidebarNode.vue'
 import HomeContent from './HomeContent.vue'
 import CommandPalette from './CommandPalette.vue'
 import Snow from './Atmosphere.vue'
+import SiteIcon from './SiteIcon.vue'
 
 const { isDark, theme, page } = useData()
 const data = theme.value.homeData
@@ -39,7 +40,9 @@ function onKeydown(e) {
   <div class="home-shell" tabindex="0" @keydown="onKeydown">
     <header class="home-header">
       <div class="home-header-left">
-        <span class="home-name">김도균</span>
+        <a :href="withBase('/')" class="home-icon" aria-label="홈으로">
+          <SiteIcon />
+        </a>
         <span class="home-brand">til.vault</span>
       </div>
       <nav class="home-nav">
@@ -110,18 +113,23 @@ function onKeydown(e) {
   height: 57px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0 32px;
   border-bottom: 1px solid var(--home-hairline);
   background: var(--home-bg);
 }
 .home-header-left {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
 }
-.home-name {
-  font-weight: 600;
+.home-icon {
+  display: flex;
+  align-items: center;
+  color: var(--home-text);
+}
+.home-icon svg {
+  width: 26px;
+  height: 26px;
 }
 .home-brand {
   font-family: 'JetBrains Mono', monospace;
@@ -131,6 +139,7 @@ function onKeydown(e) {
 .home-nav {
   display: flex;
   gap: 28px;
+  margin-left: 56px;
 }
 .home-nav a {
   color: var(--home-muted);
@@ -143,6 +152,7 @@ function onKeydown(e) {
 .home-header-right {
   display: flex;
   align-items: center;
+  margin-left: auto;
   gap: 10px;
 }
 .home-search-btn {
