@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as a}from"./chunks/framework.DzGOF12C.js";const m=JSON.parse('{"title":"TIL","description":"","frontmatter":{"title":"TIL"},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),n={name:"index.md"};function r(o,s,c,i,d,p){return t(),a("div")}const f=e(n,[["render",r]]);export{m as __pageData,f as default};
