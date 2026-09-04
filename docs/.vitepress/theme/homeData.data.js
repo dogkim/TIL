@@ -1,0 +1,125 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const docsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+
+const isHidden = (name) => name === 'assets' || name.startsWith('_') || name === 'index.md'
+
+const titleFromFilename = (name) =>
+  name.replace(/\.md$/, '').replace(/^\d+[-.\s]*/, '')
+
+function listEntries(dirAbs, excludeDirs = []) {
+  if (!fs.existsSync(dirAbs)) return []
+  return fs.readdirSync(dirAbs, { withFileTypes: true })
+    .filter(e => !isHidden(e.name))
+    .filter(e => !(e.isDirectory() && excludeDirs.includes(e.name)))
+}
+
+// group의 바로 아래 항목만 (홈 사이드바 트리용) — 폴더면 폴더 자체를, 파일이면 파일을 항목으로
+function topLevelItems(dirAbs, urlPrefix, excludeDirs = []) {
+  return listEntries(dirAbs, excludeDirs).map(e => {
+    if (e.isDirectory()) {
+      return { title: e.name, link: `${urlPrefix}/${e.name}/` }
+    }
+    return { title: titleFromFilename(e.name), link: `${urlPrefix}/${e.name.replace(/\.md$/, '')}` }
+  })
+}
+
+// 재귀적으로 모든 .md 문서를 수집 (검색 팔레트 / 최근 노트 / 개수 집계용)
+function collectDocs(dirAbs, urlPrefix, group, excludeDirs = [], acc = []) {
+  for (const e of listEntries(dirAbs, excludeDirs)) {
+    const full = path.join(dirAbs, e.name)
+    if (e.isDirectory()) {
+      collectDocs(full, `${urlPrefix}/${e.name}`, group, [], acc)
+    } else if (e.name.endsWith('.md')) {
+      const stat = fs.statSync(full)
+      acc.push({
+        title: titleFromFilename(e.name),
+        link: `${urlPrefix}/${e.name.replace(/\.md$/, '')}`,
+        group,
+        mtimeMs: stat.mtimeMs,
+      })
+    }
+  }
+  return acc
+}
+
+export default {
+  watch: ['../**/*.md'],
+  load() {
+    const computerDir = path.join(docsRoot, 'computer')
+    const projectDir = path.join(computerDir, 'project')
+    const philosophyDir = path.join(docsRoot, 'philosophy')
+    const recordDirs = [
+      { name: 'TOEIC', abs: path.join(docsRoot, 'TOEIC'), url: '/TOEIC' },
+      { name: 'Certifications', abs: path.join(docsRoot, 'Certifications'), url: '/Certifications' },
+      { name: 'External-Activities', abs: path.join(docsRoot, 'External-Activities'), url: '/External-Activities' },
+      { name: 'club', abs: path.join(docsRoot, 'club'), url: '/club' },
+    ]
+
+    const groups = [
+      {
+        key: 'projects',
+        label: 'Projects',
+        items: topLevelItems(projectDir, '/computer/project'),
+        docs: collectDocs(projectDir, '/computer/project', 'Projects'),
+      },
+      {
+        key: 'cs',
+        label: 'Computer Science',
+        items: topLevelItems(computerDir, '/computer', ['project']),
+        docs: collectDocs(computerDir, '/computer', 'Computer Science', ['project']),
+      },
+      {
+        key: 'philosophy',
+        label: 'Philosophy',
+        items: topLevelItems(philosophyDir, '/philosophy'),
+        docs: collectDocs(philosophyDir, '/philosophy', 'Philosophy'),
+      },
+      {
+        key: 'records',
+        label: 'Records',
+        items: recordDirs.map(r => ({ title: r.name, link: `${r.url}/` })),
+        docs: recordDirs.flatMap(r => collectDocs(r.abs, r.url, 'Records')),
+      },
+    ].map(g => ({
+      key: g.key,
+      label: g.label,
+      count: g.docs.length,
+      items: g.items,
+    }))
+
+    const everyDoc = [
+      ...collectDocs(projectDir, '/computer/project', 'Projects'),
+      ...collectDocs(computerDir, '/computer', 'Computer Science', ['project']),
+      ...collectDocs(philosophyDir, '/philosophy', 'Philosophy'),
+      ...recordDirs.flatMap(r => collectDocs(r.abs, r.url, 'Records')),
+    ]
+
+    const recentNotes = [...everyDoc]
+      .sort((a, b) => b.mtimeMs - a.mtimeMs)
+      .slice(0, 6)
+      .map(d => ({
+        title: d.title,
+        link: d.link,
+        group: d.group,
+        date: new Date(d.mtimeMs).toISOString().slice(0, 10),
+      }))
+
+    const lastUpdatedMs = everyDoc.reduce((max, d) => Math.max(max, d.mtimeMs), 0)
+
+    const projectCount = topLevelItems(projectDir, '/computer/project').length
+
+    return {
+      groups,
+      searchIndex: everyDoc.map(d => ({ title: d.title, link: d.link, group: d.group })),
+      recentNotes,
+      stats: {
+        noteCount: everyDoc.length,
+        projectCount,
+        lastUpdated: lastUpdatedMs ? new Date(lastUpdatedMs).toISOString().slice(0, 10) : '-',
+      },
+    }
+  },
+}

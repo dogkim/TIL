@@ -1,6 +1,8 @@
 {
-  "theme": "system",
+  "theme": "obsidian",
   "enabledCssSnippets": [
     "page-break"
-  ]
+  ],
+  "cssTheme": "Minimal",
+  "accentColor": "#ffffff"
 }
