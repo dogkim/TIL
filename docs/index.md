@@ -1,4 +1,5 @@
 ---
 title: TIL
+layout: home
 ---
 

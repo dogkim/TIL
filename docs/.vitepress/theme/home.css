@@ -14,13 +14,38 @@
 }
 
 html.dark {
-  --home-bg: oklch(0.192 0.013 265);
-  --home-panel: oklch(0.232 0.015 265);
+  --home-bg: oklch(0.22 0.045 265);
+  --home-panel: oklch(0.27 0.05 265);
   --home-text: oklch(0.935 0.008 265);
-  --home-muted: oklch(0.68 0.012 265);
-  --home-faint: oklch(0.56 0.012 265);
-  --home-line: oklch(0.315 0.014 265);
-  --home-hairline: oklch(0.272 0.014 265);
+  --home-muted: oklch(0.7 0.025 265);
+  --home-faint: oklch(0.58 0.025 265);
+  --home-line: oklch(0.36 0.05 265);
+  --home-hairline: oklch(0.32 0.045 265);
   --home-accent: oklch(0.745 0.13 275);
-  --home-accent-soft: oklch(0.3 0.045 272);
+  --home-accent-soft: oklch(0.34 0.065 272);
+}
+
+/* 개별 문서 페이지도 홈페이지와 같은 팔레트/폰트를 쓰도록 VitePress 기본 테마 변수를 덮어씀 */
+:root {
+  --vp-c-bg: var(--home-bg);
+  --vp-c-bg-alt: var(--home-panel);
+  --vp-c-bg-soft: var(--home-panel);
+  --vp-c-bg-elv: var(--home-panel);
+  --vp-c-text-1: var(--home-text);
+  --vp-c-text-2: var(--home-muted);
+  --vp-c-text-3: var(--home-faint);
+  --vp-c-border: var(--home-line);
+  --vp-c-divider: var(--home-hairline);
+  --vp-c-gutter: var(--home-hairline);
+  --vp-c-brand-1: var(--home-accent);
+  --vp-c-brand-2: var(--home-accent);
+  --vp-c-brand-3: var(--home-accent);
+  --vp-c-brand-soft: var(--home-accent-soft);
+  --vp-font-family-base: 'Pretendard Variable', Pretendard, system-ui, sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  background: var(--home-bg);
+  font-family: var(--vp-font-family-base);
 }

@@ -27,7 +27,7 @@ function firstDocIn(dirAbs, urlPrefix) {
   return null
 }
 
-// group의 바로 아래 항목만 (홈 사이드바 트리용) — 폴더면 폴더 안 첫 문서로, 파일이면 그 파일로 링크
+// group의 바로 아래 항목만 (프로젝트 카드 등에서 사용) — 폴더면 폴더 안 첫 문서로, 파일이면 그 파일로 링크
 function topLevelItems(dirAbs, urlPrefix, excludeDirs = []) {
   return listEntries(dirAbs, excludeDirs).map(e => {
     if (e.isDirectory()) {
@@ -36,6 +36,22 @@ function topLevelItems(dirAbs, urlPrefix, excludeDirs = []) {
     }
     return { title: titleFromFilename(e.name), link: `${urlPrefix}/${e.name.replace(/\.md$/, '')}` }
   })
+}
+
+// 사이드바 전체 트리(재귀) — 폴더는 children을 갖고, 자기 자신도 폴더 안 첫 문서로 링크됨
+function buildTree(dirAbs, urlPrefix, excludeDirs = []) {
+  return listEntries(dirAbs, excludeDirs)
+    .sort((a, b) => a.name.localeCompare(b.name, 'en', { numeric: true }))
+    .map(e => {
+      if (e.isDirectory()) {
+        const childDir = path.join(dirAbs, e.name)
+        const childPrefix = `${urlPrefix}/${e.name}`
+        const children = buildTree(childDir, childPrefix)
+        const link = firstDocIn(childDir, childPrefix)
+        return { title: e.name, link, children }
+      }
+      return { title: titleFromFilename(e.name), link: `${urlPrefix}/${e.name.replace(/\.md$/, '')}` }
+    })
 }
 
 // 재귀적으로 모든 .md 문서를 수집 (검색 팔레트 / 최근 노트 / 개수 집계용)
@@ -72,25 +88,29 @@ export function buildHomeData(docsRoot) {
       {
         key: 'projects',
         label: 'Projects',
-        items: topLevelItems(projectDir, '/computer/project'),
+        items: buildTree(projectDir, '/computer/project'),
         docs: collectDocs(projectDir, '/computer/project', 'Projects'),
       },
       {
         key: 'cs',
         label: 'Computer Science',
-        items: topLevelItems(computerDir, '/computer', ['project']),
+        items: buildTree(computerDir, '/computer', ['project']),
         docs: collectDocs(computerDir, '/computer', 'Computer Science', ['project']),
       },
       {
         key: 'philosophy',
         label: 'Philosophy',
-        items: topLevelItems(philosophyDir, '/philosophy'),
+        items: buildTree(philosophyDir, '/philosophy'),
         docs: collectDocs(philosophyDir, '/philosophy', 'Philosophy'),
       },
       {
         key: 'records',
         label: 'Records',
-        items: recordDirs.map(r => ({ title: r.name, link: `${r.url}/` })),
+        items: recordDirs.map(r => ({
+          title: r.name,
+          link: firstDocIn(r.abs, r.url) ?? `${r.url}/`,
+          children: buildTree(r.abs, r.url),
+        })),
         docs: recordDirs.flatMap(r => collectDocs(r.abs, r.url, 'Records')),
       },
     ].map(g => ({
