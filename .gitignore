@@ -1,1 +1,4 @@
 node_modules/
+FILE_MAP.md
+docs/.vitepress/dist/
+docs/.vitepress/cache/

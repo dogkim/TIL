@@ -5,9 +5,10 @@
     "includeName": false,
     "pageSize": "A4",
     "landscape": false,
-    "margin": "0",
-    "downscalePercent": 100
+    "margin": "2",
+    "downscalePercent": 80
   },
   "attachmentFolderPath": "./assets",
-  "showUnsupportedFiles": true
+  "showUnsupportedFiles": true,
+  "alwaysUpdateLinks": true
 }
