@@ -1,8 +1,5 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-
-const docsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
 const isHidden = (name) => name === 'assets' || name.startsWith('_') || name === 'index.md'
 
@@ -16,11 +13,26 @@ function listEntries(dirAbs, excludeDirs = []) {
     .filter(e => !(e.isDirectory() && excludeDirs.includes(e.name)))
 }
 
-// group의 바로 아래 항목만 (홈 사이드바 트리용) — 폴더면 폴더 자체를, 파일이면 파일을 항목으로
+// 폴더 안에서 (번호순으로) 가장 먼저 오는 문서 하나를 찾아 그 폴더의 진입점으로 사용
+function firstDocIn(dirAbs, urlPrefix) {
+  const entries = listEntries(dirAbs).sort((a, b) => a.name.localeCompare(b.name, 'en', { numeric: true }))
+  for (const e of entries) {
+    if (e.isDirectory()) {
+      const nested = firstDocIn(path.join(dirAbs, e.name), `${urlPrefix}/${e.name}`)
+      if (nested) return nested
+    } else if (e.name.endsWith('.md')) {
+      return `${urlPrefix}/${e.name.replace(/\.md$/, '')}`
+    }
+  }
+  return null
+}
+
+// group의 바로 아래 항목만 (홈 사이드바 트리용) — 폴더면 폴더 안 첫 문서로, 파일이면 그 파일로 링크
 function topLevelItems(dirAbs, urlPrefix, excludeDirs = []) {
   return listEntries(dirAbs, excludeDirs).map(e => {
     if (e.isDirectory()) {
-      return { title: e.name, link: `${urlPrefix}/${e.name}/` }
+      const link = firstDocIn(path.join(dirAbs, e.name), `${urlPrefix}/${e.name}`)
+      return { title: e.name, link: link ?? `${urlPrefix}/${e.name}/` }
     }
     return { title: titleFromFilename(e.name), link: `${urlPrefix}/${e.name.replace(/\.md$/, '')}` }
   })
@@ -45,9 +57,7 @@ function collectDocs(dirAbs, urlPrefix, group, excludeDirs = [], acc = []) {
   return acc
 }
 
-export default {
-  watch: ['../**/*.md'],
-  load() {
+export function buildHomeData(docsRoot) {
     const computerDir = path.join(docsRoot, 'computer')
     const projectDir = path.join(computerDir, 'project')
     const philosophyDir = path.join(docsRoot, 'philosophy')
@@ -121,5 +131,4 @@ export default {
         lastUpdated: lastUpdatedMs ? new Date(lastUpdatedMs).toISOString().slice(0, 10) : '-',
       },
     }
-  },
 }

@@ -1,6 +1,4 @@
 ---
-layout: home
-title: My TIL
+title: TIL
 ---
 
-# Welcome to My TIL

@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { autoSidebar } from './sidebar/autoGenerate'
+import { buildHomeData } from './sidebar/homeData'
 import mathjax3 from 'markdown-it-mathjax3'
 
 const docsRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -45,5 +46,7 @@ export default defineConfig({
       '/computer/': autoSidebar(docsRoot, 'computer', 'Computer Engineering'),
       '/philosophy/': autoSidebar(docsRoot, 'philosophy', 'Philosophy'),
     },
+
+    homeData: buildHomeData(docsRoot),
   },
 })

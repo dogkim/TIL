@@ -1,11 +1,11 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useData, useRoute } from 'vitepress'
-import data from '../homeData.data'
 import CommandPalette from './CommandPalette.vue'
 
-const { isDark } = useData()
+const { isDark, theme } = useData()
 const route = useRoute()
+const data = theme.value.homeData
 
 const NAV = [
   { label: 'Projects', link: '/computer/project/' },
@@ -400,12 +400,13 @@ const featuredProjects = computed(() => {
 .project-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  border: 1px solid var(--home-hairline);
+  gap: 1px;
+  background: var(--home-line);
+  border: 1px solid var(--home-line);
 }
 .project-card {
   padding: 20px;
-  border-right: 1px solid var(--home-hairline);
-  border-bottom: 1px solid var(--home-hairline);
+  background: var(--home-bg);
   text-decoration: none;
   color: var(--home-text);
 }
