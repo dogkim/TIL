@@ -1,0 +1,9 @@
+# philosophy/Essays 이력
+
+강의 정리가 아니라 직접 쓴 소논문/에세이 성격의 글만 모아둔 폴더. 2026-09 세션에 신설 — 기존에 여러 폴더에 흩어져 있던 것을 이 폴더로 모두 이동함.
+
+- `01-Husserl-Empathy-Critique.md`: 원래 `Phenomenology/10-Assignment-Empathy-and-Newborn-Imitation.md`였음. 후설의 감정이입(Einfühlung) 이론을 신생아 모방 실험·거울 뉴런 이론으로 비판.
+- `02-나는 누구인가 (자기 성찰 에세이).md`: 원래 `철학 상담/`에 있었음.
+- `03-존 듀이 — 월요병가와 경험으로서의 예술.md`, `04-알베르 카뮈 — 부조리에서 연대로.md`: 원래 `philosophy/` 최상위에 있었음.
+
+`China/11-Essay-Mencius-Xunzi-Digital-Ethics.md`(맹자·순자 이론을 디지털 시대 악플 문화에 적용한 글)는 품질이 낮다고 판단해 이 폴더로 옮기지 않고 삭제함. `철학 상담/북한 철학·문학 자료 분석 과제.md`는 에세이보다는 자료 분석 과제 성격이라 제외하고 원래 위치에 남겨둠.
