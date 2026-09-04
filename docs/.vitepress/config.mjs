@@ -1,7 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { autoSidebar } from './sidebar/autoGenerate'
 import { buildHomeData } from './sidebar/homeData'
 import mathjax3 from 'markdown-it-mathjax3'
 
@@ -25,28 +24,8 @@ export default defineConfig({
   },
 
   themeConfig: {
-    logo: {
-      light: '/logo-dark.png',
-      dark: '/logo-light.png'   
-    },
-    siteTitle: 'TIL..!',
-
-    nav: [
-      {
-        text: 'Computer Engineering',
-        link: '/computer/',
-      },
-      {
-        text: 'Philosophy',
-        link: '/philosophy/',
-      },
-    ],
-
-    sidebar: {
-      '/computer/': autoSidebar(docsRoot, 'computer', 'Computer Engineering'),
-      '/philosophy/': autoSidebar(docsRoot, 'philosophy', 'Philosophy'),
-    },
-
+    // 커스텀 AppShell(헤더+사이드바)이 모든 페이지를 감싸므로,
+    // VitePress 기본 테마의 nav/sidebar/logo 설정은 더 이상 쓰지 않음.
     homeData: buildHomeData(docsRoot),
   },
 })

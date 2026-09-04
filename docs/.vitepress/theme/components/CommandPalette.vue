@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch, nextTick } from 'vue'
+import { withBase } from 'vitepress'
 
 const props = defineProps({
   items: { type: Array, required: true }, // [{ title, link, group }]
@@ -53,7 +54,7 @@ watch(
           v-for="item in results"
           :key="item.link"
           class="cp-result"
-          :href="item.link"
+          :href="withBase(item.link)"
         >
           <span class="cp-result-title">{{ item.title }}</span>
           <span class="cp-result-group">{{ item.group }}</span>
