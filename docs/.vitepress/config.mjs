@@ -3,6 +3,8 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { buildHomeData } from './sidebar/homeData'
 import mathjax3 from 'markdown-it-mathjax3'
+import { wikiLinkPlugin } from './markdown-plugins/wikilink.mjs'
+import { strongLenientPlugin } from './markdown-plugins/strongLenient.mjs'
 
 const docsRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 
@@ -21,6 +23,8 @@ export default defineConfig({
     headers: true, //page.headers 채우기 (우측 소제목 목차용)
     config: (md) => {
       md.use(mathjax3)
+      md.use(wikiLinkPlugin)
+      md.use(strongLenientPlugin)
     }
   },
 
