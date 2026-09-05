@@ -6,4 +6,6 @@
 - `TIL-Legacy`, 구 OneDrive `TIL` 폴더의 `computer-engineering` — 마이그레이션 후 원본 삭제.
 - OneDrive `CS,CE` 폴더(3-1/3-1 겨울/3-2 수업 자료) — `Java/`, `Programming-Basics/06~07` 신설. 원본은 보존.
 
+`System-Programming/` — ELEC462(시스템 프로그래밍) 수업용으로 신설.
+
 각 하위 폴더의 구체적 경위는 폴더별 `_History.md` 참고.
