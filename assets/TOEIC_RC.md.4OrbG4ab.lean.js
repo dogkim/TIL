@@ -1,1 +1,0 @@
-import{_ as r,o as t,c as p,ag as e}from"./chunks/framework.DzGOF12C.js";const c=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"TOEIC/RC.md","filePath":"TOEIC/RC.md"}'),l={name:"TOEIC/RC.md"};function o(i,a,b,n,s,h){return t(),p("div",null,[...a[0]||(a[0]=[e("",18)])])}const _=r(l,[["render",o]]);export{c as __pageData,_ as default};
