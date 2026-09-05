@@ -41,6 +41,7 @@ function onKeydown(e) {
 const SCROLLSPY_OFFSET = 96 // 헤더 높이 + 여유값 — 이 지점을 막 지난 헤딩을 active로 취급
 
 function updateActiveHeading() {
+  if (typeof document === 'undefined') return // SSR(빌드 시 렌더링)에는 document가 없음
   const els = tocHeaders.value
     .map(h => document.getElementById(h.slug))
     .filter(Boolean)
