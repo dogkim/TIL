@@ -20,7 +20,7 @@ const NAV = [
 ]
 
 const railCollapsed = ref(false)
-const expanded = ref(Object.fromEntries(data.groups.map(g => [g.key, true])))
+const expanded = ref(Object.fromEntries(data.groups.map(g => [g.key, false])))
 const paletteOpen = ref(false)
 
 function toggleGroup(key) {
