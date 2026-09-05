@@ -2,6 +2,7 @@ import DefaultTheme from 'vitepress/theme'
 import AppShell from './components/AppShell.vue'
 import SidebarNode from './components/SidebarNode.vue'
 import CategoryIndex from './components/CategoryIndex.vue'
+import MeditateWidget from './components/MeditateWidget.vue'
 import { h } from 'vue'
 import './custom.css'
 import './home.css'
@@ -16,5 +17,6 @@ export default {
   enhanceApp({ app }) {
     app.component('SidebarNode', SidebarNode)
     app.component('CategoryIndex', CategoryIndex)
+    app.component('MeditateWidget', MeditateWidget)
   }
 }

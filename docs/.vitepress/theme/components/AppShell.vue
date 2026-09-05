@@ -11,12 +11,14 @@ const { isDark, theme, page } = useData()
 const data = theme.value.homeData
 
 const isHome = computed(() => page.value.relativePath === 'index.md')
+const isMeditate = computed(() => page.value.relativePath === 'meditate.md')
 
 const NAV = [
   { label: 'Projects', link: '/computer/project/' },
   { label: 'Computer Science', link: '/computer/' },
   { label: 'Philosophy', link: '/philosophy/' },
   { label: 'Records', link: '/records/' },
+  { label: '라운지', link: '/meditate' },
 ]
 
 const railCollapsed = ref(false)
@@ -99,12 +101,18 @@ onBeforeUnmount(() => {
     />
 
     <div class="home-body">
-      <aside class="home-sidebar" :class="{ collapsed: railCollapsed, 'mobile-open': mobileSidebarOpen }">
+      <aside
+        class="home-sidebar"
+        :class="{ collapsed: railCollapsed, 'mobile-open': mobileSidebarOpen, 'desktop-hidden': isMeditate }"
+      >
         <template v-if="!railCollapsed">
           <div class="sidebar-top">
             <span class="sidebar-label">VAULT</span>
             <button class="rail-toggle" @click="railCollapsed = true">⟨</button>
           </div>
+          <nav class="sidebar-mobile-nav">
+            <a v-for="n in NAV" :key="n.link" :href="withBase(n.link)">{{ n.label }}</a>
+          </nav>
           <div v-for="g in data.groups" :key="g.key" class="sidebar-group">
             <button class="sidebar-group-row" @click="toggleGroup(g.key)">
               <span class="caret">{{ expanded[g.key] ? '▾' : '▸' }}</span>
@@ -121,14 +129,14 @@ onBeforeUnmount(() => {
         </template>
       </aside>
 
-      <main class="home-main">
+      <main class="home-main" :class="{ 'home-main-full': isMeditate }">
         <HomeContent v-if="isHome" :data="data" />
-        <div v-else class="vp-doc doc-content">
+        <div v-else class="vp-doc doc-content" :class="{ 'meditate-content': isMeditate }">
           <Content />
         </div>
       </main>
 
-      <aside v-if="!isHome && tocHeaders.length" class="home-toc">
+      <aside v-if="!isHome && !isMeditate && tocHeaders.length" class="home-toc">
         <div class="toc-label">ON THIS PAGE</div>
         <a
           v-for="h in tocHeaders"
@@ -257,6 +265,11 @@ onBeforeUnmount(() => {
   justify-content: center;
   padding: 20px 0;
 }
+@media (min-width: 768px) {
+  .home-sidebar.desktop-hidden {
+    display: none;
+  }
+}
 .sidebar-top {
   display: flex;
   align-items: center;
@@ -278,6 +291,10 @@ onBeforeUnmount(() => {
   cursor: pointer;
   color: var(--home-muted);
 }
+.sidebar-mobile-nav {
+  display: none;
+}
+
 .sidebar-group {
   margin-bottom: 4px;
 }
@@ -322,9 +339,17 @@ onBeforeUnmount(() => {
   padding: 56px 40px;
   border-left: 1px solid var(--home-hairline);
 }
+.home-main-full {
+  max-width: none;
+  padding: 0;
+  border-left: none;
+}
 
 .doc-content {
   padding-bottom: 40px;
+}
+.meditate-content {
+  padding-bottom: 0;
 }
 
 .home-toc {
@@ -450,6 +475,25 @@ onBeforeUnmount(() => {
   /* 모바일에서는 데스크톱 전용 아이콘-접기 버튼을 숨기고, 열고 닫기는 햄버거로만 */
   .rail-toggle {
     display: none;
+  }
+  /* 상단 nav가 숨겨지므로, 사이드바 드로어 위쪽에 같은 링크를 대신 보여줌 */
+  .sidebar-mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--home-hairline);
+  }
+  .sidebar-mobile-nav a {
+    padding: 5px 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--home-muted);
+    text-decoration: none;
+  }
+  .sidebar-mobile-nav a:hover {
+    color: var(--home-text);
   }
 
   .home-main {
