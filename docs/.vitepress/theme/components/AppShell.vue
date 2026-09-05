@@ -20,6 +20,7 @@ const NAV = [
 ]
 
 const railCollapsed = ref(false)
+const mobileSidebarOpen = ref(false)
 const expanded = ref(Object.fromEntries(data.groups.map(g => [g.key, false])))
 const paletteOpen = ref(false)
 const activeSlug = ref('')
@@ -55,6 +56,7 @@ function updateActiveHeading() {
 
 watch(() => page.value.relativePath, () => {
   nextTick(updateActiveHeading)
+  mobileSidebarOpen.value = false
 }, { immediate: true })
 
 onMounted(() => {
@@ -69,6 +71,9 @@ onBeforeUnmount(() => {
   <div class="home-shell" tabindex="0" @keydown="onKeydown">
     <header class="home-header">
       <div class="home-header-left">
+        <button class="mobile-menu-btn" @click="mobileSidebarOpen = !mobileSidebarOpen" aria-label="메뉴 열기">
+          <span :class="{ open: mobileSidebarOpen }" class="burger"><span /><span /><span /></span>
+        </button>
         <a :href="withBase('/')" class="home-icon" aria-label="홈으로">
           <SiteIcon />
         </a>
@@ -87,8 +92,14 @@ onBeforeUnmount(() => {
       </div>
     </header>
 
+    <div
+      v-if="mobileSidebarOpen"
+      class="mobile-backdrop"
+      @click="mobileSidebarOpen = false"
+    />
+
     <div class="home-body">
-      <aside class="home-sidebar" :class="{ collapsed: railCollapsed }">
+      <aside class="home-sidebar" :class="{ collapsed: railCollapsed, 'mobile-open': mobileSidebarOpen }">
         <template v-if="!railCollapsed">
           <div class="sidebar-top">
             <span class="sidebar-label">VAULT</span>
@@ -361,5 +372,94 @@ onBeforeUnmount(() => {
 .toc-link.toc-level-3 {
   padding-left: 22px;
   font-size: 12.5px;
+}
+
+/* 모바일 햄버거 버튼 (데스크톱에서는 숨김) */
+.mobile-menu-btn {
+  display: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 6px;
+  margin-right: 4px;
+}
+.burger {
+  display: block;
+  width: 18px;
+  height: 13px;
+  position: relative;
+}
+.burger span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--home-text);
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease, top 0.2s ease;
+}
+.burger span:nth-child(1) { top: 0; }
+.burger span:nth-child(2) { top: 5.5px; }
+.burger span:nth-child(3) { top: 11px; }
+.burger.open span:nth-child(1) { top: 5.5px; transform: rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { top: 5.5px; transform: rotate(-45deg); }
+
+.mobile-backdrop {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+  }
+  .home-header {
+    padding: 0 12px;
+  }
+  .home-nav {
+    display: none;
+  }
+  .home-search-btn .kbd {
+    display: none;
+  }
+
+  .mobile-backdrop {
+    display: block;
+    position: fixed;
+    inset: 57px 0 0 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 25;
+  }
+
+  .home-sidebar {
+    position: fixed;
+    top: 57px;
+    left: 0;
+    height: calc(100vh - 57px);
+    width: min(80vw, 300px);
+    background: var(--home-bg);
+    z-index: 30;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    border-right: 1px solid var(--home-hairline);
+  }
+  .home-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  /* 모바일에서는 데스크톱 전용 아이콘-접기 버튼을 숨기고, 열고 닫기는 햄버거로만 */
+  .rail-toggle {
+    display: none;
+  }
+
+  .home-main {
+    max-width: 100%;
+    padding: 24px 16px;
+    border-left: none;
+  }
+
+  .home-toc {
+    display: none !important;
+  }
 }
 </style>
