@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
+import { ref, reactive, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { withBase } from 'vitepress'
 
 const TRACKS = [
@@ -45,8 +45,11 @@ function toggleMusic() {
   }
 }
 
-function onEnded() {
+async function onEnded() {
   trackIndex.value = (trackIndex.value + 1) % TRACKS.length
+  // Vue가 :src 바인딩을 실제 DOM에 반영할 때까지 기다린 뒤에 readyState를 확인해야 함 —
+  // 그 전에 확인하면 아직 이전 트랙의 상태를 보게 되어 판단이 어긋남
+  await nextTick()
   const el = audioEl.value
   if (!el) return
   // src가 바뀐 뒤 재생 가능해질 때까지 기다렸다가 재생 (너무 이르게 play()를 부르면
@@ -65,6 +68,7 @@ function onEnded() {
 onMounted(() => {
   if (audioEl.value) audioEl.value.volume = volume.value
   tryAutoplay()
+  checkSfxAvailability()
 })
 
 // --- 효과음: 외부 음원 없이 Web Audio API로 직접 합성 (파일 받으면 교체 예정) ---
@@ -90,20 +94,54 @@ function tone(freq, duration, type, peak, delay = 0) {
   osc.stop(start + duration + 0.05)
 }
 
+// 나중에 실제 효과음 파일을 받으면 이 이름으로 docs/public/audio/ 에 넣기만 하면
+// 자동으로 합성음 대신 재생됨 (파일이 없으면 조용히 지금의 합성음으로 대체)
+const SFX_FILES = {
+  bell: withBase('/audio/sfx-bell.mp3'),
+  cup: withBase('/audio/sfx-cup.mp3'),
+  coaster: withBase('/audio/sfx-coaster.mp3'),
+  clatter: withBase('/audio/sfx-clatter.mp3'),
+}
+const sfxAvailable = reactive({ bell: false, cup: false, coaster: false, clatter: false })
+
+async function checkSfxAvailability() {
+  await Promise.all(Object.entries(SFX_FILES).map(async ([key, src]) => {
+    try {
+      const res = await fetch(src, { method: 'HEAD' })
+      // 개발 서버는 없는 경로도 SPA 폴백으로 200(HTML)을 돌려주는 경우가 있어,
+      // content-type이 실제 오디오인지까지 확인해야 오탐이 없음
+      const type = res.headers.get('content-type') || ''
+      sfxAvailable[key] = res.ok && type.includes('audio')
+    } catch {
+      sfxAvailable[key] = false
+    }
+  }))
+}
+
+function playSample(src, vol = 0.7) {
+  const a = new Audio(src)
+  a.volume = vol
+  a.play().catch(() => {})
+}
+
 function playBell() {
+  if (sfxAvailable.bell) return playSample(SFX_FILES.bell)
   tone(880, 1.4, 'sine', 0.28)
   tone(1760, 1.1, 'sine', 0.07)
 }
 function playCup() {
+  if (sfxAvailable.cup) return playSample(SFX_FILES.cup)
   tone(1500, 0.16, 'sine', 0.22)
   tone(2250, 0.1, 'triangle', 0.08)
 }
 function playCoaster() {
+  if (sfxAvailable.coaster) return playSample(SFX_FILES.coaster)
   tone(170, 0.12, 'triangle', 0.3)
   tone(90, 0.1, 'sine', 0.2)
 }
 // 컵을 컵받침에 내려놓을 때 "덜그덕"
 function playClatter() {
+  if (sfxAvailable.clatter) return playSample(SFX_FILES.clatter)
   tone(1500, 0.14, 'sine', 0.18)
   tone(2200, 0.09, 'triangle', 0.06, 0.02)
   tone(180, 0.1, 'triangle', 0.25, 0.03)
@@ -112,9 +150,7 @@ function playClatter() {
 // 수저로 컵을 치는 소리 (실제 음원 사용)
 const CUP_HIT_SRC = withBase('/audio/cup-hit.mp3')
 function playSpoonTap() {
-  const a = new Audio(CUP_HIT_SRC)
-  a.volume = 0.7
-  a.play().catch(() => {})
+  playSample(CUP_HIT_SRC)
 }
 
 const SOUND = { cup: playCup, coaster: playCoaster, bell: playBell }
@@ -576,6 +612,36 @@ onBeforeUnmount(() => {
   35% { transform: scale(0.86) rotate(-4deg); }
   70% { transform: scale(1.12) rotate(3deg); }
   100% { transform: scale(1); }
+}
+
+/* 좁은 화면(휴대폰)에서는 컵받침+종+수저 폭 합이 테이블 폭을 넘어서 겹치므로 축소 */
+@media (max-width: 767px) {
+  .table {
+    padding: 14px 12px;
+  }
+  .coaster-slot,
+  .item.coaster {
+    width: 117px;
+    height: 100px;
+  }
+  .item.bell {
+    width: 111px;
+    height: 104px;
+  }
+  .item.spoon {
+    width: 32px;
+    height: 111px;
+  }
+  .item.cup {
+    top: -4px;
+    left: 12px;
+    width: 93px;
+    height: 80px;
+  }
+  .wall-voice {
+    font-size: 13px;
+    max-width: 84%;
+  }
 }
 
 </style>
