@@ -18,6 +18,7 @@ export default defineConfig({
   markdown: {
     lineNumbers: true, //코드 박스 줄 표시
     breaks: true, //개행문자 enter변환 <\br>
+    headers: true, //page.headers 채우기 (우측 소제목 목차용)
     config: (md) => {
       md.use(mathjax3)
     }

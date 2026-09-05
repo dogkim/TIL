@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useData, withBase } from 'vitepress'
 import SidebarNode from './SidebarNode.vue'
 import HomeContent from './HomeContent.vue'
@@ -22,6 +22,9 @@ const NAV = [
 const railCollapsed = ref(false)
 const expanded = ref(Object.fromEntries(data.groups.map(g => [g.key, false])))
 const paletteOpen = ref(false)
+const activeSlug = ref('')
+
+const tocHeaders = computed(() => (page.value.headers || []).filter(h => h.level >= 2 && h.level <= 3))
 
 function toggleGroup(key) {
   expanded.value[key] = !expanded.value[key]
@@ -34,6 +37,31 @@ function onKeydown(e) {
     paletteOpen.value = true
   }
 }
+
+const SCROLLSPY_OFFSET = 96 // 헤더 높이 + 여유값 — 이 지점을 막 지난 헤딩을 active로 취급
+
+function updateActiveHeading() {
+  const els = tocHeaders.value
+    .map(h => document.getElementById(h.slug))
+    .filter(Boolean)
+  let current = els[0]
+  for (const el of els) {
+    if (el.getBoundingClientRect().top <= SCROLLSPY_OFFSET) current = el
+    else break
+  }
+  activeSlug.value = current ? current.id : ''
+}
+
+watch(() => page.value.relativePath, () => {
+  nextTick(updateActiveHeading)
+}, { immediate: true })
+
+onMounted(() => {
+  window.addEventListener('scroll', updateActiveHeading, { passive: true })
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', updateActiveHeading)
+})
 </script>
 
 <template>
@@ -43,7 +71,7 @@ function onKeydown(e) {
         <a :href="withBase('/')" class="home-icon" aria-label="홈으로">
           <SiteIcon />
         </a>
-        <span class="home-brand">til.vault</span>
+        <a :href="withBase('/')" class="home-brand">til.vault</a>
       </div>
       <nav class="home-nav">
         <a v-for="n in NAV" :key="n.link" :href="withBase(n.link)">{{ n.label }}</a>
@@ -87,6 +115,17 @@ function onKeydown(e) {
           <Content />
         </div>
       </main>
+
+      <aside v-if="!isHome && tocHeaders.length" class="home-toc">
+        <div class="toc-label">ON THIS PAGE</div>
+        <a
+          v-for="h in tocHeaders"
+          :key="h.slug"
+          :href="'#' + h.slug"
+          class="toc-link"
+          :class="['toc-level-' + h.level, { active: activeSlug === h.slug }]"
+        >{{ h.title }}</a>
+      </aside>
     </div>
 
     <CommandPalette
@@ -135,6 +174,7 @@ function onKeydown(e) {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   color: var(--home-faint);
+  text-decoration: none;
 }
 .home-nav {
   display: flex;
@@ -273,5 +313,52 @@ function onKeydown(e) {
 
 .doc-content {
   padding-bottom: 40px;
+}
+
+.home-toc {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 57px;
+  height: fit-content;
+  max-height: calc(100vh - 57px);
+  overflow-y: auto;
+  padding: 56px 24px;
+  display: none;
+}
+@media (min-width: 1280px) {
+  .home-toc {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+}
+.toc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--home-faint);
+  margin-bottom: 8px;
+}
+.toc-link {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--home-muted);
+  text-decoration: none;
+  padding: 3px 0;
+  border-left: 2px solid transparent;
+  padding-left: 10px;
+}
+.toc-link:hover {
+  color: var(--home-text);
+}
+.toc-link.active {
+  color: var(--home-text);
+  border-left-color: var(--home-text);
+  font-weight: 600;
+}
+.toc-link.toc-level-3 {
+  padding-left: 22px;
+  font-size: 12.5px;
 }
 </style>

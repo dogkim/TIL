@@ -36,7 +36,7 @@ const featuredProjects = computed(() => {
 <template>
   <section class="hero">
     <p class="hero-eyebrow">PERSONAL KNOWLEDGE VAULT</p>
-    <p class="hero-lede">전공 공부와 프로젝트, 활동 기록을 정리합니다.</p>
+    <p class="hero-lede">공부와 활동 기록을 정리합니다.</p>
     <p class="hero-sub">
       경북대학교 철학과 본전공 · 컴퓨터공학(플랫폼소프트웨어전공) 복수전공 · 4학년 1학기
     </p>
