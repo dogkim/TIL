@@ -344,7 +344,7 @@ let ambientTimer = null
 let lastTopicIdx = -1
 
 function scheduleAmbient() {
-  const delay = 25000 + Math.random() * 20000 // 25~45초 간격
+  const delay = 12000 + Math.random() * 8000 // 12~20초 간격
   ambientTimer = setTimeout(() => {
     sayAmbient()
     scheduleAmbient()
