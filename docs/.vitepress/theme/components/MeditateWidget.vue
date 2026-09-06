@@ -810,7 +810,7 @@ onBeforeUnmount(() => {
     transform: rotate(11deg);
   }
   .wall-img {
-    object-position: center 56%;
+    object-position: center 64%;
   }
 }
 
