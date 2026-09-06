@@ -170,23 +170,17 @@ const BELL_LINES = [
   '한 번만 더 치시면 진짜 옵니다',
   '...아직도 안 옴',
 ]
-// 입장하면 바텐더가 인사 + 에세이 주제를 담은 대사를 이어서 말함 (한 편의 짧은 독백처럼)
-const INTRO_LINES = [
-  '어서 오세요, 손님.',
-  '여기 앉으면 다들 자기만의 언어로 하루를 풀어놓더라고요.',
-  '정해진 답 같은 거 없어도 괜찮아요. 애초에 우리는 그런 거 없이 태어났으니까.',
-  '부조리한 하루였어도, 그걸 알면서 버티는 게 진짜 반항이잖아요.',
-  '혼자 다 짊어지진 마세요. 그런 건 여기 두고 가시고.',
-  '오늘 하루도 결국 손님이 만들어 온 거예요. 그거면 충분해요.',
+// 입장하면 바텐더가 인사 한 마디 + "그거 아세요?" 토막상식 한 마디, 항상 이 플롯으로 고정
+const GREETING_OPENER = '어서 오세요, 손님.'
+// 에세이 주제를 담은 토막상식 (5개, 무작위) — 인사 뒤 / 이후 반복되는 혼잣말 모두 여기서 고름
+const TRIVIA_LINES = [
+  '그거 아세요? 카뮈는 시지프스가 행복하다고 상상해야 한다고 했대요. 평생 바위나 굴리는 사람인데 말이죠.',
+  '그거 아세요? 우리는 태어날 때부터 정해진 목적이 없대요. 그래서 매번 스스로 정해야 한다나 봐요.',
+  '그거 아세요? 철학에서 말하는 "정보"랑 컴퓨터공학에서 말하는 "정보"는 완전히 다른 뜻이래요.',
+  '그거 아세요? 페스트 속 의사는 신념 때문이 아니라, 그냥 그게 자기 일이라 끝까지 싸웠대요.',
+  '그거 아세요? 부조리는 세상 탓도 우리 탓도 아니고, 그 둘 사이 틈에서 생기는 거래요.',
 ]
-// 인사가 끝난 뒤, 뜸을 들이며 가끔 한 번씩 던지는 혼잣말 (5개, 무작위)
-const AMBIENT_LINES = [
-  '다들 여기 와서 각자의 언어로 하루를 풀어놓더라고요. 오늘은 어떤 언어였어요?',
-  '정답 없는 고민일수록 술 한 잔이 잘 어울리는 법이죠.',
-  '혼자 다 짊어지고 오신 것 같은데, 그건 잠깐 여기 내려놓고 가세요.',
-  '부조리한 하루였어도 괜찮아요. 그걸 알면서 버티는 게 진짜 반항이니까.',
-  '오늘 하루도 결국 손님이 만들어 온 거잖아요.',
-]
+const INTRO_LINES = [GREETING_OPENER, TRIVIA_LINES[Math.floor(Math.random() * TRIVIA_LINES.length)]]
 const BELL_REACTION_LINES = [
   '네, 손님!',
   '잠시만요~',
@@ -224,7 +218,7 @@ function makeLineSayer(lines, visibleMs = 1700) {
   }
 }
 const sayBellLine = makeLineSayer(BELL_REACTION_LINES)
-const sayAmbient = makeLineSayer(AMBIENT_LINES, 4200)
+const sayAmbient = makeLineSayer(TRIVIA_LINES, 5500)
 
 function ringBell() {
   hit('bell')
@@ -232,9 +226,9 @@ function ringBell() {
 }
 
 // 입장 인사: 문장을 하나씩 순서대로 이어서 보여주다가, 다 끝나면 뜸한 간격의
-// 무작위 혼잣말 사이클로 넘어감
-const INTRO_LINE_MS = 2800
-const INTRO_GAP_MS = 450
+// 무작위 혼잣말 사이클로 넘어감 (천천히 읽을 수 있도록 느긋한 템포)
+const INTRO_LINE_MS = 4200
+const INTRO_GAP_MS = 900
 let introTimer = null
 let ambientTimer = null
 
@@ -428,38 +422,40 @@ onBeforeUnmount(() => {
       <div class="table" ref="tableEl">
         <img :src="withBase('/images/table.png')" alt="" class="table-img" />
 
-        <div class="coaster-slot">
-          <button class="item coaster" :class="{ bump: bump.coaster }" @click="hit('coaster')" aria-label="컵받침">
-            <img :src="withBase('/images/coaster.png')" alt="" />
-          </button>
-
-          <button
-            ref="cupEl"
-            class="item cup"
-            :class="{ bump: bump.cup, dragging: cupDragging }"
-            :style="{ transform: `translate(${cupPos.x}px, ${cupPos.y}px)` }"
-            @pointerdown="onCupPointerDown"
-            @click="hit('cup')"
-            aria-label="컵"
-          >
-            <img :src="withBase('/images/cup.png')" alt="" />
-          </button>
-        </div>
-
         <button class="item bell" :class="{ bump: bump.bell }" @click="ringBell" aria-label="종">
           <img :src="withBase('/images/bell.png')" alt="" />
         </button>
 
-        <button
-          ref="spoonEl"
-          class="item spoon"
-          :class="{ dragging: spoonDragging }"
-          :style="{ transform: `translate(${spoonPos.x}px, ${spoonPos.y}px)` }"
-          @pointerdown="onSpoonPointerDown"
-          aria-label="수저"
-        >
-          <img :src="withBase('/images/spoon.png')" alt="" />
-        </button>
+        <div class="cup-spoon-group">
+          <div class="coaster-slot">
+            <button class="item coaster" :class="{ bump: bump.coaster }" @click="hit('coaster')" aria-label="컵받침">
+              <img :src="withBase('/images/coaster.png')" alt="" />
+            </button>
+
+            <button
+              ref="cupEl"
+              class="item cup"
+              :class="{ bump: bump.cup, dragging: cupDragging }"
+              :style="{ transform: `translate(${cupPos.x}px, ${cupPos.y}px)` }"
+              @pointerdown="onCupPointerDown"
+              @click="hit('cup')"
+              aria-label="컵"
+            >
+              <img :src="withBase('/images/cup.png')" alt="" />
+            </button>
+          </div>
+
+          <button
+            ref="spoonEl"
+            class="item spoon"
+            :class="{ dragging: spoonDragging }"
+            :style="{ transform: `translate(${spoonPos.x}px, ${spoonPos.y}px)` }"
+            @pointerdown="onSpoonPointerDown"
+            aria-label="수저"
+          >
+            <img :src="withBase('/images/spoon.png')" alt="" />
+          </button>
+        </div>
       </div>
     </div>
 
@@ -468,6 +464,8 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap');
+
 .lounge {
   min-height: calc(100vh - 57px);
   display: flex;
@@ -526,11 +524,13 @@ onBeforeUnmount(() => {
 .wall-voice {
   position: absolute;
   z-index: 2;
-  max-width: 70%;
-  font-size: 15px;
-  font-style: italic;
-  color: rgba(255, 250, 235, 0.9);
-  text-shadow: 0 0 12px rgba(255, 210, 130, 0.5), 0 2px 6px rgba(0, 0, 0, 0.6);
+  max-width: 62%;
+  font-family: 'Gowun Batang', 'Noto Serif KR', serif;
+  font-size: 20px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: rgba(255, 245, 228, 0.95);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 200, 120, 0.25);
   opacity: 0;
   transform: translate(-50%, -50%) translateY(6px);
   transition: opacity 0.4s ease, transform 0.4s ease, top 0.3s ease, left 0.3s ease;
@@ -572,9 +572,20 @@ onBeforeUnmount(() => {
   height: 32%;
   display: flex;
   align-items: flex-start;
-  justify-content: space-evenly;
+  justify-content: flex-end;
   padding: 20px 24px;
   background: linear-gradient(180deg, #b8895a, #9c6c40); /* 이미지 로드 전/실패 시 대체 배경 */
+}
+/* 실제 배치처럼 종은 구석에 두고, 컵/수저는 오른쪽에 붙여서 모아둠 */
+.item.bell {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.cup-spoon-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
 }
 .table-img {
   position: absolute;
@@ -615,6 +626,7 @@ onBeforeUnmount(() => {
   touch-action: none;
   cursor: grab;
   align-self: flex-end;
+  z-index: 2; /* 드래그로 옮겨져 다른 물건 뒤에 깔려도 항상 집을 수 있게 */
 }
 .item.spoon.dragging {
   cursor: grabbing;
@@ -629,6 +641,7 @@ onBeforeUnmount(() => {
   height: 110px;
   touch-action: none;
   cursor: grab;
+  z-index: 2; /* 드래그로 종/컵받침 뒤에 깔려도 항상 집을 수 있게 */
 }
 .item.cup.dragging {
   cursor: grabbing;
@@ -684,7 +697,8 @@ onBeforeUnmount(() => {
     height: 80px;
   }
   .wall-voice {
-    font-size: 13px;
+    font-size: 16px;
+    line-height: 1.45;
     max-width: 84%;
   }
 }
