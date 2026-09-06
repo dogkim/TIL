@@ -1,5 +1,5 @@
 ---
-title: 라운지
+title: Lounge
 ---
 
 <MeditateWidget />
