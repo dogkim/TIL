@@ -152,6 +152,13 @@ const CUP_HIT_SRC = withBase('/audio/cup-hit.mp3')
 function playSpoonTap() {
   playSample(CUP_HIT_SRC)
 }
+// 종을 너무 많이 쳐서 넘어질 때 나는 소리 (통, 흔들, 쿵)
+function playBellKnockOver() {
+  tone(300, 0.09, 'triangle', 0.32)
+  tone(220, 0.09, 'triangle', 0.22, 0.07)
+  tone(160, 0.09, 'triangle', 0.18, 0.14)
+  tone(90, 0.18, 'sine', 0.3, 0.2)
+}
 
 const SOUND = { cup: playCup, coaster: playCoaster, bell: playBell }
 
@@ -254,7 +261,7 @@ const AMBIENT_LINES = [
   '완전히 들키지 않는다면, 그때도 옳은 일을 하실 건가요?',
   '지금 이 순간이 사실 정교한 시뮬레이션이 아니라고, 확신할 수 있으세요?',
   '자유롭다는 건 아무한테도 책임질 필요가 없다는 뜻일까요, 아니면 그 반대일까요?',
-  '손님을 손님답게 만드는 게 기억일까요, 아니면 몸일까요?',
+  '사람을 사람답게 만드는 게 기억일까요, 아니면 몸일까요?',
 ]
 
 const bellLine = ref('')
@@ -298,7 +305,32 @@ function makeLineSayer(lines, visibleMs = 1700) {
 const sayBellLine = makeLineSayer(BELL_REACTION_LINES)
 const sayAmbient = makeLineSayer(AMBIENT_LINES, 6500)
 
+// 이스터에그: 짧은 시간 안에 종을 너무 많이 치면 종이 옆으로 넘어짐
+const BELL_SPAM_WINDOW_MS = 5000
+const BELL_SPAM_THRESHOLD = 6
+const bellTipped = ref(false)
+let bellClickTimes = []
+let bellUprightTimer = null
+
+function knockOverBell() {
+  bellTipped.value = true
+  playBellKnockOver()
+  clearTimeout(bellUprightTimer)
+  bellUprightTimer = setTimeout(() => { bellTipped.value = false }, 3600)
+}
+
 function ringBell() {
+  if (bellTipped.value) return // 넘어져 있는 동안은 반응하지 않음
+
+  const now = Date.now()
+  bellClickTimes.push(now)
+  bellClickTimes = bellClickTimes.filter((t) => now - t < BELL_SPAM_WINDOW_MS)
+  if (bellClickTimes.length >= BELL_SPAM_THRESHOLD) {
+    bellClickTimes = []
+    knockOverBell()
+    return
+  }
+
   hit('bell')
   sayBellLine()
 }
@@ -471,6 +503,7 @@ onBeforeUnmount(() => {
   clearTimeout(bellLineHideTimer)
   clearTimeout(introTimer)
   clearTimeout(ambientTimer)
+  clearTimeout(bellUprightTimer)
 })
 </script>
 
@@ -510,7 +543,7 @@ onBeforeUnmount(() => {
       <div class="table" ref="tableEl">
         <img :src="withBase('/images/table.png')" alt="" class="table-img" />
 
-        <button class="item bell" :class="{ bump: bump.bell }" @click="ringBell" aria-label="종">
+        <button class="item bell" :class="{ bump: bump.bell, tipped: bellTipped }" @click="ringBell" aria-label="종">
           <img :src="withBase('/images/bell.png')" alt="" />
         </button>
 
@@ -715,6 +748,12 @@ onBeforeUnmount(() => {
 .item.bell {
   width: 152px;
   height: 143px;
+  transform-origin: bottom center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* 이스터에그: 종을 짧은 시간 안에 너무 많이 치면 옆으로 넘어짐 */
+.item.bell.tipped {
+  transform: rotate(-95deg) translate(-8px, 2px);
 }
 .item.spoon {
   width: 44px;
