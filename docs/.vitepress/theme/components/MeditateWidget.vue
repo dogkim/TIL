@@ -703,4 +703,18 @@ onBeforeUnmount(() => {
   }
 }
 
+/* 웹(모바일 아님)에서만: 종을 구석에서 살짝 띄우고, 배경도 천장 대신 조명/선반이 보이게 */
+@media (min-width: 768px) {
+  .item.bell {
+    top: -26px;
+    left: 64px;
+  }
+  .cup-spoon-group {
+    margin-right: 28px;
+  }
+  .wall-img {
+    object-position: center 45%;
+  }
+}
+
 </style>
