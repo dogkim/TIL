@@ -448,16 +448,13 @@ function onSpoonPointerDown(e) {
     py: e.clientY,
     ox: spoonPos.x,
     oy: spoonPos.y,
-    startRect: spoonEl.value.getBoundingClientRect(),
   }
 }
 function onSpoonPointerMove(e) {
   if (!spoonDrag) return
-  const rawLeft = spoonDrag.startRect.left + (e.clientX - spoonDrag.px)
-  const rawTop = spoonDrag.startRect.top + (e.clientY - spoonDrag.py)
-  const { left, top } = clampToTable(spoonDrag.startRect, rawLeft, rawTop)
-  spoonPos.x = spoonDrag.ox + (left - spoonDrag.startRect.left)
-  spoonPos.y = spoonDrag.oy + (top - spoonDrag.startRect.top)
+  // 수저는 놓으면 항상 제자리로 돌아가니, 테이블 밖으로 나가도 상관없어 클램프하지 않음
+  spoonPos.x = spoonDrag.ox + (e.clientX - spoonDrag.px)
+  spoonPos.y = spoonDrag.oy + (e.clientY - spoonDrag.py)
 
   // 들고 있는 동안 컵에 닿을 때마다(진입 순간에만) 소리
   const { dist, threshold } = spoonCupDistance()
