@@ -170,13 +170,30 @@ const BELL_LINES = [
   '한 번만 더 치시면 진짜 옵니다',
   '...아직도 안 옴',
 ]
-// 바텐더가 건네는 인사말 (5개, 들어올 때마다 이 중 하나가 무작위로 뜸)
-const GREETING_LINES = [
-  '어서 오세요. 오늘 하루도 결국 손님이 만들어 온 거잖아요.',
+// 입장하면 바텐더가 인사 + 에세이 주제를 담은 대사를 이어서 말함 (한 편의 짧은 독백처럼)
+const INTRO_LINES = [
+  '어서 오세요, 손님.',
+  '여기 앉으면 다들 자기만의 언어로 하루를 풀어놓더라고요.',
+  '정해진 답 같은 거 없어도 괜찮아요. 애초에 우리는 그런 거 없이 태어났으니까.',
+  '부조리한 하루였어도, 그걸 알면서 버티는 게 진짜 반항이잖아요.',
+  '혼자 다 짊어지진 마세요. 그런 건 여기 두고 가시고.',
+  '오늘 하루도 결국 손님이 만들어 온 거예요. 그거면 충분해요.',
+]
+// 인사가 끝난 뒤, 뜸을 들이며 가끔 한 번씩 던지는 혼잣말 (5개, 무작위)
+const AMBIENT_LINES = [
   '다들 여기 와서 각자의 언어로 하루를 풀어놓더라고요. 오늘은 어떤 언어였어요?',
-  '부조리한 하루였어도 괜찮아요. 그걸 알면서 버티는 게 진짜 반항이니까.',
   '정답 없는 고민일수록 술 한 잔이 잘 어울리는 법이죠.',
   '혼자 다 짊어지고 오신 것 같은데, 그건 잠깐 여기 내려놓고 가세요.',
+  '부조리한 하루였어도 괜찮아요. 그걸 알면서 버티는 게 진짜 반항이니까.',
+  '오늘 하루도 결국 손님이 만들어 온 거잖아요.',
+]
+const BELL_REACTION_LINES = [
+  '네, 손님!',
+  '잠시만요~',
+  '지금 나갑니다!',
+  '그렇게 급하세요?',
+  '한 번만 더 치시면 진짜 옵니다',
+  '...아직도 안 옴',
 ]
 
 const bellLine = ref('')
@@ -184,7 +201,17 @@ const bellLineVisible = ref(false)
 const bellLinePos = reactive({ top: 18, left: 50 }) // % 단위
 let bellLineHideTimer = null
 
-// 대사 표시 공용 로직: 직전과 다른 문장을 무작위로 골라 벽 상단의 무작위 위치에 띄움
+// 벽 상단의 무작위 위치에 한 문장을 띄움
+function showLine(text, visibleMs = 1700) {
+  bellLine.value = text
+  bellLinePos.top = 6 + Math.random() * 16 // 6~22%
+  bellLinePos.left = 20 + Math.random() * 60 // 20~80%
+  bellLineVisible.value = true
+  clearTimeout(bellLineHideTimer)
+  bellLineHideTimer = setTimeout(() => { bellLineVisible.value = false }, visibleMs)
+}
+
+// 직전과 다른 문장을 무작위로 골라 보여주는 공용 로직 (종소리 반응, 혼잣말 등에서 재사용)
 function makeLineSayer(lines, visibleMs = 1700) {
   let lastIdx = -1
   return () => {
@@ -193,20 +220,39 @@ function makeLineSayer(lines, visibleMs = 1700) {
       idx = (idx + 1) % lines.length
     }
     lastIdx = idx
-    bellLine.value = lines[idx]
-    bellLinePos.top = 6 + Math.random() * 16 // 6~22%
-    bellLinePos.left = 20 + Math.random() * 60 // 20~80%
-    bellLineVisible.value = true
-    clearTimeout(bellLineHideTimer)
-    bellLineHideTimer = setTimeout(() => { bellLineVisible.value = false }, visibleMs)
+    showLine(lines[idx], visibleMs)
   }
 }
-const sayBellLine = makeLineSayer(BELL_LINES)
-const sayGreeting = makeLineSayer(GREETING_LINES, 4200)
+const sayBellLine = makeLineSayer(BELL_REACTION_LINES)
+const sayAmbient = makeLineSayer(AMBIENT_LINES, 4200)
 
 function ringBell() {
   hit('bell')
   sayBellLine()
+}
+
+// 입장 인사: 문장을 하나씩 순서대로 이어서 보여주다가, 다 끝나면 뜸한 간격의
+// 무작위 혼잣말 사이클로 넘어감
+const INTRO_LINE_MS = 2800
+const INTRO_GAP_MS = 450
+let introTimer = null
+let ambientTimer = null
+
+function scheduleAmbient() {
+  const delay = 25000 + Math.random() * 20000 // 25~45초 간격
+  ambientTimer = setTimeout(() => {
+    sayAmbient()
+    scheduleAmbient()
+  }, delay)
+}
+
+function playIntro(i = 0) {
+  if (i >= INTRO_LINES.length) {
+    scheduleAmbient()
+    return
+  }
+  showLine(INTRO_LINES[i], INTRO_LINE_MS)
+  introTimer = setTimeout(() => playIntro(i + 1), INTRO_LINE_MS + INTRO_GAP_MS)
 }
 
 // --- 컵 드래그 (컵받침 위에 놓으면 달그락, 테이블 밖으로는 못 나감) ---
@@ -268,18 +314,16 @@ const spoonDragging = ref(false)
 let spoonDrag = null
 let spoonTouchingCup = false // 접촉 중 반복 재생 방지용 플래그
 
-// 컵이 커서 컵 전체 영역 기준으로 겹침을 판정하면 한번 닿은 채로 계속 "닿음" 상태가
-// 유지돼 여러 번 치기가 어려웠음. 컵의 특정 지점(중앙)에 수저 끝(숟가락 머리)이
-// 가까워질 때만 좁은 반경으로 판정해서, 살짝만 움직여도 다시 치고 뺄 수 있게 함.
+// 점(좌표 하나) 기준으로 판정하면 정확히 그 지점을 맞춰야 해서 치기 어려웠음.
+// 대신 컵의 중앙 세로선과 수저의 중앙 세로선 사이의 좌우 거리만 보고 판정해서,
+// 좌우로 움직이기만 하면 쉽게 닿고 뗄 수 있게 함.
 function spoonCupDistance() {
   if (!spoonEl.value || !cupEl.value) return { dist: Infinity, threshold: 0 }
   const s = spoonEl.value.getBoundingClientRect()
   const c = cupEl.value.getBoundingClientRect()
   const sx = s.left + s.width / 2
-  const sy = s.top + s.height * 0.16 // 숟가락 머리(스푼 볼) 위치
   const cx = c.left + c.width / 2
-  const cy = c.top + c.height / 2
-  return { dist: Math.hypot(sx - cx, sy - cy), threshold: 26 }
+  return { dist: Math.abs(sx - cx), threshold: 34 }
 }
 
 function onSpoonPointerDown(e) {
@@ -337,13 +381,14 @@ onMounted(() => {
   window.addEventListener('pointermove', onPointerMove)
   window.addEventListener('pointerup', onPointerUp)
   // 들어오고 바로가 아니라, 바텐더가 손님을 알아차린 듯한 자연스러운 텀을 두고 인사
-  setTimeout(sayGreeting, 1300)
+  setTimeout(() => playIntro(), 1300)
 })
 onBeforeUnmount(() => {
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('pointerup', onPointerUp)
   clearTimeout(bellLineHideTimer)
-  clearTimeout(bellResetTimer)
+  clearTimeout(introTimer)
+  clearTimeout(ambientTimer)
 })
 </script>
 
