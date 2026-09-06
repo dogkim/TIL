@@ -18,7 +18,7 @@ const NAV = [
   { label: 'Computer Science', link: '/computer/' },
   { label: 'Philosophy', link: '/philosophy/' },
   { label: 'Records', link: '/records/' },
-  { label: '라운지', link: '/meditate' },
+  { label: 'Lounge', link: '/meditate' },
 ]
 
 const railCollapsed = ref(false)
