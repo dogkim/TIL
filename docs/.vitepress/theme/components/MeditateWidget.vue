@@ -240,12 +240,10 @@ const AMBIENT_LINES = [
 
 const bellLine = ref('')
 const bellLineVisible = ref(false)
-// 위치를 매번 무작위로 바꾸면 눈이 따라가기 힘들고 화면 밖으로 나가는 경우도 있어서,
-// 항상 벽 위쪽 가운데 한 자리로 고정함
-const bellLinePos = { top: 14, left: 50 } // % 단위
 let bellLineHideTimer = null
 
-// 벽 위쪽 가운데의 고정된 위치에 한 문장을 띄움
+// 벽 위쪽 가운데의 고정된 위치(CSS로 지정)에 한 문장을 띄움 — 위치를 매번 무작위로
+// 바꾸면 눈이 따라가기 힘들고 화면 밖으로 나가는 경우도 있어서 고정함
 function showLine(text, visibleMs = 1700) {
   bellLine.value = text
   bellLineVisible.value = true
@@ -317,12 +315,14 @@ const cupDragging = ref(false)
 let cupDrag = null
 
 // 드래그 중인 요소가 테이블 영역을 벗어나지 않도록 위치를 보정
-function clampToTable(startRect, rawLeft, rawTop) {
+// topOvershoot: 실제로는 바닥(컵의 아랫부분)만 테이블에 닿으면 되는 물건(컵)을 위해,
+// 테이블 위쪽 경계보다 조금 더 위로 올라갈 수 있게 허용하는 값(px)
+function clampToTable(startRect, rawLeft, rawTop, topOvershoot = 0) {
   const t = tableEl.value?.getBoundingClientRect()
   if (!t) return { left: rawLeft, top: rawTop }
   const minLeft = t.left
   const maxLeft = t.right - startRect.width
-  const minTop = t.top
+  const minTop = t.top - topOvershoot
   const maxTop = t.bottom - startRect.height
   return {
     left: Math.min(Math.max(rawLeft, minLeft), maxLeft),
@@ -344,7 +344,8 @@ function onCupPointerMove(e) {
   if (!cupDrag) return
   const rawLeft = cupDrag.startRect.left + (e.clientX - cupDrag.px)
   const rawTop = cupDrag.startRect.top + (e.clientY - cupDrag.py)
-  const { left, top } = clampToTable(cupDrag.startRect, rawLeft, rawTop)
+  // 컵은 바닥만 테이블에 닿아 있으면 되니 몸통 대부분(위쪽 75%)은 테이블 경계 위로 올라가도 됨
+  const { left, top } = clampToTable(cupDrag.startRect, rawLeft, rawTop, cupDrag.startRect.height * 0.75)
   cupPos.x = cupDrag.ox + (left - cupDrag.startRect.left)
   cupPos.y = cupDrag.oy + (top - cupDrag.startRect.top)
 }
@@ -458,25 +459,21 @@ onBeforeUnmount(() => {
     <div class="scene">
       <div class="wall">
         <img :src="withBase('/images/bar-wall.jpg')" alt="" class="wall-img" />
-        <div
-          class="wall-voice"
-          :class="{ show: bellLineVisible }"
-          :style="{ top: bellLinePos.top + '%', left: bellLinePos.left + '%' }"
-        >{{ bellLine }}</div>
+        <div class="wall-overlay" />
+        <div class="wall-voice" :class="{ show: bellLineVisible }">{{ bellLine }}</div>
       </div>
 
-      <div class="vol-vertical">
+      <div class="vol-horizontal">
+        <span class="vol-icon">🔈</span>
         <input
           type="range"
           min="0"
           max="1"
           step="0.01"
-          orient="vertical"
           v-model.number="volume"
           @input="onVolumeInput"
           aria-label="음량 조절"
         />
-        <span class="vol-icon">🔈</span>
       </div>
 
       <div class="table" ref="tableEl">
@@ -581,13 +578,20 @@ onBeforeUnmount(() => {
   object-fit: cover;
   object-position: center 22%;
 }
+/* 글씨가 배경 사진 위 어디서든 잘 보이도록 벽 전체에 살짝 어둡게 깔아줌 */
+.wall-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  z-index: 1;
+}
 .wall-voice {
   position: absolute;
+  top: 14%;
+  left: 50%;
   z-index: 2;
   max-width: 62%;
-  padding: 10px 18px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.4);
   font-family: 'Gowun Batang', 'Noto Serif KR', serif;
   font-size: 20px;
   line-height: 1.5;
@@ -605,22 +609,18 @@ onBeforeUnmount(() => {
   transform: translate(-50%, -50%) translateY(0);
 }
 
-.vol-vertical {
+.vol-horizontal {
   position: absolute;
   top: 16px;
   right: 16px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   z-index: 5;
 }
-.vol-vertical input[type='range'] {
-  writing-mode: vertical-lr;
-  direction: rtl;
-  appearance: slider-vertical;
-  width: 6px;
-  height: 110px;
+.vol-horizontal input[type='range'] {
+  width: 100px;
+  height: 4px;
   accent-color: var(--home-accent);
 }
 .vol-icon {
@@ -644,6 +644,7 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 3; /* 컵/수저(z-index:2)에 가려지지 않도록 항상 그 위에 그려지게 */
 }
 .cup-spoon-group {
   display: flex;
@@ -760,6 +761,7 @@ onBeforeUnmount(() => {
     height: 80px;
   }
   .wall-voice {
+    top: 22%;
     font-size: 16px;
     line-height: 1.45;
     max-width: 84%;
