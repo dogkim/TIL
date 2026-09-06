@@ -240,14 +240,20 @@ const AMBIENT_LINES = [
 
 const bellLine = ref('')
 const bellLineVisible = ref(false)
-// 좌우로만 살짝 무작위 흔들림을 줌 (위아래까지 흔들리면 눈이 따라가기 힘들고 화면
-// 밖으로 나가기도 했어서, 세로 위치는 CSS로 고정하고 가로만 좁은 범위에서 흔듦)
-const bellLinePos = reactive({ left: 50 })
+// 화면 밖으로 나가거나 눈이 못 쫓아갈 만큼 넓게 흔들리진 않도록, 기준 위치를
+// 중심으로 좁은 범위 안에서만 좌우/상하로 살짝 흔듦
+const TOP_BASE_DESKTOP = 20 // %
+const TOP_BASE_MOBILE = 28 // %
+const TOP_JITTER = 5 // 기준 위치 ± %
+const LEFT_JITTER = 8 // 기준(50%) 위치 ± %
+const bellLinePos = reactive({ top: TOP_BASE_DESKTOP, left: 50 })
 let bellLineHideTimer = null
 
 function showLine(text, visibleMs = 1700) {
   bellLine.value = text
-  bellLinePos.left = 42 + Math.random() * 16 // 42~58%
+  const topBase = window.matchMedia('(max-width: 767px)').matches ? TOP_BASE_MOBILE : TOP_BASE_DESKTOP
+  bellLinePos.top = topBase + (Math.random() * TOP_JITTER * 2 - TOP_JITTER)
+  bellLinePos.left = 50 + (Math.random() * LEFT_JITTER * 2 - LEFT_JITTER)
   bellLineVisible.value = true
   clearTimeout(bellLineHideTimer)
   bellLineHideTimer = setTimeout(() => { bellLineVisible.value = false }, visibleMs)
@@ -465,7 +471,7 @@ onBeforeUnmount(() => {
         <div
           class="wall-voice"
           :class="{ show: bellLineVisible }"
-          :style="{ left: bellLinePos.left + '%' }"
+          :style="{ top: bellLinePos.top + '%', left: bellLinePos.left + '%' }"
         >{{ bellLine }}</div>
       </div>
 
@@ -593,8 +599,9 @@ onBeforeUnmount(() => {
   z-index: 1;
 }
 .wall-voice {
+  /* top/left는 JS(bellLinePos)에서 인라인으로 지정 — 여긴 값이 없을 때의 대체값 */
   position: absolute;
-  top: 14%;
+  top: 20%;
   left: 50%;
   z-index: 2;
   max-width: 62%;
@@ -767,7 +774,6 @@ onBeforeUnmount(() => {
     height: 80px;
   }
   .wall-voice {
-    top: 22%;
     font-size: 16px;
     line-height: 1.45;
     max-width: 84%;
