@@ -171,12 +171,8 @@ const BELL_REACTION_LINES = [
   '...아직도 안 옴',
 ]
 
-// 입장 인사: [무작위 인사 1개] → [무작위 토막상식 hook 1개] → [그 상식에 대한 설명 2~3개] 순서로 고정된 플롯
-const GREETINGS = [
-  '어서 오세요, 손님.',
-  '오셨네요, 편하게 앉으세요.',
-  '어서 와요, 오늘도 오셨네.',
-]
+// 입장 인사: [인사 1개(고정)] → [무작위 토막상식 hook 1개] → [그 상식에 대한 설명 2~3개] 순서로 고정된 플롯
+const GREETING = '안녕하세요.'
 // 토막상식 7종 — TIL에 있는 주제(카뮈, 정보의 이중성, 페스트)뿐 아니라 그 밖의 철학 이야기도 섞음
 const TOPICS = [
   {
@@ -244,14 +240,14 @@ const AMBIENT_LINES = [
 
 const bellLine = ref('')
 const bellLineVisible = ref(false)
-const bellLinePos = reactive({ top: 18, left: 50 }) // % 단위
+// 위치를 매번 무작위로 바꾸면 눈이 따라가기 힘들고 화면 밖으로 나가는 경우도 있어서,
+// 항상 벽 위쪽 가운데 한 자리로 고정함
+const bellLinePos = { top: 14, left: 50 } // % 단위
 let bellLineHideTimer = null
 
-// 벽 상단의 무작위 위치에 한 문장을 띄움
+// 벽 위쪽 가운데의 고정된 위치에 한 문장을 띄움
 function showLine(text, visibleMs = 1700) {
   bellLine.value = text
-  bellLinePos.top = 6 + Math.random() * 16 // 6~22%
-  bellLinePos.left = 20 + Math.random() * 60 // 20~80%
   bellLineVisible.value = true
   clearTimeout(bellLineHideTimer)
   bellLineHideTimer = setTimeout(() => { bellLineVisible.value = false }, visibleMs)
@@ -284,11 +280,10 @@ function ringBell() {
 
 // 입장 인사: 문장을 하나씩 순서대로 이어서 보여주다가, 다 끝나면 뜸한 간격의
 // 무작위 혼잣말 사이클로 넘어감 (천천히 읽을 수 있도록 느긋한 템포)
-const INTRO_LINE_MS = 4200
-const INTRO_GAP_MS = 900
+const INTRO_LINE_MS = 5200
+const INTRO_GAP_MS = 1100
 let introTimer = null
 let ambientTimer = null
-let lastGreetingIdx = -1
 let lastTopicIdx = -1
 
 function scheduleAmbient() {
@@ -309,10 +304,9 @@ function playSequence(lines, i = 0) {
 }
 
 function playIntro() {
-  lastGreetingIdx = pickIndexAvoiding(GREETINGS.length, lastGreetingIdx)
   lastTopicIdx = pickIndexAvoiding(TOPICS.length, lastTopicIdx)
   const topic = TOPICS[lastTopicIdx]
-  playSequence([GREETINGS[lastGreetingIdx], topic.hook, ...topic.detail])
+  playSequence([GREETING, topic.hook, ...topic.detail])
 }
 
 // --- 컵 드래그 (컵받침 위에 놓으면 달그락, 테이블 밖으로는 못 나감) ---
@@ -591,15 +585,18 @@ onBeforeUnmount(() => {
   position: absolute;
   z-index: 2;
   max-width: 62%;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
   font-family: 'Gowun Batang', 'Noto Serif KR', serif;
   font-size: 20px;
   line-height: 1.5;
   letter-spacing: -0.01em;
   color: rgba(255, 245, 228, 0.95);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 200, 120, 0.25);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
   opacity: 0;
   transform: translate(-50%, -50%) translateY(6px);
-  transition: opacity 0.4s ease, transform 0.4s ease, top 0.3s ease, left 0.3s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
   pointer-events: none;
   text-align: center;
 }
