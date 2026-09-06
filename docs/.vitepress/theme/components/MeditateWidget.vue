@@ -240,12 +240,14 @@ const AMBIENT_LINES = [
 
 const bellLine = ref('')
 const bellLineVisible = ref(false)
+// 좌우로만 살짝 무작위 흔들림을 줌 (위아래까지 흔들리면 눈이 따라가기 힘들고 화면
+// 밖으로 나가기도 했어서, 세로 위치는 CSS로 고정하고 가로만 좁은 범위에서 흔듦)
+const bellLinePos = reactive({ left: 50 })
 let bellLineHideTimer = null
 
-// 벽 위쪽 가운데의 고정된 위치(CSS로 지정)에 한 문장을 띄움 — 위치를 매번 무작위로
-// 바꾸면 눈이 따라가기 힘들고 화면 밖으로 나가는 경우도 있어서 고정함
 function showLine(text, visibleMs = 1700) {
   bellLine.value = text
+  bellLinePos.left = 42 + Math.random() * 16 // 42~58%
   bellLineVisible.value = true
   clearTimeout(bellLineHideTimer)
   bellLineHideTimer = setTimeout(() => { bellLineVisible.value = false }, visibleMs)
@@ -460,7 +462,11 @@ onBeforeUnmount(() => {
       <div class="wall">
         <img :src="withBase('/images/bar-wall.jpg')" alt="" class="wall-img" />
         <div class="wall-overlay" />
-        <div class="wall-voice" :class="{ show: bellLineVisible }">{{ bellLine }}</div>
+        <div
+          class="wall-voice"
+          :class="{ show: bellLineVisible }"
+          :style="{ left: bellLinePos.left + '%' }"
+        >{{ bellLine }}</div>
       </div>
 
       <div class="vol-horizontal">
@@ -600,7 +606,7 @@ onBeforeUnmount(() => {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
   opacity: 0;
   transform: translate(-50%, -50%) translateY(6px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease, left 0.3s ease;
   pointer-events: none;
   text-align: center;
 }
