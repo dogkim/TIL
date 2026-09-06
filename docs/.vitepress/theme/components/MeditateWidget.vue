@@ -162,25 +162,6 @@ function hit(name) {
 }
 
 // --- 종을 여러 번 치면 대사가 뜸 / 입장하면 바텐더가 먼저 말을 걺 ---
-const BELL_LINES = [
-  '네, 손님!',
-  '잠시만요~',
-  '지금 나갑니다!',
-  '그렇게 급하세요?',
-  '한 번만 더 치시면 진짜 옵니다',
-  '...아직도 안 옴',
-]
-// 입장하면 바텐더가 인사 한 마디 + "그거 아세요?" 토막상식 한 마디, 항상 이 플롯으로 고정
-const GREETING_OPENER = '어서 오세요, 손님.'
-// 에세이 주제를 담은 토막상식 (5개, 무작위) — 인사 뒤 / 이후 반복되는 혼잣말 모두 여기서 고름
-const TRIVIA_LINES = [
-  '그거 아세요? 카뮈는 시지프스가 행복하다고 상상해야 한다고 했대요. 평생 바위나 굴리는 사람인데 말이죠.',
-  '그거 아세요? 우리는 태어날 때부터 정해진 목적이 없대요. 그래서 매번 스스로 정해야 한다나 봐요.',
-  '그거 아세요? 철학에서 말하는 "정보"랑 컴퓨터공학에서 말하는 "정보"는 완전히 다른 뜻이래요.',
-  '그거 아세요? 페스트 속 의사는 신념 때문이 아니라, 그냥 그게 자기 일이라 끝까지 싸웠대요.',
-  '그거 아세요? 부조리는 세상 탓도 우리 탓도 아니고, 그 둘 사이 틈에서 생기는 거래요.',
-]
-const INTRO_LINES = [GREETING_OPENER, TRIVIA_LINES[Math.floor(Math.random() * TRIVIA_LINES.length)]]
 const BELL_REACTION_LINES = [
   '네, 손님!',
   '잠시만요~',
@@ -188,6 +169,77 @@ const BELL_REACTION_LINES = [
   '그렇게 급하세요?',
   '한 번만 더 치시면 진짜 옵니다',
   '...아직도 안 옴',
+]
+
+// 입장 인사: [무작위 인사 1개] → [무작위 토막상식 hook 1개] → [그 상식에 대한 설명 2~3개] 순서로 고정된 플롯
+const GREETINGS = [
+  '어서 오세요, 손님.',
+  '오셨네요, 편하게 앉으세요.',
+  '어서 와요, 오늘도 오셨네.',
+]
+// 토막상식 7종 — TIL에 있는 주제(카뮈, 정보의 이중성, 페스트)뿐 아니라 그 밖의 철학 이야기도 섞음
+const TOPICS = [
+  {
+    hook: '그거 아세요? 테세우스의 배는 부품을 다 갈아도 같은 배일까요?',
+    detail: [
+      '판자를 하나씩 새 걸로 바꾸다 결국 원래 부품이 하나도 안 남으면, 그건 같은 배일까 다른 배일까 하는 오래된 역설이에요.',
+      '우리 몸도 세포가 계속 바뀌는데, 그럼 저도 어릴 때랑 같은 사람인 걸까 싶기도 하고요.',
+    ],
+  },
+  {
+    hook: '그거 아세요? 카뮈는 시지프스가 행복하다고 상상해야 한다고 했대요.',
+    detail: [
+      '평생 바위를 산 위로 밀어 올려야 하는 벌을 받은 사람인데 말이죠.',
+      '떨어질 걸 알면서도 다시 미는 그 태도 자체가 반항이자 긍정이라는 거예요.',
+    ],
+  },
+  {
+    hook: '그거 아세요? 철학에서 말하는 "정보"랑 컴퓨터공학에서 말하는 "정보"는 완전히 다른 뜻이래요.',
+    detail: [
+      '철학 쪽은 의미랑 해석의 문제인데, 컴퓨터공학 쪽은 그냥 0과 1, 비트의 문제거든요.',
+      '같은 단어라도 어떤 언어로 보느냐에 따라 완전히 다른 세계가 되는 거죠.',
+    ],
+  },
+  {
+    hook: '그거 아세요? 데카르트는 모든 걸 의심하다가 "생각하는 나"만은 못 의심했대요.',
+    detail: [
+      '"나는 생각한다, 고로 존재한다"는 말이 여기서 나온 거예요.',
+      '다 가짜여도, 지금 의심하고 있는 나는 있어야 하니까요.',
+    ],
+  },
+  {
+    hook: '그거 아세요? 트롤리 문제는 아직도 답이 안 정해졌어요.',
+    detail: [
+      '다섯 명을 살리려고 한 명을 희생시키는 게 맞는지 묻는 사고 실험이에요.',
+      '숫자로만 보면 간단한데, 직접 손으로 미는 상황이 되면 다들 망설이더라고요.',
+      '결과랑 의도 중에 뭐가 더 중요한지, 지금도 계속 물어보게 되는 질문이죠.',
+    ],
+  },
+  {
+    hook: '그거 아세요? 니체는 "영원회귀"라는 걸 한번 상상해보라고 했어요.',
+    detail: [
+      '지금 이 순간이 토씨 하나 안 틀리고 영원히 반복된다면 어떨지 상상해보라는 거예요.',
+      '그래도 괜찮다고 말할 수 있는 삶을 살고 있는지, 스스로 물어보게 되죠.',
+    ],
+  },
+  {
+    hook: '그거 아세요? 페스트 속 의사는 신념 때문이 아니라, 그냥 그게 자기 일이라 끝까지 싸웠대요.',
+    detail: [
+      '거창한 이유 없이도, 맡은 자리를 지키는 것 자체가 반항이 될 수 있다는 거예요.',
+      '카뮈는 이런 태도를 "성실함"이라고 불렀어요.',
+    ],
+  },
+]
+// 인사가 끝난 뒤 뜸을 들이며 반복되는 혼잣말 — 주변 소음 묘사 + 바텐더의 가벼운 잡담을 섞음
+const AMBIENT_LINES = [
+  '저 뒤에서 잔 부딪히는 소리가 나네요.',
+  '누가 웃고 있나 봐요, 저쪽이 시끌시끌하네요.',
+  '스피커에서 흘러나오는 노래가 오늘따라 좋네요.',
+  '문 열리는 소리, 누가 또 들어왔나 봐요.',
+  '손님, 잔 비었으면 말씀하세요.',
+  '오늘따라 손이 느적느적하네요, 죄송해요.',
+  '이 자리 조명이 딱 좋죠? 제가 제일 좋아하는 자리예요.',
+  '가끔은 아무 말 안 해도 괜찮아요.',
 ]
 
 const bellLine = ref('')
@@ -205,20 +257,25 @@ function showLine(text, visibleMs = 1700) {
   bellLineHideTimer = setTimeout(() => { bellLineVisible.value = false }, visibleMs)
 }
 
+// 직전과 다른 인덱스를 무작위로 골라줌 (같은 문장이 두 번 연달아 나오는 걸 방지)
+function pickIndexAvoiding(length, lastIdx) {
+  let idx = Math.floor(Math.random() * length)
+  if (length > 1 && idx === lastIdx) {
+    idx = (idx + 1) % length
+  }
+  return idx
+}
+
 // 직전과 다른 문장을 무작위로 골라 보여주는 공용 로직 (종소리 반응, 혼잣말 등에서 재사용)
 function makeLineSayer(lines, visibleMs = 1700) {
   let lastIdx = -1
   return () => {
-    let idx = Math.floor(Math.random() * lines.length)
-    if (lines.length > 1 && idx === lastIdx) {
-      idx = (idx + 1) % lines.length
-    }
-    lastIdx = idx
-    showLine(lines[idx], visibleMs)
+    lastIdx = pickIndexAvoiding(lines.length, lastIdx)
+    showLine(lines[lastIdx], visibleMs)
   }
 }
 const sayBellLine = makeLineSayer(BELL_REACTION_LINES)
-const sayAmbient = makeLineSayer(TRIVIA_LINES, 5500)
+const sayAmbient = makeLineSayer(AMBIENT_LINES, 5500)
 
 function ringBell() {
   hit('bell')
@@ -231,6 +288,8 @@ const INTRO_LINE_MS = 4200
 const INTRO_GAP_MS = 900
 let introTimer = null
 let ambientTimer = null
+let lastGreetingIdx = -1
+let lastTopicIdx = -1
 
 function scheduleAmbient() {
   const delay = 25000 + Math.random() * 20000 // 25~45초 간격
@@ -240,13 +299,20 @@ function scheduleAmbient() {
   }, delay)
 }
 
-function playIntro(i = 0) {
-  if (i >= INTRO_LINES.length) {
+function playSequence(lines, i = 0) {
+  if (i >= lines.length) {
     scheduleAmbient()
     return
   }
-  showLine(INTRO_LINES[i], INTRO_LINE_MS)
-  introTimer = setTimeout(() => playIntro(i + 1), INTRO_LINE_MS + INTRO_GAP_MS)
+  showLine(lines[i], INTRO_LINE_MS)
+  introTimer = setTimeout(() => playSequence(lines, i + 1), INTRO_LINE_MS + INTRO_GAP_MS)
+}
+
+function playIntro() {
+  lastGreetingIdx = pickIndexAvoiding(GREETINGS.length, lastGreetingIdx)
+  lastTopicIdx = pickIndexAvoiding(TOPICS.length, lastTopicIdx)
+  const topic = TOPICS[lastTopicIdx]
+  playSequence([GREETINGS[lastGreetingIdx], topic.hook, ...topic.detail])
 }
 
 // --- 컵 드래그 (컵받침 위에 놓으면 달그락, 테이블 밖으로는 못 나감) ---
@@ -703,17 +769,24 @@ onBeforeUnmount(() => {
   }
 }
 
-/* 웹(모바일 아님)에서만: 종을 구석에서 살짝 띄우고, 배경도 천장 대신 조명/선반이 보이게 */
+/* 웹(모바일 아님)에서만: 종을 구석에서 더 띄우고, 컵/수저도 딱 맞춰놓은 듯한 느낌을 빼고,
+   배경도 천장 대신 조명/선반이 더 보이게 */
 @media (min-width: 768px) {
   .item.bell {
     top: -26px;
-    left: 64px;
+    left: 108px;
   }
   .cup-spoon-group {
     margin-right: 28px;
   }
+  .coaster-slot {
+    transform: rotate(-3deg);
+  }
+  .item.spoon img {
+    transform: rotate(11deg);
+  }
   .wall-img {
-    object-position: center 45%;
+    object-position: center 56%;
   }
 }
 
