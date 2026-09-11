@@ -2,3 +2,6 @@ node_modules/
 FILE_MAP.md
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+
+# raw LMS transcripts (copyrighted, personal use only — not for public repo)
+**/_raw/
