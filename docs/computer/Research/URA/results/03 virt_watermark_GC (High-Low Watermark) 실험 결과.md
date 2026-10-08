@@ -1,3 +1,8 @@
+---
+tags:
+  - computer/Research
+date: 2026-09-04
+---
 # High/Low Watermark GC 실험 (1~3차)
 
 ## 목적

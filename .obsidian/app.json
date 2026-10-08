@@ -10,5 +10,7 @@
   },
   "attachmentFolderPath": "./assets",
   "showUnsupportedFiles": true,
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "useMarkdownLinks": false,
+  "newLinkFormat": "relative"
 }

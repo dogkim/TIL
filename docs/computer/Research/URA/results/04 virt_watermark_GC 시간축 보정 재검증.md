@@ -1,3 +1,8 @@
+---
+tags:
+  - computer/Research
+date: 2026-09-04
+---
 # Watermark GC 실험 — 시간축 보정 재검증
 
 [[03 virt_watermark_GC (High-Low Watermark) 실험 결과|03번 보고서]]에서 남겨뒀던 문제, "`/proc/uptime`을 수동으로 찍어 계산한 시작 시각과 실제 dmesg GC 발생 시점 사이에 오차가 있었다"는 이슈를 해결하고 재측정한 결과.
