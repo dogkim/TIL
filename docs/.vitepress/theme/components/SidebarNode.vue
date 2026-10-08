@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import { useRoute, withBase } from 'vitepress'
+import { isActiveLink, containsActive } from '../utils/activePath.js'
 
 const props = defineProps({
   node: { type: Object, required: true },
@@ -9,23 +10,27 @@ const props = defineProps({
 
 const route = useRoute()
 const open = ref(false)
+const leafEl = ref(null)
 
 const hasChildren = props.node.children && props.node.children.length > 0
 
 function isActive(link) {
-  if (!link) return false
-  const target = withBase(link)
-  return route.path === target || route.path === target.replace(/\/$/, '')
+  return isActiveLink(route.path, link)
 }
 
-// 하위에 지금 열려있는 페이지가 있으면, 접혀있어도 자동으로 펼쳐서 보여줌
-function containsActive(node) {
-  if (isActive(node.link)) return true
-  return (node.children ?? []).some(containsActive)
-}
-if (hasChildren && containsActive(props.node)) {
-  open.value = true
-}
+// 페이지가 바뀔 때마다(검색, 카드, 메뉴 어디서 들어오든) 현재 글이 속한 폴더를 펼치고,
+// 현재 글이 사이드바 화면 밖이면 보이는 위치로 스크롤
+watch(
+  () => route.path,
+  async () => {
+    if (hasChildren && containsActive(route.path, props.node)) open.value = true
+    if (!hasChildren && isActive(props.node.link)) {
+      await nextTick()
+      leafEl.value?.scrollIntoView({ block: 'nearest' })
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -43,6 +48,7 @@ if (hasChildren && containsActive(props.node)) {
     <!-- 파일(하위 항목 없음): 실제 문서로 이동하는 링크 -->
     <a
       v-else
+      ref="leafEl"
       :href="withBase(node.link)"
       class="snode-row"
       :style="{ paddingLeft: `${depth * 10}px` }"

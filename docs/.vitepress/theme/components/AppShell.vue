@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
-import { useData, withBase } from 'vitepress'
+import { useData, useRoute, withBase } from 'vitepress'
+import { containsActive } from '../utils/activePath.js'
 import SidebarNode from './SidebarNode.vue'
 import HomeContent from './HomeContent.vue'
 import CommandPalette from './CommandPalette.vue'
@@ -56,9 +57,20 @@ function updateActiveHeading() {
   activeSlug.value = current ? current.id : ''
 }
 
+const route = useRoute()
+
 watch(() => page.value.relativePath, () => {
   nextTick(updateActiveHeading)
   mobileSidebarOpen.value = false
+}, { immediate: true })
+
+// 어디서 들어오든(검색, 카드, 메뉴) 현재 글이 속한 최상위 그룹을 펼침 — 하위 폴더는 SidebarNode가 이어서 펼침
+watch(() => route.path, () => {
+  for (const g of data.groups) {
+    if (g.items.some(item => containsActive(route.path, item))) {
+      expanded.value[g.key] = true
+    }
+  }
 }, { immediate: true })
 
 onMounted(() => {

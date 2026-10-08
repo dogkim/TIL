@@ -48,10 +48,13 @@ function buildTree(dirAbs, urlPrefix, excludeDirs = []) {
         const childPrefix = `${urlPrefix}/${e.name}`
         const children = buildTree(childDir, childPrefix)
         const link = firstDocIn(childDir, childPrefix)
+        if (!link) return null // 문서가 하나도 없는 빈 폴더는 사이드바에서 제외
         return { title: e.name, link, children }
       }
+      if (!e.name.endsWith('.md')) return null // 이미지 등 문서가 아닌 파일 제외
       return { title: titleFromFilename(e.name), link: `${urlPrefix}/${e.name.replace(/\.md$/, '')}` }
     })
+    .filter(Boolean)
 }
 
 // 재귀적으로 모든 .md 문서를 수집 (검색 팔레트 / 최근 노트 / 개수 집계용)
