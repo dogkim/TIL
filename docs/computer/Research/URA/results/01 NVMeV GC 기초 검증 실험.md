@@ -1,3 +1,8 @@
+---
+tags:
+  - computer/Research
+date: 2026-09-04
+---
 # NVMeV GC 기초 검증 실험
 
 ## 목적
