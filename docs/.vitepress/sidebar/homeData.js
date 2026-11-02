@@ -85,6 +85,7 @@ export function buildHomeData(docsRoot) {
       { name: 'Certifications', abs: path.join(docsRoot, 'Certifications'), url: '/Certifications' },
       { name: 'External-Activities', abs: path.join(docsRoot, 'External-Activities'), url: '/External-Activities' },
       { name: 'club', abs: path.join(docsRoot, 'club'), url: '/club' },
+      { name: 'Diary', abs: path.join(docsRoot, 'Diary'), url: '/Diary' },
     ]
 
     const groups = [
