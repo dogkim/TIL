@@ -13,6 +13,7 @@ const data = theme.value.homeData
 
 const isHome = computed(() => page.value.relativePath === 'index.md')
 const isMeditate = computed(() => page.value.relativePath === 'meditate.md')
+const isDiary = computed(() => page.value.relativePath.startsWith('Diary/'))
 
 const NAV = [
   { label: 'Projects', link: '/computer/project/' },
@@ -143,7 +144,7 @@ onBeforeUnmount(() => {
 
       <main class="home-main" :class="{ 'home-main-full': isMeditate }">
         <HomeContent v-if="isHome" :data="data" />
-        <div v-else class="vp-doc doc-content" :class="{ 'meditate-content': isMeditate }">
+        <div v-else class="vp-doc doc-content" :class="{ 'meditate-content': isMeditate, 'diary-content': isDiary }">
           <Content />
         </div>
       </main>
