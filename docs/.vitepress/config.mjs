@@ -25,6 +25,9 @@ export default defineConfig({
       md.use(mathjax3)
       md.use(wikiLinkPlugin)
       md.use(strongLenientPlugin)
+      // <br> 뒤에 붙는 개행문자가 pre-wrap 때문에 공백 한 칸(들여쓰기)으로 보이는 걸 막음
+      md.renderer.rules.softbreak = () => '<br>'
+      md.renderer.rules.hardbreak = () => '<br>'
     }
   },
 
