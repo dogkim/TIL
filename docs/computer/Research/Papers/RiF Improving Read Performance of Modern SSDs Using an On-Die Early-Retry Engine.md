@@ -13,6 +13,7 @@ tags:
   - SSD
   - Read-Retry
   - ODEAR
+date: 2026-09-04
 date_created: 2026-05-06
 ---
 ![[Rif_SSD_image.png|381]] - SSD그림

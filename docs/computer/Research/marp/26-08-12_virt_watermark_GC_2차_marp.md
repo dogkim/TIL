@@ -3,6 +3,9 @@ marp: true
 theme: default
 paginate: true
 size: 16:9
+tags:
+  - computer/Research
+date: 2026-08-12
 ---
 
 # NVMeV GC Watermark 실험 2차
