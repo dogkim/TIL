@@ -3,6 +3,9 @@ marp: true
 theme: default
 paginate: true
 size: 16:9
+tags:
+  - computer/Research
+date: 2026-08-07
 ---
 # NVMeV GC: Greedy vs FIFO
 ### 순차/랜덤 쓰기 조건에서의 victim 선택 정책 비교
