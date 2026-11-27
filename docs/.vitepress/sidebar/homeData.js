@@ -76,6 +76,24 @@ function collectDocs(dirAbs, urlPrefix, group, excludeDirs = [], acc = []) {
   return acc
 }
 
+const toDate = (ms) => (ms ? new Date(ms).toISOString().slice(0, 10) : '')
+
+// 최상위 항목 아래의 문서 수(count)와 가장 최근 수정일(updated)을 덧붙임 — 기존 필드는 그대로 유지
+function annotateItem(item, mtimeByLink) {
+  let count = 0
+  let latest = 0
+  const walk = (node) => {
+    if (node.children?.length) {
+      node.children.forEach(walk)
+    } else if (mtimeByLink.has(node.link)) {
+      count++
+      latest = Math.max(latest, mtimeByLink.get(node.link))
+    }
+  }
+  walk(item)
+  return { ...item, count, updated: toDate(latest) }
+}
+
 export function buildHomeData(docsRoot) {
     const computerDir = path.join(docsRoot, 'computer')
     const projectDir = path.join(computerDir, 'project')
@@ -85,6 +103,7 @@ export function buildHomeData(docsRoot) {
       { name: 'Certifications', abs: path.join(docsRoot, 'Certifications'), url: '/Certifications' },
       { name: 'External-Activities', abs: path.join(docsRoot, 'External-Activities'), url: '/External-Activities' },
       { name: 'club', abs: path.join(docsRoot, 'club'), url: '/club' },
+      { name: 'Study-Methods', abs: path.join(docsRoot, 'Study-Methods'), url: '/Study-Methods' },
       { name: 'Diary', abs: path.join(docsRoot, 'Diary'), url: '/Diary' },
     ]
 
@@ -117,12 +136,20 @@ export function buildHomeData(docsRoot) {
         })),
         docs: recordDirs.flatMap(r => collectDocs(r.abs, r.url, 'Records')),
       },
-    ].map(g => ({
-      key: g.key,
-      label: g.label,
-      count: g.docs.length,
-      items: g.items,
-    }))
+    ].map(g => {
+      const mtimeByLink = new Map(g.docs.map(d => [d.link, d.mtimeMs]))
+      return {
+        key: g.key,
+        label: g.label,
+        count: g.docs.length,
+        items: g.items.map(item => annotateItem(item, mtimeByLink)),
+        // 그룹별 최근 노트 5개
+        recent: [...g.docs]
+          .sort((a, b) => b.mtimeMs - a.mtimeMs)
+          .slice(0, 5)
+          .map(d => ({ title: d.title, link: d.link, date: toDate(d.mtimeMs) })),
+      }
+    })
 
     const everyDoc = [
       ...collectDocs(projectDir, '/computer/project', 'Projects'),

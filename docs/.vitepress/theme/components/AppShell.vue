@@ -7,6 +7,8 @@ import HomeContent from './HomeContent.vue'
 import CommandPalette from './CommandPalette.vue'
 import Snow from './Atmosphere.vue'
 import SiteIcon from './SiteIcon.vue'
+import NoteMeta from './NoteMeta.vue'
+import NotePager from './NotePager.vue'
 
 const { isDark, theme, page } = useData()
 const data = theme.value.homeData
@@ -14,6 +16,10 @@ const data = theme.value.homeData
 const isHome = computed(() => page.value.relativePath === 'index.md')
 const isMeditate = computed(() => page.value.relativePath === 'meditate.md')
 const isDiary = computed(() => page.value.relativePath.startsWith('Diary/'))
+// 일반 노트 페이지 (홈, Lounge, 섹션 index 제외)
+const isNote = computed(() =>
+  !isHome.value && !isMeditate.value && !/(^|\/)index\.md$/.test(page.value.relativePath)
+)
 
 const NAV = [
   // group: 이 섹션 첫 페이지(index)로 왔을 때 펼칠 사이드바 그룹 key (index 페이지는 트리에 없어서 따로 매핑)
@@ -205,7 +211,9 @@ onBeforeUnmount(() => {
       <main class="home-main" :class="{ 'home-main-full': isMeditate }">
         <HomeContent v-if="isHome" :data="data" />
         <div v-else class="vp-doc doc-content" :class="{ 'meditate-content': isMeditate, 'diary-content': isDiary }">
+          <NoteMeta v-if="isNote" />
           <Content />
+          <NotePager v-if="isNote" />
         </div>
       </main>
 

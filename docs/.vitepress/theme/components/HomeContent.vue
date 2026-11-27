@@ -21,16 +21,32 @@ const PROJECT_INFO = {
   },
 }
 
-const featuredProjects = computed(() => {
+// 모든 프로젝트 폴더 — PROJECT_INFO가 있는 대표 프로젝트를 앞에 둠
+const projects = computed(() => {
   const projectGroup = props.data.groups.find(g => g.key === 'projects')
-  return (projectGroup?.items ?? [])
-    .filter(item => item.title in PROJECT_INFO)
-    .map(item => ({
-      title: item.title,
-      link: item.link,
-      ...PROJECT_INFO[item.title],
-    }))
+  const all = (projectGroup?.items ?? []).map(item => ({
+    title: item.title,
+    link: item.link,
+    count: item.count ?? 0,
+    updated: item.updated ?? '',
+    ...(PROJECT_INFO[item.title] ?? {}),
+    featured: item.title in PROJECT_INFO,
+  }))
+  return [...all.filter(p => p.featured), ...all.filter(p => !p.featured)]
 })
+
+// 노트 섹션 카드 (cs / philosophy / records)
+const SECTIONS = [
+  { key: 'cs', link: '/computer/' },
+  { key: 'philosophy', link: '/philosophy/' },
+  { key: 'records', link: '/records/' },
+]
+const sections = computed(() =>
+  SECTIONS.map(s => {
+    const g = props.data.groups.find(g => g.key === s.key)
+    return g ? { ...s, label: g.label, count: g.count, latest: g.recent?.[0] ?? null } : null
+  }).filter(Boolean)
+)
 </script>
 
 <template>
@@ -50,40 +66,50 @@ const featuredProjects = computed(() => {
 
   <section class="featured">
     <div class="section-head">
-      <h2>대표 프로젝트</h2>
+      <h2>프로젝트</h2>
       <a :href="withBase('/computer/project/')">전체 보기 →</a>
     </div>
     <div class="project-grid">
       <a
-        v-for="p in featuredProjects"
+        v-for="p in projects"
         :key="p.link"
         class="project-card"
         :href="withBase(p.link)"
       >
-        <div class="project-card-meta">{{ p.year }} · {{ p.role }}</div>
-        <h3>{{ p.title }}</h3>
-        <p>{{ p.description }}</p>
-        <div class="project-tags">
-          <span v-for="t in p.tags" :key="t" class="tag-chip">{{ t }}</span>
-        </div>
+        <template v-if="p.featured">
+          <div class="project-card-meta">{{ p.year }} · {{ p.role }}</div>
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.description }}</p>
+          <div class="project-tags">
+            <span v-for="t in p.tags" :key="t" class="tag-chip">{{ t }}</span>
+          </div>
+        </template>
+        <template v-else>
+          <div class="project-card-meta">{{ p.count }}개 노트</div>
+          <h3>{{ p.title }}</h3>
+          <div v-if="p.updated" class="project-updated">업데이트 {{ p.updated }}</div>
+        </template>
       </a>
     </div>
   </section>
 
-  <section class="recent">
+  <section class="note-sections">
     <div class="section-head">
-      <h2>최근 노트</h2>
+      <h2>노트 섹션</h2>
     </div>
-    <div class="recent-list">
+    <div class="section-grid">
       <a
-        v-for="n in data.recentNotes"
-        :key="n.link"
-        class="recent-row"
-        :href="withBase(n.link)"
+        v-for="s in sections"
+        :key="s.key"
+        class="section-card"
+        :href="withBase(s.link)"
       >
-        <span class="recent-date">{{ n.date }}</span>
-        <span class="recent-title">{{ n.title }}</span>
-        <span class="recent-group">{{ n.group }}</span>
+        <div class="project-card-meta">{{ s.count }}개 노트</div>
+        <h3>{{ s.label }}</h3>
+        <div v-if="s.latest" class="section-latest">
+          <span class="recent-date">{{ s.latest.date }}</span>
+          <span class="section-latest-title">{{ s.latest.title }}</span>
+        </div>
       </a>
     </div>
   </section>
@@ -158,6 +184,10 @@ const featuredProjects = computed(() => {
 .project-card:hover {
   background: var(--home-panel);
 }
+/* 프로젝트가 홀수 개면 마지막 카드가 한 줄을 다 차지해서 빈 칸이 생기지 않게 함 */
+.project-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
 .project-card-meta {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
@@ -188,39 +218,52 @@ const featuredProjects = computed(() => {
   color: var(--home-muted);
 }
 
-.recent-list {
-  border: 1px solid var(--home-hairline);
+.project-updated {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--home-faint);
 }
-.recent-row {
+
+.section-grid {
   display: grid;
-  grid-template-columns: 100px 1fr 140px;
-  gap: 12px;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--home-hairline);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--home-line);
+  border: 1px solid var(--home-line);
+}
+.section-card {
+  padding: 20px;
+  background: var(--home-bg);
   text-decoration: none;
   color: var(--home-text);
-  align-items: center;
 }
-.recent-row:last-child {
-  border-bottom: none;
-}
-.recent-row:hover {
+.section-card:hover {
   background: var(--home-panel);
+}
+.section-card h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+.section-latest {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 .recent-date {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--home-faint);
 }
-.recent-title {
-  font-size: 14px;
+.section-latest-title {
+  font-size: 13px;
+  color: var(--home-muted);
 }
-.recent-group {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  text-transform: uppercase;
-  color: var(--home-faint);
-  text-align: right;
+
+@media (max-width: 767px) {
+  .project-grid,
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .home-footer {
