@@ -76,6 +76,22 @@ function updateActiveHeading() {
 
 const route = useRoute()
 
+// 현재 섹션 key: 현재 글이 속한 그룹 → (섹션 index 페이지면) 해당 NAV의 group → 없으면 null
+const currentGroup = computed(() => {
+  const g = data.groups.find(g => g.items.some(item => containsActive(route.path, item)))
+  if (g) return g.key
+  const n = NAV.find(n => n.group && isActiveLink(route.path, n.link))
+  return n ? n.group : null
+})
+const currentGroupData = computed(() => data.groups.find(g => g.key === currentGroup.value) || null)
+// 사이드바 섹션 헤더가 걸 링크 (해당 섹션의 NAV 링크)
+const currentGroupLink = computed(() => NAV.find(n => n.group === currentGroup.value)?.link || '/')
+
+// 탑바/모바일 nav의 active 표시: 섹션이면 group 일치, Lounge는 meditate 페이지에서
+function isNavActive(n) {
+  return n.group ? n.group === currentGroup.value : isMeditate.value
+}
+
 watch(() => page.value.relativePath, () => {
   nextTick(updateActiveHeading)
   mobileSidebarOpen.value = false
@@ -84,21 +100,11 @@ watch(() => page.value.relativePath, () => {
 // 어디서 들어오든(검색, 카드, 메뉴) 열림 상태를 초기화하고 현재 글이 속한 그룹/항목만 펼침
 // (없으면 모두 접음) — 더 깊은 폴더는 SidebarNode가 같은 방식으로 이어서 펼침
 watch(() => route.path, () => {
-  openGroup.value = null
   openItem.value = null
-  for (const g of data.groups) {
-    const item = g.items.find(item => containsActive(route.path, item))
-    if (item) {
-      openGroup.value = g.key
-      openItem.value = itemKey(item)
-      break
-    }
-  }
-  // 탑바로 섹션 첫 페이지에 왔을 때는 그 섹션 그룹만 펼침
-  if (!openGroup.value) {
-    const n = NAV.find(n => n.group && isActiveLink(route.path, n.link))
-    if (n) openGroup.value = n.group
-  }
+  openGroup.value = currentGroup.value
+  // 현재 글이 속한 최상위 항목만 펼침 (섹션 index 페이지처럼 트리에 없으면 모두 접음)
+  const item = currentGroupData.value?.items.find(item => containsActive(route.path, item))
+  if (item) openItem.value = itemKey(item)
 }, { immediate: true })
 
 onMounted(() => {
@@ -122,7 +128,7 @@ onBeforeUnmount(() => {
         <a :href="withBase('/')" class="home-brand">til.vault</a>
       </div>
       <nav class="home-nav">
-        <a v-for="n in NAV" :key="n.link" :href="withBase(n.link)">{{ n.label }}</a>
+        <a v-for="n in NAV" :key="n.link" :href="withBase(n.link)" :class="{ active: isNavActive(n) }">{{ n.label }}</a>
       </nav>
       <div class="home-header-right">
         <button class="home-search-btn" @click="paletteOpen = true">
@@ -151,8 +157,27 @@ onBeforeUnmount(() => {
             <button class="rail-toggle" @click="railCollapsed = true">⟨</button>
           </div>
           <nav class="sidebar-mobile-nav">
-            <a v-for="n in NAV" :key="n.link" :href="withBase(n.link)">{{ n.label }}</a>
+            <a v-for="n in NAV" :key="n.link" :href="withBase(n.link)" :class="{ active: isNavActive(n) }">{{ n.label }}</a>
           </nav>
+          <!-- 섹션 안: 해당 섹션 헤더(토글 아님) + 폴더 트리를 항상 펼쳐서 표시 -->
+          <div v-if="currentGroupData" class="sidebar-group">
+            <a class="sidebar-group-row sidebar-section-header" :href="withBase(currentGroupLink)">
+              <span class="sidebar-group-label">{{ currentGroupData.label }}</span>
+              <span class="sidebar-group-count">{{ String(currentGroupData.count).padStart(2, '0') }}</span>
+            </a>
+            <div class="sidebar-children">
+              <SidebarNode
+                v-for="item in currentGroupData.items"
+                :key="itemKey(item)"
+                :node="item"
+                :depth="1"
+                :open="openItem === itemKey(item)"
+                @toggle="toggleItem(itemKey(item))"
+              />
+            </div>
+          </div>
+          <!-- 섹션 밖(홈, Lounge 등): 전체 그룹 아코디언 -->
+          <template v-else>
           <div v-for="g in data.groups" :key="g.key" class="sidebar-group">
             <button class="sidebar-group-row" @click="toggleGroup(g.key)">
               <span class="caret">{{ openGroup === g.key ? '▾' : '▸' }}</span>
@@ -170,6 +195,7 @@ onBeforeUnmount(() => {
               />
             </div>
           </div>
+          </template>
         </template>
         <template v-else>
           <button class="rail-toggle rail-toggle-collapsed" @click="railCollapsed = false">⟩</button>
@@ -255,6 +281,13 @@ onBeforeUnmount(() => {
 }
 .home-nav a:hover {
   color: var(--home-text);
+}
+/* 현재 섹션 표시 */
+.home-nav a.active {
+  color: var(--home-text);
+  font-weight: 600;
+  border-bottom: 2px solid var(--home-accent);
+  padding-bottom: 2px;
 }
 .home-header-right {
   display: flex;
@@ -356,6 +389,11 @@ onBeforeUnmount(() => {
   cursor: pointer;
   color: var(--home-text);
   text-align: left;
+}
+/* 섹션 헤더: 토글이 아닌 링크라 밑줄/포인터 보정 */
+.sidebar-section-header {
+  text-decoration: none;
+  padding-left: 4px;
 }
 .caret {
   color: var(--home-faint);
@@ -541,6 +579,10 @@ onBeforeUnmount(() => {
   }
   .sidebar-mobile-nav a:hover {
     color: var(--home-text);
+  }
+  .sidebar-mobile-nav a.active {
+    color: var(--home-accent);
+    font-weight: 600;
   }
 
   .home-main {
