@@ -4,6 +4,7 @@ import path from 'node:path'
 import { buildHomeData } from './sidebar/homeData'
 import mathjax3 from 'markdown-it-mathjax3'
 import { wikiLinkPlugin } from './markdown-plugins/wikilink.mjs'
+import { obsidianEmbedPlugin } from './markdown-plugins/obsidianEmbed.mjs'
 import { strongLenientPlugin } from './markdown-plugins/strongLenient.mjs'
 
 const docsRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -25,6 +26,7 @@ export default defineConfig({
       md.use(mathjax3)
       md.use(wikiLinkPlugin)
       md.use(strongLenientPlugin)
+      md.use(obsidianEmbedPlugin, { docsRoot })
       // <br> 뒤에 붙는 개행문자가 pre-wrap 때문에 공백 한 칸(들여쓰기)으로 보이는 걸 막음
       md.renderer.rules.softbreak = () => '<br>'
       md.renderer.rules.hardbreak = () => '<br>'
