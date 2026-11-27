@@ -6,11 +6,15 @@ import { isActiveLink, containsActive } from '../utils/activePath.js'
 const props = defineProps({
   node: { type: Object, required: true },
   depth: { type: Number, default: 1 },
+  // 부모가 정해 주는 펼침 여부 (아코디언: 같은 형제 중 하나만 true)
+  open: { type: Boolean, default: false },
 })
+const emit = defineEmits(['toggle'])
 
 const route = useRoute()
-const open = ref(false)
 const leafEl = ref(null)
+// 이 폴더의 자식 중 펼쳐진 하나의 key (없으면 null)
+const openChild = ref(null)
 
 const hasChildren = props.node.children && props.node.children.length > 0
 
@@ -18,12 +22,24 @@ function isActive(link) {
   return isActiveLink(route.path, link)
 }
 
-// 페이지가 바뀔 때마다(검색, 카드, 메뉴 어디서 들어오든) 현재 글이 속한 폴더를 펼치고,
-// 현재 글이 사이드바 화면 밖이면 보이는 위치로 스크롤
+function keyOf(c) {
+  return c.link || c.title
+}
+
+// 자식을 누르면 이미 열린 것은 닫고, 아니면 그것만 열어서 형제는 자동으로 닫힘
+function toggleChild(key) {
+  openChild.value = openChild.value === key ? null : key
+}
+
+// 페이지가 바뀔 때마다(검색, 카드, 메뉴 어디서 들어오든) 열린 자식을 초기화하고
+// 현재 글이 속한 자식 폴더만 펼침(없으면 모두 접음). 현재 글이 화면 밖이면 보이는 위치로 스크롤
 watch(
   () => route.path,
   async () => {
-    if (hasChildren && containsActive(route.path, props.node)) open.value = true
+    if (hasChildren) {
+      const c = props.node.children.find(c => containsActive(route.path, c))
+      openChild.value = c ? keyOf(c) : null
+    }
     if (!hasChildren && isActive(props.node.link)) {
       await nextTick()
       leafEl.value?.scrollIntoView({ block: 'nearest' })
@@ -40,7 +56,7 @@ watch(
       v-if="hasChildren"
       class="snode-row snode-folder"
       :style="{ paddingLeft: `${depth * 10}px` }"
-      @click="open = !open"
+      @click="emit('toggle')"
     >
       <span class="snode-caret">{{ open ? '▾' : '▸' }}</span>
       <span class="snode-link">{{ node.title }}</span>
@@ -57,7 +73,14 @@ watch(
       <span class="snode-link" :class="{ active: isActive(node.link) }">{{ node.title }}</span>
     </a>
     <div v-if="hasChildren && open" class="snode-children">
-      <SidebarNode v-for="c in node.children" :key="c.link || c.title" :node="c" :depth="depth + 1" />
+      <SidebarNode
+        v-for="c in node.children"
+        :key="keyOf(c)"
+        :node="c"
+        :depth="depth + 1"
+        :open="openChild === keyOf(c)"
+        @toggle="toggleChild(keyOf(c))"
+      />
     </div>
   </div>
 </template>

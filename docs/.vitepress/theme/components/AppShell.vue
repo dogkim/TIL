@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useData, useRoute, withBase } from 'vitepress'
-import { containsActive } from '../utils/activePath.js'
+import { containsActive, isActiveLink } from '../utils/activePath.js'
 import SidebarNode from './SidebarNode.vue'
 import HomeContent from './HomeContent.vue'
 import CommandPalette from './CommandPalette.vue'
@@ -16,23 +16,39 @@ const isMeditate = computed(() => page.value.relativePath === 'meditate.md')
 const isDiary = computed(() => page.value.relativePath.startsWith('Diary/'))
 
 const NAV = [
-  { label: 'Projects', link: '/computer/project/' },
-  { label: 'Computer Science', link: '/computer/' },
-  { label: 'Philosophy', link: '/philosophy/' },
-  { label: 'Records', link: '/records/' },
+  // group: 이 섹션 첫 페이지(index)로 왔을 때 펼칠 사이드바 그룹 key (index 페이지는 트리에 없어서 따로 매핑)
+  { label: 'Projects', link: '/computer/project/', group: 'projects' },
+  { label: 'Computer Science', link: '/computer/', group: 'cs' },
+  { label: 'Philosophy', link: '/philosophy/', group: 'philosophy' },
+  { label: 'Records', link: '/records/', group: 'records' },
   { label: 'Lounge', link: '/meditate' },
 ]
 
 const railCollapsed = ref(false)
 const mobileSidebarOpen = ref(false)
-const expanded = ref(Object.fromEntries(data.groups.map(g => [g.key, false])))
+// 아코디언: 열린 최상위 그룹은 하나(key 또는 null), 그 그룹 안에서 열린 항목도 하나
+const openGroup = ref(null)
+const openItem = ref(null)
 const paletteOpen = ref(false)
 const activeSlug = ref('')
 
 const tocHeaders = computed(() => (page.value.headers || []).filter(h => h.level >= 2 && h.level <= 3))
 
+function itemKey(item) {
+  return item.link || item.title
+}
+
+// 이미 열린 그룹을 누르면 닫고, 아니면 그 그룹만 열어서 다른 그룹은 닫힘
 function toggleGroup(key) {
-  expanded.value[key] = !expanded.value[key]
+  openGroup.value = openGroup.value === key ? null : key
+  // 다시 연 그룹에 현재 글이 있으면 그 경로를 이어서 펼침
+  const g = data.groups.find(g => g.key === openGroup.value)
+  const item = g?.items.find(item => containsActive(route.path, item))
+  openItem.value = item ? itemKey(item) : null
+}
+
+function toggleItem(key) {
+  openItem.value = openItem.value === key ? null : key
 }
 
 function onKeydown(e) {
@@ -65,12 +81,23 @@ watch(() => page.value.relativePath, () => {
   mobileSidebarOpen.value = false
 }, { immediate: true })
 
-// 어디서 들어오든(검색, 카드, 메뉴) 현재 글이 속한 최상위 그룹을 펼침 — 하위 폴더는 SidebarNode가 이어서 펼침
+// 어디서 들어오든(검색, 카드, 메뉴) 열림 상태를 초기화하고 현재 글이 속한 그룹/항목만 펼침
+// (없으면 모두 접음) — 더 깊은 폴더는 SidebarNode가 같은 방식으로 이어서 펼침
 watch(() => route.path, () => {
+  openGroup.value = null
+  openItem.value = null
   for (const g of data.groups) {
-    if (g.items.some(item => containsActive(route.path, item))) {
-      expanded.value[g.key] = true
+    const item = g.items.find(item => containsActive(route.path, item))
+    if (item) {
+      openGroup.value = g.key
+      openItem.value = itemKey(item)
+      break
     }
+  }
+  // 탑바로 섹션 첫 페이지에 왔을 때는 그 섹션 그룹만 펼침
+  if (!openGroup.value) {
+    const n = NAV.find(n => n.group && isActiveLink(route.path, n.link))
+    if (n) openGroup.value = n.group
   }
 }, { immediate: true })
 
@@ -128,12 +155,19 @@ onBeforeUnmount(() => {
           </nav>
           <div v-for="g in data.groups" :key="g.key" class="sidebar-group">
             <button class="sidebar-group-row" @click="toggleGroup(g.key)">
-              <span class="caret">{{ expanded[g.key] ? '▾' : '▸' }}</span>
+              <span class="caret">{{ openGroup === g.key ? '▾' : '▸' }}</span>
               <span class="sidebar-group-label">{{ g.label }}</span>
               <span class="sidebar-group-count">{{ String(g.count).padStart(2, '0') }}</span>
             </button>
-            <div v-if="expanded[g.key]" class="sidebar-children">
-              <SidebarNode v-for="item in g.items" :key="item.link || item.title" :node="item" :depth="1" />
+            <div v-if="openGroup === g.key" class="sidebar-children">
+              <SidebarNode
+                v-for="item in g.items"
+                :key="itemKey(item)"
+                :node="item"
+                :depth="1"
+                :open="openItem === itemKey(item)"
+                @toggle="toggleItem(itemKey(item))"
+              />
             </div>
           </div>
         </template>
